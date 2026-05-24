@@ -17,3 +17,7 @@ Route::get('/admin/courses', function () {
 Route::get('/admin/courses/create', function () {
     return view('admin.courses.create');
 });
+
+Route::get('/admin/courses/popular', function () {
+    return view('admin.courses.popular');
+});

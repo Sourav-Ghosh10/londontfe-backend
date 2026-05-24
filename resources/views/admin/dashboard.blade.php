@@ -5,9 +5,9 @@
     <!-- Page Header -->
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white transition-colors">Dashboard</h1>
-        <button class="bg-[#008060] hover:bg-[#006e52] text-white text-sm font-medium py-1.5 px-4 rounded-md shadow-sm transition-colors">
+        <a href="/admin/courses/create" class="bg-[#008060] hover:bg-[#006e52] text-white text-sm font-medium py-1.5 px-4 rounded-md shadow-sm transition-colors">
             Add Course
-        </button>
+        </a>
     </div>
 
     <!-- Stats Grid -->
@@ -17,7 +17,7 @@
             <p class="text-2xl font-semibold text-gray-900 dark:text-white transition-colors">£24,500</p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-300 dark:border-gray-700 p-5 transition-colors duration-200">
-            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 transition-colors">Active Courses</h3>
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 transition-colors">Active Training Courses</h3>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white transition-colors">42</p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-300 dark:border-gray-700 p-5 transition-colors duration-200">

@@ -278,24 +278,6 @@
                     </div>
                 </div>
 
-                <!-- SEO & Meta -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm transition-colors">
-                    <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-sm font-semibold text-gray-900 dark:text-white">SEO &amp; Meta</h2>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Helps search engines index this course correctly</p>
-                    </div>
-                    <div class="p-5 space-y-4">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Tab Title</label>
-                            <input type="text" placeholder="Browser tab title" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Meta Description <span class="text-red-500">*</span></label>
-                            <textarea rows="4" placeholder="Short meta description (150–160 characters recommended)..." class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors resize-none"></textarea>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <!-- ── RIGHT SIDEBAR ───────────────────────────────────── -->
@@ -397,6 +379,24 @@
                             <input type="text" placeholder="e.g. GIBLA" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors">
                         </div>
 
+                    </div>
+                </div>
+
+                <!-- SEO & Meta -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm transition-colors">
+                    <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+                        <h2 class="text-sm font-semibold text-gray-900 dark:text-white">SEO &amp; Meta</h2>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Helps search engines index this course correctly</p>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Tab Title</label>
+                            <input type="text" placeholder="Browser tab title" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Meta Description <span class="text-red-500">*</span></label>
+                            <textarea rows="4" placeholder="Short meta description (150–160 characters recommended)..." class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors resize-none"></textarea>
+                        </div>
                     </div>
                 </div>
 
