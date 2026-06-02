@@ -200,6 +200,64 @@
                         <span class="w-1.5 h-1.5 bg-pink-400 rounded-full mr-2.5"></span>
                         Testimonials
                     </a>
+                    <a href="/admin/website/gallery"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/website/gallery*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-2.5"></span>
+                        Media
+                    </a>
+                </div>
+            </div>
+
+            {{-- Logs --}}
+            <div x-data="{ open: {{ Request::is('admin/logs*') ? 'true' : 'false' }} }">
+                <button @click="open = !open"
+                    class="w-full flex items-center justify-between px-3 py-1.5 {{ Request::is('admin/logs*') ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-sm transition-colors duration-200">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        Logs
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="open" x-transition class="mt-1 ml-8 space-y-1">
+                    <a href="/admin/logs/quick-enquiry"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/logs/quick-enquiry*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-sky-400 rounded-full mr-2.5"></span>
+                        Quick Enquiry Event
+                    </a>
+                    <a href="/admin/logs/download-outline"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/logs/download-outline*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-teal-400 rounded-full mr-2.5"></span>
+                        Download Full Outline
+                    </a>
+                    <a href="/admin/logs/details-checkout"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/logs/details-checkout*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2.5"></span>
+                        Details Checkout
+                    </a>
+                    <a href="/admin/logs/cart"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/logs/cart*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2.5"></span>
+                        Cart
+                    </a>
+                    <a href="/admin/logs/before-payment"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/logs/before-payment*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-orange-400 rounded-full mr-2.5"></span>
+                        Before Payment
+                    </a>
+                    <a href="/admin/logs/after-checkout"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/logs/after-checkout*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2.5"></span>
+                        After Checkout
+                    </a>
+                    <a href="/admin/logs/coupon"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/logs/coupon*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-pink-400 rounded-full mr-2.5"></span>
+                        Coupon
+                    </a>
                 </div>
             </div>
 

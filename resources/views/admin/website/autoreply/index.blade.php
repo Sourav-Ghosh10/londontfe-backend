@@ -159,10 +159,18 @@
                 <td class="px-5 py-3 text-[#008060] dark:text-emerald-400">${truncate(item.mailSubject, 48)}</td>
                 <td class="px-5 py-3 text-gray-500 dark:text-gray-400">${truncate(item.mailContent, 32)}</td>
                 <td class="px-5 py-3 text-[#008060] dark:text-emerald-400">${truncate(item.defaultContent, 38)}</td>
-                <td class="px-5 py-3 text-center">
-                    <button onclick="editItem(${item.id})" class="text-blue-500 hover:text-blue-700 transition-colors p-1" title="Edit">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                    </button>
+                <td class="px-5 py-3 text-right">
+                    <div class="relative inline-block text-left" onclick="event.stopPropagation()">
+                        <button onclick="toggleKebab(this)" class="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+                        </button>
+                        <div class="kebab-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 py-1">
+                            <button onclick="editItem(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                                <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                Edit
+                            </button>
+                        </div>
+                    </div>
                 </td>`;
             tbody.appendChild(tr);
         });
@@ -170,5 +178,17 @@
     }
 
     function editItem(id) { window.location.href = `/admin/website/autoreply/${id}/edit`; }
+
+    function toggleKebab(btn) {
+        const menu = btn.nextElementSibling;
+        const isOpen = !menu.classList.contains('hidden');
+        document.querySelectorAll('.kebab-menu').forEach(m => m.classList.add('hidden'));
+        if (!isOpen) menu.classList.remove('hidden');
+    }
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.kebab-menu') && !e.target.closest('[onclick*="toggleKebab"]')) {
+            document.querySelectorAll('.kebab-menu').forEach(m => m.classList.add('hidden'));
+        }
+    });
 </script>
 @endsection

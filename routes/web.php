@@ -112,6 +112,14 @@ Route::get('/admin/website/testimonials/{id}/edit', function ($id) {
     return view('admin.website.testimonials.edit');
 });
 
+Route::get('/admin/website/gallery', function () {
+    return view('admin.website.gallery.index');
+});
+
+Route::get('/admin/website/gallery/create', function () {
+    return view('admin.website.gallery.create');
+});
+
 // Blog Routes
 Route::get('/admin/blog', function () {
     return view('admin.blog.index');
@@ -140,4 +148,33 @@ Route::get('/admin/course-price/location-bands', function () {
 
 Route::get('/admin/course-price/location-bands/create', function () {
     return view('admin.course-price.location-bands_create');
+});
+
+// Log Routes
+Route::get('/admin/logs/quick-enquiry', function () {
+    return view('admin.logs.quick-enquiry');
+});
+
+Route::get('/admin/logs/download-outline', function () {
+    return view('admin.logs.download-outline');
+});
+
+Route::get('/admin/logs/details-checkout', function () {
+    return view('admin.logs.details-checkout');
+});
+
+Route::get('/admin/logs/cart', function () {
+    return view('admin.logs.cart');
+});
+
+Route::get('/admin/logs/before-payment', function () {
+    return view('admin.logs.before-payment');
+});
+
+Route::get('/admin/logs/after-checkout', function () {
+    return view('admin.logs.after-checkout');
+});
+
+Route::get('/admin/logs/coupon', function () {
+    return view('admin.logs.coupon');
 });
