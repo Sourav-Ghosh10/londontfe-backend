@@ -20,6 +20,23 @@
         </a>
     </div>
 
+    @if(session('error'))
+        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 border border-red-200 dark:border-red-800" role="alert">
+            <span class="font-medium">Error!</span> {{ session('error') }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 border border-red-200 dark:border-red-800" role="alert">
+            <span class="font-medium">Please fix the following errors:</span>
+            <ul class="list-disc pl-5 mt-1.5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Form Card -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xs border border-gray-250 dark:border-gray-700 overflow-hidden">
         <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
@@ -27,12 +44,13 @@
             <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Upload and configure a new media item for the website.</p>
         </div>
 
-        <div class="p-6">
-            <form action="#" method="POST" class="space-y-6">
+        <form action="/admin/website/gallery" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="p-6 space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Media Type</label>
-                        <select class="w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        <select name="media_type" class="w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-colors">
                             <option value="Image">Image</option>
                             <option value="Video">Video</option>
                             <option value="Document">Document (PDF/Word)</option>
@@ -40,14 +58,14 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Media Title</label>
-                        <input type="text" placeholder="e.g. Leadership Workshop 2023" class="w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        <input type="text" name="media_title" placeholder="e.g. Leadership Workshop 2023" class="w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-colors">
                     </div>
                 </div>
 
                 <!-- Alt Text -->
                 <div>
                     <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Alt Text</label>
-                    <input type="text" placeholder="e.g. A group of people in a meeting" class="w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                    <input type="text" name="alt_text" placeholder="e.g. A group of people in a meeting" class="w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-colors">
                 </div>
 
                 <!-- Media Upload -->
@@ -60,8 +78,8 @@
                             </svg>
                             <div class="flex text-sm text-gray-600 dark:text-gray-400 justify-center mt-2">
                                 <label for="file-upload" class="relative cursor-pointer bg-transparent rounded-md font-medium text-[#008060] hover:text-[#006e52] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#008060]">
-                                    <span>Upload a file</span>
-                                    <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                    <span id="file-upload-name">Upload a file</span>
+                                    <input id="file-upload" name="media_file" type="file" class="sr-only" required onchange="document.getElementById('file-upload-name').innerText = this.files[0] ? this.files[0].name : 'Upload a file';">
                                 </label>
                                 <p class="pl-1">or drag and drop</p>
                             </div>
@@ -72,17 +90,17 @@
 
 
 
-            </form>
-        </div>
+            </div>
 
         <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900/40 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
             <a href="/admin/website/gallery" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008060] transition-colors">
                 Cancel
             </a>
-            <button type="button" class="px-4 py-2 text-sm font-medium text-white bg-[#008060] border border-transparent rounded-md shadow-sm hover:bg-[#006e52] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008060] transition-colors">
+            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-[#008060] border border-transparent rounded-md shadow-sm hover:bg-[#006e52] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008060] transition-colors">
                 Save Media
             </button>
         </div>
+        </form>
     </div>
 </div>
 

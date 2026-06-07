@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Gallery;
 
 Route::get('/', function () {
     return view('admin.login');
@@ -10,25 +13,26 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 });
 
-Route::get('/admin/courses', function () {
-    return view('admin.courses.index');
-});
-
-Route::get('/admin/courses/create', function () {
-    return view('admin.courses.create');
-});
+Route::get('/admin/courses', [\App\Http\Controllers\Admin\CourseController::class, 'index'])->name('admin.courses.index');
+Route::get('/admin/courses/create', [\App\Http\Controllers\Admin\CourseController::class, 'create'])->name('admin.courses.create');
+Route::post('/admin/courses', [\App\Http\Controllers\Admin\CourseController::class, 'store'])->name('admin.courses.store');
+Route::get('/admin/courses/{id}/edit', [\App\Http\Controllers\Admin\CourseController::class, 'edit'])->name('admin.courses.edit');
+Route::put('/admin/courses/{id}', [\App\Http\Controllers\Admin\CourseController::class, 'update'])->name('admin.courses.update');
+Route::delete('/admin/courses/{id}', [\App\Http\Controllers\Admin\CourseController::class, 'destroy'])->name('admin.courses.destroy');
 
 Route::get('/admin/courses/popular', function () {
     return view('admin.courses.popular');
 });
 
-Route::get('/admin/courses/categories', function () {
-    return view('admin.courses.categories');
-});
+use App\Http\Controllers\Admin\CourseCategoryController;
 
-Route::get('/admin/courses/categories/create', function () {
-    return view('admin.courses.categories_create');
-});
+Route::get('/admin/courses/categories', [CourseCategoryController::class, 'index']);
+Route::get('/admin/courses/categories/create', [CourseCategoryController::class, 'create']);
+Route::post('/admin/courses/categories', [CourseCategoryController::class, 'store']);
+Route::get('/admin/courses/categories/{id}/edit', [CourseCategoryController::class, 'edit']);
+Route::put('/admin/courses/categories/{id}', [CourseCategoryController::class, 'update']);
+Route::delete('/admin/courses/categories/{id}', [CourseCategoryController::class, 'destroy']);
+Route::patch('/admin/courses/categories/{id}/toggle-featured', [CourseCategoryController::class, 'toggleFeatured']);
 
 Route::get('/admin/courses/venues', function () {
     return view('admin.courses.venues');
@@ -49,6 +53,10 @@ Route::get('/admin/courses/currencies', function () {
 Route::get('/admin/courses/promocodes', function () {
     return view('admin.courses.promocodes');
 });
+
+Route::get('/admin/courses/send-outline', [\App\Http\Controllers\Admin\SendOutlineController::class, 'index'])->name('admin.courses.send-outline');
+Route::post('/admin/courses/send-outline', [\App\Http\Controllers\Admin\SendOutlineController::class, 'send'])->name('admin.courses.send-outline.send');
+Route::get('/admin/courses/send-outline/dates', [\App\Http\Controllers\Admin\SendOutlineController::class, 'getDates'])->name('admin.courses.send-outline.dates');
 
 // Users Routes
 Route::get('/admin/users', function () {
@@ -113,7 +121,8 @@ Route::get('/admin/website/testimonials/{id}/edit', function ($id) {
 });
 
 Route::get('/admin/website/gallery', function () {
-    return view('admin.website.gallery.index');
+    $galleries = Gallery::latest()->get();
+    return view('admin.website.gallery.index', compact('galleries'));
 });
 
 Route::get('/admin/website/gallery/create', function () {
@@ -177,4 +186,41 @@ Route::get('/admin/logs/after-checkout', function () {
 
 Route::get('/admin/logs/coupon', function () {
     return view('admin.logs.coupon');
+});
+
+
+Route::post('/admin/website/gallery', function (Request $request) {
+    $request->validate([
+        'media_file' => 'required|file|max:10240', // 10MB max
+        'media_type' => 'required|string',
+        'media_title' => 'nullable|string',
+        'alt_text' => 'nullable|string',
+    ]);
+
+    if ($request->hasFile('media_file')) {
+        // Store to S3 disk
+        $path = $request->file('media_file')->storePublicly('gallery', 's3');
+        
+        if (!$path) {
+            return back()->with('error', 'Failed to upload media to S3. Check if your bucket exists and credentials are correct.');
+        }
+        
+        Gallery::create([
+            'media_type' => $request->input('media_type'),
+            'media_title' => $request->input('media_title'),
+            'alt_text' => $request->input('alt_text'),
+            'file_path' => $path,
+        ]);
+        
+        return redirect('/admin/website/gallery')->with('success', 'Media uploaded to S3 and saved to database successfully!');
+    }
+
+    return back()->with('error', 'No file was uploaded.');
+});
+
+Route::delete('/admin/website/gallery/{id}', function ($id) {
+    $gallery = Gallery::findOrFail($id);
+    // \Illuminate\Support\Facades\Storage::disk('s3')->delete($gallery->file_path);
+    $gallery->delete();
+    return response()->json(['success' => true]);
 });

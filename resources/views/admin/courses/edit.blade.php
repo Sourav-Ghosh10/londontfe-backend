@@ -106,8 +106,9 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.courses.store') }}" method="POST">
+    <form action="{{ route('admin.courses.update', $course->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <div class="flex flex-col xl:flex-row gap-6">
 
             <!-- ── LEFT COLUMN ─────────────────────────────────────── -->
@@ -144,8 +145,8 @@
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Training Type</label>
                             <select name="training_type" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
                                 <option value="">Select training type</option>
-                                <option value="classroom" {{ $course->training_type === 'Classroom' ? 'selected' : '' }}>Class room</option>
-                                <option value="online" {{ $course->training_type === 'Online' ? 'selected' : '' }}>Online</option>
+                                <option value="classroom" {{ $course->training_type === 'classroom' ? 'selected' : '' }}>Class room</option>
+                                <option value="online" {{ $course->training_type === 'online' ? 'selected' : '' }}>Online</option>
                                 
                                 
                             </select>
@@ -157,19 +158,6 @@
                         <div>
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Course Name <span class="text-red-500">*</span></label>
                             <input type="text" name="course_name" value="{{ old('course_name', $course->course_name) }}" required placeholder="e.g. Advanced Leadership Programme" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors">
-                        </div>
-
-                        <!-- Course Venue -->
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Course Venue</label>
-                            <select name="course_venue" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
-                                <option value="">Select Venue</option>
-                                @if(isset($venues))
-                                @foreach($venues as $venue)
-                                    <option value="{{ $venue->id }}" {{ old('course_venue') == $venue->id ? 'selected' : '' }}>{{ $venue->venue_name }}</option>
-                                @endforeach
-                                @endif
-                            </select>
                         </div>
 
                         <!-- Price Tier -->
@@ -359,7 +347,7 @@
                     <div class="p-4 space-y-3">
                         <div>
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Primary Category</label>
-                            <select name="primary_category" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
+                            <select id="primary-category" name="primary_category" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
                                 <option value="">Select Category</option>
                                 @foreach($categories as $cat)
                                     <option value="{{ $cat->id }}" {{ old('primary_category', $primaryCategory) == $cat->id ? 'selected' : '' }}>{{ $cat->category_name }}</option>
@@ -370,7 +358,7 @@
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Secondary Categories</label>
                             <select id="secondary-categories" name="secondary_category[]" multiple class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors h-32">
                                 @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ in_array($cat->id, old('secondary_category', $secondaryCategories ?? [])) ? 'selected' : '' }}>{{ $cat->category_name }}</option>
+                                    <option value="{{ $cat->id }}" {{ in_array($cat->id, old('secondary_category', $secondaryCategories)) ? 'selected' : '' }}>{{ $cat->category_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -387,7 +375,7 @@
                             <select id="course-accreditation" name="course_accreditation[]" multiple class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors h-32">
                                 @if(isset($accreditations))
                                 @foreach($accreditations as $acc)
-                                    <option value="{{ $acc->id }}" {{ in_array($acc->id, old('course_accreditation', $selectedAccreditations ?? [])) ? 'selected' : '' }}>{{ $acc->accreditation_name }}</option>
+                                    <option value="{{ $acc->id }}" {{ in_array($acc->id, old('course_accreditation', $selectedAccreditations)) ? 'selected' : '' }}>{{ $acc->accreditation_name }}</option>
                                 @endforeach
                                 @endif
                             </select>
@@ -410,7 +398,7 @@
                                 <input type="number" name="course_duration" value="{{ old('course_duration', $course->course_duration) }}" placeholder="5" min="1" class="w-16 text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-2 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors">
                                 <select name="course_duration_type" class="flex-1 text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-2 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
                                     <option value="">Select duration type</option>
-                                    <option value="yes" {{ $course->course_duration_type === 'Days' ? 'selected' : '' }}>Day(s)</option>
+                                    <option value="1" {{ $course->course_duration_type == '1' ? 'selected' : '' }}>Day(s)</option>
                                     
                                     
                                     
@@ -428,8 +416,8 @@
                         <div>
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Publish to XML</label>
                             <select name="is_publish" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
-                                <option value="no" {{ $course->is_publish == 0 ? 'selected' : '' }}>No</option>
-                                <option value="yes" {{ $course->is_publish == 1 ? 'selected' : '' }}>Yes</option>
+                                <option value="no" {{ $course->is_publish == 'no' ? 'selected' : '' }}>No</option>
+                                <option value="yes" {{ $course->is_publish == 'yes' ? 'selected' : '' }}>Yes</option>
                             </select>
                         </div>
 
@@ -437,9 +425,9 @@
                         <div>
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Is Certified</label>
                             <select name="is_certified" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
-                                <option value="" {{ $course->is_certified === 'Limited to condition' ? 'selected' : '' }}
-                                <option value="1" {{ $course->is_certified === 'Yes' ? 'selected' : '' }}>Yes</option>
-                                <option value="0" {{ $course->is_certified === 'No' ? 'selected' : '' }}>No</option>
+                                
+                                <option value="1" {{ $course->is_certified == '1' ? 'selected' : '' }}>Yes</option>
+                                <option value="0" {{ $course->is_certified == '0' ? 'selected' : '' }}>No</option>
                             </select>
                         </div>
 
@@ -447,8 +435,8 @@
                         <div>
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Course Status <span class="text-red-500">*</span></label>
                             <select name="status" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
-                                <option value="1" {{ $course->status === 'Active' ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ $course->status === 'Inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="1" {{ $course->status == '1' ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ $course->status == '0' ? 'selected' : '' }}>Inactive</option>
                                 
                             </select>
                         </div>
@@ -513,11 +501,16 @@
         setupQuill('course_meterial_content');
         setupQuill('wsa');
 
-        // Show price list if a tier is already selected (e.g. in edit mode or validation error)
+        // Show price list if a tier is already selected (e.g. in edit mode)
         togglePriceList();
 
         // Initialize Select2
         if (typeof jQuery !== 'undefined') {
+            $('#primary-category').select2({
+                placeholder: "Select Category",
+                allowClear: true,
+                width: '100%'
+            });
             $('#secondary-categories').select2({
                 placeholder: "Select Secondary Categories",
                 allowClear: true,
@@ -599,7 +592,7 @@
             const baseRate = parseFloat(option.getAttribute('data-base-rate')) || 0;
             const dailyRate = parseFloat(option.getAttribute('data-daily-rate')) || 0;
             
-            // USD to GBP conversion rate (example logic: 1.24)
+            // USD to GBP conversion rate (example logic: 1.24, wait, let's check the mockup. In mockup GBP 1,000 -> USD 1,240, so USD = GBP * 1.24)
             const exchangeRate = 1.24;
             const daysArr = [1, 3, 5, 10];
             let html = '';

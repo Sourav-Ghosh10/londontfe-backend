@@ -32,6 +32,11 @@
     </div>
 
     <!-- Filters Card -->
+    <form id="filter-form" method="GET" action="{{ route('admin.courses.index') }}">
+        <!-- Hidden inputs for date range -->
+        <input type="hidden" name="date_from" id="filter-date-from" value="{{ request('date_from') }}">
+        <input type="hidden" name="date_to" id="filter-date-to" value="{{ request('date_to') }}">
+
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-300 dark:border-gray-700 p-5 mb-5 transition-colors">
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 items-start">
 
@@ -42,7 +47,9 @@
                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                     </span>
-                    <input type="text" placeholder="Search course name..." class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md pl-9 pr-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search course name..."
+                        class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md pl-9 pr-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        oninput="submitFilterDebounced()">
                 </div>
             </div>
 
@@ -53,9 +60,12 @@
                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     </span>
-                    <input id="date-range-picker" type="text" placeholder="DD-MM-YYYY to DD-MM-YYYY" readonly
+                    <input id="date-range-picker" type="text"
+                        placeholder="DD-MM-YYYY to DD-MM-YYYY"
+                        value="{{ request('date_from') && request('date_to') ? request('date_from').' to '.request('date_to') : '' }}"
+                        readonly
                         class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md pl-9 pr-8 py-2 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors cursor-pointer">
-                    <button type="button" id="date-range-clear" class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-gray-400 hover:text-gray-600 hidden">
+                    <button type="button" id="date-range-clear" onclick="clearDateRange()" class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-gray-400 hover:text-gray-600 {{ request('date_from') ? '' : 'hidden' }}">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
@@ -66,27 +76,28 @@
                 <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Venue</label>
                 <button type="button" onclick="toggleDropdown('venue')"
                     class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 rounded-md px-3 py-2 text-left focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors flex items-center justify-between">
-                    <span id="venue-label" class="truncate">All Venues</span>
+                    <span id="venue-label" class="truncate">{{ count(request()->get('venue', [])) ? count(request()->get('venue', [])).' selected' : 'All Venues' }}</span>
                     <svg class="w-4 h-4 flex-shrink-0 ml-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <!-- Dropdown Panel -->
                 <div id="venue-dropdown" class="hidden absolute z-50 mt-1 w-full min-w-[220px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-xl overflow-hidden">
                     <div class="p-2 border-b border-gray-200 dark:border-gray-700">
                         <input type="text" placeholder="Search venues..." oninput="filterOptions('venue', this.value)"
                             class="w-full text-xs bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500">
                     </div>
                     <div class="max-h-48 overflow-y-auto py-1" id="venue-options">
-                        @foreach(['035','Abu Dhabi','Amman','Amsterdam','Athens','Atlanta','Auckland','Bahrain','Bangkok','Barcelona','Beijing','Beirut','Berlin','Brisbane','Brussels','Cairo','Casablanca','Chicago','Copenhagen','Dubai','Frankfurt','Geneva','Hong Kong','Istanbul','Jakarta','Johannesburg','Kuala Lumpur','Kuwait','Lagos','London','Los Angeles','Madrid','Manila','Melbourne','Miami','Milan','Montreal','Moscow','Mumbai','Munich','Nairobi','New York','Oslo','Paris','Perth','Prague','Riyadh','Rome','San Francisco','Seoul','Shanghai','Singapore','Stockholm','Sydney','Taipei','Tokyo','Toronto','Vienna','Warsaw','Washington DC','Zurich'] as $venue)
+                        @foreach($filterVenues as $venue)
                         <label class="flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer venue-option">
-                            <input type="checkbox" value="{{ $venue }}" onchange="updateMultiSelect('venue')"
+                            <input type="checkbox" name="venue[]" value="{{ $venue->id }}"
+                                {{ in_array($venue->id, request()->get('venue', [])) ? 'checked' : '' }}
+                                onchange="updateMultiSelect('venue')"
                                 class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 w-3.5 h-3.5 flex-shrink-0">
-                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ $venue }}</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ $venue->venue_name }}</span>
                         </label>
                         @endforeach
                     </div>
                     <div class="p-2 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
                         <button type="button" onclick="clearMultiSelect('venue')" class="text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 transition-colors">Clear all</button>
-                        <button type="button" onclick="toggleDropdown('venue')" class="text-xs font-medium text-white bg-[#008060] hover:bg-[#006e52] px-3 py-1 rounded-md transition-colors">Done</button>
+                        <button type="button" onclick="toggleDropdown('venue'); document.getElementById('filter-form').submit()" class="text-xs font-medium text-white bg-[#008060] hover:bg-[#006e52] px-3 py-1 rounded-md transition-colors">Done</button>
                     </div>
                 </div>
             </div>
@@ -96,27 +107,28 @@
                 <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Category</label>
                 <button type="button" onclick="toggleDropdown('category')"
                     class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 rounded-md px-3 py-2 text-left focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors flex items-center justify-between">
-                    <span id="category-label" class="truncate">All Categories</span>
+                    <span id="category-label" class="truncate">{{ count(request()->get('category', [])) ? count(request()->get('category', [])).' selected' : 'All Categories' }}</span>
                     <svg class="w-4 h-4 flex-shrink-0 ml-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <!-- Dropdown Panel -->
                 <div id="category-dropdown" class="hidden absolute z-50 mt-1 w-full min-w-[240px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-xl overflow-hidden">
                     <div class="p-2 border-b border-gray-200 dark:border-gray-700">
                         <input type="text" placeholder="Search categories..." oninput="filterOptions('category', this.value)"
                             class="w-full text-xs bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500">
                     </div>
                     <div class="max-h-48 overflow-y-auto py-1" id="category-options">
-                        @foreach(['Accounting and Finance','Administration and Office Management','Business Administration','Leadership and Management','Contract and Project Management','Energy and Sustainability','Oil and Gas','Sales and Marketing','Human Resources'] as $cat)
+                        @foreach($filterCategories as $cat)
                         <label class="flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer category-option">
-                            <input type="checkbox" value="{{ $cat }}" onchange="updateMultiSelect('category')"
+                            <input type="checkbox" name="category[]" value="{{ $cat->id }}"
+                                {{ in_array($cat->id, request()->get('category', [])) ? 'checked' : '' }}
+                                onchange="updateMultiSelect('category')"
                                 class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 w-3.5 h-3.5 flex-shrink-0">
-                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ $cat }}</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ $cat->category_name }}</span>
                         </label>
                         @endforeach
                     </div>
                     <div class="p-2 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
                         <button type="button" onclick="clearMultiSelect('category')" class="text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 transition-colors">Clear all</button>
-                        <button type="button" onclick="toggleDropdown('category')" class="text-xs font-medium text-white bg-[#008060] hover:bg-[#006e52] px-3 py-1 rounded-md transition-colors">Done</button>
+                        <button type="button" onclick="toggleDropdown('category'); document.getElementById('filter-form').submit()" class="text-xs font-medium text-white bg-[#008060] hover:bg-[#006e52] px-3 py-1 rounded-md transition-colors">Done</button>
                     </div>
                 </div>
             </div>
@@ -125,19 +137,21 @@
             <div>
                 <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Status</label>
                 <div class="flex gap-2">
-                    <select class="flex-1 text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
-                        <option>Active</option>
-                        <option>Inactive</option>
-                        <option>Draft</option>
+                    <select name="status" onchange="document.getElementById('filter-form').submit()"
+                        class="flex-1 text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors appearance-none">
+                        <option value="">All Statuses</option>
+                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
                     </select>
-                    <button class="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors whitespace-nowrap">
+                    <a href="{{ route('admin.courses.index') }}" class="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors whitespace-nowrap">
                         Clear
-                    </button>
+                    </a>
                 </div>
             </div>
 
         </div>
     </div>
+    </form>
 
     <!-- Table Card -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-300 dark:border-gray-700 overflow-hidden transition-colors">
@@ -167,34 +181,28 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700 transition-colors">
-                    @php
-                        $courses = [
-                            ['name' => 'A-Z of Credit Control', 'category' => 'Accounting and Finance', 'duration' => '5 Days', 'sync' => true, 'rating' => 1, 'status' => 'Active', 'created' => '18-03-2026'],
-                            ['name' => 'Oil and Gas Mini MBA, Management and Business Administration', 'category' => 'Oil and Gas', 'duration' => '5 Days', 'sync' => false, 'rating' => 1, 'status' => 'Active', 'created' => '10-03-2026'],
-                            ['name' => 'Certified Leadership and Management Excellence CMI Recognised', 'category' => 'Leadership and Management', 'duration' => '5 Days', 'sync' => true, 'rating' => 1, 'status' => 'Active', 'created' => '10-03-2026'],
-                            ['name' => 'Certified Cost Manager', 'category' => 'Accounting and Finance', 'duration' => '5 Days', 'sync' => false, 'rating' => 2, 'status' => 'Active', 'created' => '09-03-2026'],
-                            ['name' => 'Certified Associate in Project Management CAPM® Exam Preparatory', 'category' => 'Contract and Project Management', 'duration' => '3 Days', 'sync' => true, 'rating' => 3, 'status' => 'Draft', 'created' => '03-03-2026'],
-                            ['name' => 'Advanced Leadership Programme', 'category' => 'Leadership and Management', 'duration' => '5 Days', 'sync' => true, 'rating' => 4, 'status' => 'Active', 'created' => '01-03-2026'],
-                            ['name' => 'ADR and Oil and Gas Disputes: Exploring Mediation and Arbitration Techniques', 'category' => 'Energy and Sustainability, Oil and Gas', 'duration' => '5 Days', 'sync' => false, 'rating' => 2, 'status' => 'Inactive', 'created' => '05-02-2026'],
-                        ];
-                    @endphp
-
-                    @foreach($courses as $course)
+                    @forelse($courses as $course)
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors group cursor-pointer">
                         <td class="px-5 py-3.5">
-                            <input type="checkbox" class="row-check rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 w-4 h-4">
+                            <input type="checkbox" class="row-check rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 w-4 h-4" value="{{ $course->id }}">
                         </td>
                         <td class="px-5 py-3.5 max-w-xs">
-                            <span class="font-medium text-gray-900 dark:text-white line-clamp-2">{{ $course['name'] }}</span>
+                            <span class="font-medium text-gray-900 dark:text-white line-clamp-2">{{ $course->course_name }}</span>
                         </td>
                         <td class="px-5 py-3.5 text-gray-500 dark:text-gray-400 max-w-[160px]">
-                            <span class="line-clamp-1">{{ $course['category'] }}</span>
+                            <span class="line-clamp-1">
+                                {{ $course->categories->pluck('category_name')->implode(', ') ?: 'Uncategorized' }}
+                            </span>
                         </td>
                         <td class="px-5 py-3.5 text-center whitespace-nowrap">
-                            <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2 py-0.5 rounded-full">{{ $course['duration'] }}</span>
+                            @php
+                                $durationLabels = ['1' => 'Day(s)', '2' => 'Week(s)', '3' => 'Month(s)'];
+                                $durationLabel = $durationLabels[$course->course_duration_type] ?? $course->course_duration_type;
+                            @endphp
+                            <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2 py-0.5 rounded-full">{{ $course->course_duration }} {{ $durationLabel }}</span>
                         </td>
                         <td class="px-5 py-3.5 text-center">
-                            @if($course['sync'])
+                            @if($course->is_publish == 1)
                                 <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                                 </span>
@@ -207,7 +215,7 @@
                         <td class="px-5 py-3.5 text-center">
                             <div class="flex items-center justify-center gap-0.5">
                                 @for($i = 1; $i <= 5; $i++)
-                                    @if($i <= $course['rating'])
+                                    @if($i <= ($course->rating ?? 0))
                                         <svg class="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                                     @else
                                         <svg class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -216,16 +224,14 @@
                             </div>
                         </td>
                         <td class="px-5 py-3.5 text-center">
-                            @if($course['status'] === 'Active')
+                            @if($course->status == 1)
                                 <span class="bg-[#e4f8ec] dark:bg-green-900/30 text-[#008060] dark:text-green-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">Active</span>
-                            @elseif($course['status'] === 'Draft')
-                                <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Draft</span>
                             @else
                                 <span class="bg-[#ffebcc] dark:bg-yellow-900/30 text-[#8a6116] dark:text-yellow-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">Inactive</span>
                             @endif
                         </td>
                         <td class="px-5 py-3.5 text-center text-gray-500 dark:text-gray-400 text-xs whitespace-nowrap">
-                            {{ $course['created'] }}
+                            {{ $course->create_date ? \Carbon\Carbon::parse($course->create_date)->format('d-m-Y') : '-' }}
                         </td>
                         <td class="px-5 py-3.5 text-right">
                             <div class="relative inline-block text-left" onclick="event.stopPropagation()">
@@ -237,10 +243,10 @@
                                     </svg>
                                 </button>
                                 <div class="kebab-menu hidden absolute right-0 mt-1 w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 py-1">
-                                    <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                                    <a href="{{ route('admin.courses.edit', $course->id) }}" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                         Edit
-                                    </button>
+                                    </a>
                                     <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m0 0l-2-2m2 2l2-2"/></svg>
                                         Download Outline PDF
@@ -250,28 +256,32 @@
                                         Download Outline Word
                                     </button>
                                     <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
-                                    <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        Delete
-                                    </button>
+                                    <form action="{{ route('admin.courses.destroy', $course->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this course?');" class="m-0">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            Delete
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="9" class="px-5 py-8 text-center text-sm text-gray-500">No courses found.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
 
         <!-- Pagination -->
-        <div class="px-5 py-4 border-t border-gray-300 dark:border-gray-700 flex items-center justify-between transition-colors">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Showing <span class="font-medium text-gray-900 dark:text-white">1–7</span> of <span class="font-medium text-gray-900 dark:text-white">128</span> courses</p>
+        <div class="px-5 py-4 border-t border-gray-300 dark:border-gray-700 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Showing <span class="font-medium text-gray-900 dark:text-white">{{ $courses->firstItem() ?? 0 }}–{{ $courses->lastItem() ?? 0 }}</span> of <span class="font-medium text-gray-900 dark:text-white">{{ $courses->total() }}</span> courses</p>
             <div class="flex gap-1">
-                <button class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50" disabled>Previous</button>
-                <button class="px-3 py-1.5 text-sm text-white bg-[#008060] border border-[#008060] rounded-md">1</button>
-                <button class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">2</button>
-                <button class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">3</button>
-                <button class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">Next</button>
+                {{ $courses->links('pagination::tailwind') }}
             </div>
         </div>
     </div>
@@ -279,20 +289,37 @@
 
 <script>
     function toggleDropdown(key) {
-        document.getElementById(key + '-dropdown').classList.toggle('hidden');
+        const dd = document.getElementById(key + '-dropdown');
+        const isHidden = dd.classList.contains('hidden');
+        dd.classList.toggle('hidden');
+        // When opening, move checked items to the top
+        if (isHidden) {
+            const container = document.getElementById(key + '-options');
+            const allItems  = Array.from(container.querySelectorAll('label'));
+            const checked   = allItems.filter(l => l.querySelector('input').checked);
+            const unchecked = allItems.filter(l => !l.querySelector('input').checked);
+            container.innerHTML = '';
+            checked.forEach(l => container.appendChild(l));
+            if (checked.length > 0 && unchecked.length > 0) {
+                const divider = document.createElement('div');
+                divider.className = 'border-t border-gray-200 dark:border-gray-600 my-1 mx-3';
+                container.appendChild(divider);
+            }
+            unchecked.forEach(l => container.appendChild(l));
+        }
     }
 
     function updateMultiSelect(key) {
         const checks = document.querySelectorAll(`#${key}-options input[type=checkbox]:checked`);
         const label  = document.getElementById(key + '-label');
-        const values = Array.from(checks).map(c => c.value);
+        const count  = checks.length;
 
-        if (values.length === 0) {
+        if (count === 0) {
             label.textContent = key === 'category' ? 'All Categories' : 'All Venues';
-        } else if (values.length === 1) {
-            label.textContent = values[0];
+        } else if (count === 1) {
+            label.textContent = checks[0].closest('label').querySelector('span').textContent.trim();
         } else {
-            label.textContent = `${values.length} selected`;
+            label.textContent = `${count} selected`;
         }
     }
 
@@ -348,20 +375,46 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    // Flatpickr date range
-    const drClear = document.getElementById('date-range-clear');
+    // Flatpickr date range — populates hidden inputs & submits
+    const drClear  = document.getElementById('date-range-clear');
+    const drFrom   = document.getElementById('filter-date-from');
+    const drTo     = document.getElementById('filter-date-to');
+
     const drPicker = flatpickr('#date-range-picker', {
         mode: 'range',
         dateFormat: 'd-m-Y',
         allowInput: false,
         disableMobile: true,
+        defaultDate: [
+            drFrom && drFrom.value ? drFrom.value : null,
+            drTo   && drTo.value   ? drTo.value   : null
+        ].filter(Boolean),
         onChange: function(selectedDates) {
             drClear.classList.toggle('hidden', selectedDates.length === 0);
+            if (selectedDates.length === 2) {
+                const fmt = d => d.toLocaleDateString('en-GB').split('/').join('-'); // dd-mm-yyyy
+                drFrom.value = fmt(selectedDates[0]);
+                drTo.value   = fmt(selectedDates[1]);
+                document.getElementById('filter-form').submit();
+            }
         }
     });
-    drClear.addEventListener('click', function() {
+
+    function clearDateRange() {
         drPicker.clear();
+        drFrom.value = '';
+        drTo.value   = '';
         drClear.classList.add('hidden');
-    });
+        document.getElementById('filter-form').submit();
+    }
+
+    // Debounced search
+    let searchTimer;
+    function submitFilterDebounced() {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            document.getElementById('filter-form').submit();
+        }, 500);
+    }
 </script>
 @endsection

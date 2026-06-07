@@ -68,8 +68,8 @@
             </svg>
         </a>
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Add Category</h1>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Create a new course category with tags, content, media, and SEO options</p>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Category</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Update the details for {{ $category->category_name }}</p>
         </div>
     </div>
 
@@ -94,7 +94,7 @@
                         <!-- Category Name -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Category Name <span class="text-red-500">*</span></label>
-                            <input type="text" id="category-name" placeholder="e.g. Artificial Intelligence (AI)" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors" oninput="clearError('name')">
+                            <input type="text" id="category-name" value="{{ $category->category_name }}" placeholder="e.g. Artificial Intelligence (AI)" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors" oninput="clearError('name')">
                             <p id="error-name" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                                 <span id="error-name-text"></span>
@@ -105,7 +105,7 @@
                             <!-- Level Page Text -->
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Level Page Text</label>
-                                <input type="text" id="level-page-text" placeholder="e.g. Masterclass level tag text" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                                <input type="text" id="level-page-text" value="{{ $category->level_page_text }}" placeholder="e.g. Masterclass level tag text" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
                             </div>
 
                             <!-- Is 3 for 2 Offer -->
@@ -114,8 +114,40 @@
                                 <div class="relative">
                                     <select id="is-3-for-2" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
                                         <option value="">Select Is 3 for 2 offer</option>
-                                        <option value="No">No</option>
-                                        <option value="Yes">Yes</option>
+                                        <option value="No" {{ $category->is_3_for_2_offer === 'inactive' ? 'selected' : '' }}>No</option>
+                                        <option value="Yes" {{ $category->is_3_for_2_offer === 'active' ? 'selected' : '' }}>Yes</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Category Status -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Category Status</label>
+                                <div class="relative">
+                                    <select id="status" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
+                                        <option value="active" {{ $category->status === 'active' ? 'selected' : '' }}>Active</option>
+                                        <option value="inactive" {{ $category->status === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Featured Category -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Featured Category</label>
+                                <div class="relative">
+                                    <select id="featured_category" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
+                                        <option value="0" {{ $category->featured_category === '0' ? 'selected' : '' }}>No</option>
+                                        <option value="1" {{ $category->featured_category === '1' ? 'selected' : '' }}>Yes</option>
                                     </select>
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,9 +192,9 @@
                                         &lt;&gt;
                                     </button>
                                 </div>
-                                <div id="editor-tagline" class="min-h-[160px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
+                                <div id="editor-tagline" class="min-h-[160px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3">{!! $category->category_tag_line !!}</div>
                                 <textarea id="source-tagline" class="hidden w-full min-h-[160px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="tagline">
+                                <input type="hidden" name="tagline" value="{{ $category->category_tag_line }}">
                             </div>
                         </div>
 
@@ -186,9 +218,9 @@
                                         &lt;&gt;
                                     </button>
                                 </div>
-                                <div id="editor-content" class="min-h-[220px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
+                                <div id="editor-content" class="min-h-[220px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3">{!! $category->category_content !!}</div>
                                 <textarea id="source-content" class="hidden w-full min-h-[220px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="content">
+                                <input type="hidden" name="content" value="{{ $category->category_content }}">
                             </div>
                         </div>
 
@@ -212,9 +244,9 @@
                                         &lt;&gt;
                                     </button>
                                 </div>
-                                <div id="editor-about" class="min-h-[220px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
+                                <div id="editor-about" class="min-h-[220px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3">{!! $category->category_txt !!}</div>
                                 <textarea id="source-about" class="hidden w-full min-h-[220px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="about">
+                                <input type="hidden" name="about" value="{{ $category->category_txt }}">
                             </div>
                         </div>
 
@@ -269,10 +301,14 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
                                 <span class="block mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Upload a file</span>
-                                <div id="img-container-featured" class="mt-3 mb-2 flex justify-center hidden">
-                                    <img id="img-preview-featured" src="" alt="Featured Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
+                                <div id="img-container-featured" class="mt-3 mb-2 flex justify-center {{ $category->featured_image ? '' : 'hidden' }}">
+                                    <img id="img-preview-featured" src="{{ $category->featured_image ? Storage::disk('s3')->url($category->featured_image) : '' }}" alt="Featured Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
                                 </div>
-                                <span class="block mt-1 text-[10px] text-gray-400 dark:text-gray-500" id="preview-featured">No file selected</span>
+                                @if($category->featured_image)
+                                    <span class="block mt-1 text-[10px] text-gray-500 dark:text-gray-400" id="preview-featured">Current: {{ basename($category->featured_image) }}</span>
+                                @else
+                                    <span class="block mt-1 text-[10px] text-gray-400 dark:text-gray-500" id="preview-featured">No file selected</span>
+                                @endif
                                 <input type="file" id="file-featured" onchange="handleFileSelected(this, 'preview-featured', 'img-preview-featured', 'img-container-featured')" accept="image/*" class="hidden">
                             </div>
                         </div>
@@ -285,10 +321,14 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
                                 <span class="block mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Upload a file</span>
-                                <div id="img-container-banner" class="mt-3 mb-2 flex justify-center hidden">
-                                    <img id="img-preview-banner" src="" alt="Banner Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
+                                <div id="img-container-banner" class="mt-3 mb-2 flex justify-center {{ $category->banner_image ? '' : 'hidden' }}">
+                                    <img id="img-preview-banner" src="{{ $category->banner_image ? Storage::disk('s3')->url($category->banner_image) : '' }}" alt="Banner Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
                                 </div>
-                                <span class="block mt-1 text-[10px] text-gray-400 dark:text-gray-500" id="preview-banner">No file selected</span>
+                                @if($category->banner_image)
+                                    <span class="block mt-1 text-[10px] text-gray-500 dark:text-gray-400" id="preview-banner">Current: {{ basename($category->banner_image) }}</span>
+                                @else
+                                    <span class="block mt-1 text-[10px] text-gray-400 dark:text-gray-500" id="preview-banner">No file selected</span>
+                                @endif
                                 <input type="file" id="file-banner" onchange="handleFileSelected(this, 'preview-banner', 'img-preview-banner', 'img-container-banner')" accept="image/*" class="hidden">
                             </div>
                         </div>
@@ -310,7 +350,7 @@
                         <!-- Meta Title -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Title <span class="text-red-500">*</span></label>
-                            <input type="text" id="meta-title" placeholder="SEO Browser tab title" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors" oninput="clearError('meta_title')">
+                            <input type="text" id="meta-title" value="{{ $category->meta_title }}" placeholder="SEO Browser tab title" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors" oninput="clearError('meta_title')">
                             <p id="error-meta_title" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                                 <span id="error-meta_title-text"></span>
@@ -320,7 +360,7 @@
                         <!-- Meta Description -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Meta Description <span class="text-red-500">*</span></label>
-                            <textarea id="meta-description" rows="4" placeholder="Brief SEO description (150-160 characters)..." class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none" oninput="clearError('meta_description')"></textarea>
+                            <textarea id="meta-description" rows="4" placeholder="Brief SEO description (150-160 characters)..." class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none" oninput="clearError('meta_description')">{{ $category->meta_description }}</textarea>
                             <p id="error-meta_description" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                                 <span id="error-meta_description-text"></span>
@@ -330,7 +370,7 @@
                         <!-- Meta Keywords -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Meta Keyword</label>
-                            <input type="text" id="meta-keywords" placeholder="e.g. AI courses, artificial intelligence training" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                            <input type="text" id="meta-keywords" value="{{ $category->meta_keyword }}" placeholder="e.g. AI courses, artificial intelligence training" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
                         </div>
                     </div>
                 </div>
@@ -455,7 +495,9 @@
             span.textContent = "No file selected";
             span.classList.add("text-gray-400", "dark:text-gray-500");
             span.classList.remove("text-emerald-600", "dark:text-emerald-400", "font-medium");
-            if (container) container.classList.add('hidden');
+            // Do not hide the image if they cancelled the picker but there is an existing image
+            // Note: If you want to hide it completely on cancel, uncomment the line below:
+            // if (container) container.classList.add('hidden');
         }
     }
 
@@ -532,6 +574,8 @@
         formData.append('name', nameVal);
         formData.append('level_page_text', document.getElementById("level-page-text").value || '');
         formData.append('is_3_for_2', document.getElementById("is-3-for-2").value || '');
+        formData.append('status', document.getElementById("status").value);
+        formData.append('featured_category', document.getElementById("featured_category").value);
         formData.append('meta_title', metaTitleVal);
         formData.append('meta_description', metaDescVal);
         formData.append('meta_keywords', document.getElementById("meta-keywords").value || '');
@@ -556,8 +600,11 @@
         // CSRF Token
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
+        // Add _method for PUT request
+        formData.append('_method', 'PUT');
+
         try {
-            const response = await fetch('/admin/courses/categories', {
+            const response = await fetch('/admin/courses/categories/{{ $category->id }}', {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': token || '' },
                 body: formData

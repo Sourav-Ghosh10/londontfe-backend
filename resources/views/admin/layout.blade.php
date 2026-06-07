@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -18,6 +19,7 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
@@ -113,6 +115,11 @@
                         class="flex items-center px-3 py-1.5 {{ Request::is('admin/course-price/location-bands*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
                         <span class="w-1.5 h-1.5 bg-indigo-400 dark:bg-indigo-500 rounded-full mr-2.5"></span>
                         Location Band
+                    </a>
+                    <a href="/admin/courses/send-outline"
+                        class="flex items-center px-3 py-1.5 {{ Request::is('admin/courses/send-outline*') ? 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700' }} rounded-md font-medium text-xs transition-colors duration-200">
+                        <span class="w-1.5 h-1.5 bg-teal-400 dark:bg-teal-500 rounded-full mr-2.5"></span>
+                        Send Customer Outlines
                     </a>
                 </div>
             </div>
@@ -301,9 +308,13 @@
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
                     </span>
-                    <input type="text"
+                    <input type="text" id="global-search" autocomplete="off"
                         class="w-full bg-[#f6f6f7] dark:bg-gray-700 text-sm text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md pl-10 pr-4 py-1.5 focus:bg-white dark:focus:bg-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                         placeholder="Search...">
+                    
+                    <!-- Search Results Dropdown -->
+                    <div id="search-results" class="absolute left-0 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg hidden z-50 max-h-80 overflow-y-auto">
+                    </div>
                 </div>
             </div>
             <div class="flex items-center gap-4">
@@ -323,8 +334,22 @@
                             fill-rule="evenodd" clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <button
-                    class="bg-[#202223] dark:bg-gray-700 hover:bg-black dark:hover:bg-gray-600 transition-colors text-white text-sm font-semibold px-3 py-1.5 rounded-md">Admin</button>
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" @click.away="open = false"
+                        class="bg-[#202223] dark:bg-gray-700 hover:bg-black dark:hover:bg-gray-600 transition-colors text-white text-sm font-semibold px-3 py-1.5 rounded-md flex items-center gap-1.5">
+                        Admin
+                        <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <div x-show="open" x-transition class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 border border-gray-200 dark:border-gray-700 z-50" style="display: none;">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Settings</a>
+                        <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                        <a href="/" data-no-pjax class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Logout</a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -590,6 +615,10 @@
                 return;
             }
 
+            if (link.hasAttribute('data-no-pjax')) {
+                return;
+            }
+
             if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || link.getAttribute('target') === '_blank') {
                 return;
             }
@@ -600,6 +629,100 @@
 
         window.addEventListener('popstate', function () {
             navigateTo(window.location.pathname, false);
+        });
+
+        // ================= GLOBAL SEARCH =================
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('global-search');
+            const searchResults = document.getElementById('search-results');
+            let searchIndex = [];
+
+            function buildSearchIndex() {
+                searchIndex = [];
+                const links = document.querySelectorAll('aside nav a');
+                links.forEach(link => {
+                    const url = link.getAttribute('href');
+                    if (url && url !== '#') {
+                        let text = link.textContent.trim().replace(/\s+/g, ' ');
+                        // Try to find if it has a parent menu section to provide better context
+                        let parentMenuText = '';
+                        const parentMenu = link.closest('[x-data]') || link.closest('.space-y-1');
+                        if (parentMenu) {
+                            const button = parentMenu.querySelector('button');
+                            if (button && !button.contains(link)) {
+                                parentMenuText = button.textContent.trim().replace(/\s+/g, ' ') + ' > ';
+                            }
+                        }
+                        
+                        searchIndex.push({ text: parentMenuText + text, url: url, rawText: text });
+                    }
+                });
+            }
+
+            buildSearchIndex();
+
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                if (query.length > 0) {
+                    const filtered = searchIndex.filter(item => item.text.toLowerCase().includes(query));
+                    
+                    if (filtered.length > 0) {
+                        searchResults.innerHTML = filtered.map(item => `
+                            <a href="${item.url}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                ${item.text}
+                            </a>
+                        `).join('');
+                        searchResults.classList.remove('hidden');
+                    } else {
+                        searchResults.innerHTML = `
+                            <div class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+                                No results found
+                            </div>
+                        `;
+                        searchResults.classList.remove('hidden');
+                    }
+                } else {
+                    searchResults.classList.add('hidden');
+                }
+            });
+
+            // Rebuild index occasionally or just rely on DOMContentLoaded if nav doesn't change
+            // Since it's a PJAX app, the sidebar mostly stays static, but we can hook into PJAX events if needed.
+
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.add('hidden');
+                }
+            });
+
+            searchResults.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (link) {
+                    e.preventDefault();
+                    const url = link.getAttribute('href');
+                    navigateTo(url);
+                    searchInput.value = '';
+                    searchResults.classList.add('hidden');
+                }
+            });
+            
+            // Show all menus when focus on empty input (per user request: "show all menu list when strt write")
+            searchInput.addEventListener('focus', function() {
+                if (this.value.trim().length === 0) {
+                    if (searchIndex.length === 0) {
+                        buildSearchIndex();
+                    }
+                    searchResults.innerHTML = searchIndex.map(item => `
+                        <a href="${item.url}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            ${item.text}
+                        </a>
+                    `).join('');
+                    searchResults.classList.remove('hidden');
+                } else {
+                    // Trigger input event to re-filter
+                    this.dispatchEvent(new Event('input'));
+                }
+            });
         });
     </script>
 </body>

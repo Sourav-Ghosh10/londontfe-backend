@@ -58,25 +58,26 @@
     <span id="toast-message" class="text-sm font-semibold">Done!</span>
 </div>
 
+@php
+    $galleryData = $galleries->map(function($g) {
+        return [
+            'id' => $g->id,
+            'type' => $g->media_type,
+            'image' => \Illuminate\Support\Facades\Storage::disk('s3')->url($g->file_path),
+            'title' => $g->media_title ?? 'Untitled'
+        ];
+    });
+@endphp
 <script>
     let gallery = [], filtered = [], visibleCount = 10, itemsPerLoad = 10, sortCol = '', sortAsc = true;
 
     document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('londontfe_gallery');
-        if (saved) { try { gallery = JSON.parse(saved); } catch(e) {} }
-        if (gallery.length === 0) {
-            gallery = [
-                { id: 1, type: 'Image', image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=200&h=150&fit=crop', title: 'Classroom Training 2023' },
-                { id: 2, type: 'Image', image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=200&h=150&fit=crop', title: 'Corporate Seminar Event' },
-                { id: 3, type: 'Video', image: 'https://images.unsplash.com/photo-1515169067868-5387ec356754?w=200&h=150&fit=crop', title: 'Leadership Workshop Dubai' },
-                { id: 4, type: 'Document', image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=200&h=150&fit=crop', title: 'Finance Training Session' },
-            ];
-            save();
-        }
+        gallery = @json($galleryData);
         filterGallery();
     });
 
-    function save() { localStorage.setItem('londontfe_gallery', JSON.stringify(gallery)); }
+    // Remove localStorage save function
+    function save() {}
 
     function filterGallery() {
         const q = document.getElementById('gallery-search').value.toLowerCase().trim();
@@ -174,10 +175,17 @@
 
     function deleteGalleryItem(id) {
         if (confirm('Delete this media item?')) {
-            gallery = gallery.filter(c => c.id !== id); save(); filterGallery();
-            const t = document.getElementById('toast'); document.getElementById('toast-message').innerText = 'Media deleted!';
-            t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
-            setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 3000);
+            fetch(`/admin/website/gallery/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }).then(() => {
+                gallery = gallery.filter(c => c.id !== id); filterGallery();
+                const t = document.getElementById('toast'); document.getElementById('toast-message').innerText = 'Media deleted!';
+                t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
+                setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 3000);
+            });
         }
     }
 
