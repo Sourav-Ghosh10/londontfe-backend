@@ -144,32 +144,37 @@
         if (!desktopInput.files || !desktopInput.files[0]) { alert('Please upload a Desktop Banner.'); return; }
         if (!mobileInput.files || !mobileInput.files[0]) { alert('Please upload a Mobile Banner.'); return; }
 
-        let desktopData = '', mobileData = '';
+        const formData = new FormData();
+        formData.append('alt_tag', alt);
+        formData.append('sequence', sequence);
+        formData.append('status', status);
+        if (url) {
+            formData.append('url', url);
+        }
+        formData.append('image', desktopInput.files[0]);
+        formData.append('mobile_image', mobileInput.files[0]);
 
-        const saveBanner = () => {
-            if (desktopData && mobileData) {
-                let banners = [];
-                try { banners = JSON.parse(localStorage.getItem('londontfe_banners') || '[]'); } catch(err) {}
-                const newId = banners.length ? Math.max(...banners.map(c => c.id)) + 1 : 1;
-                
-                const now = new Date();
-                const pad = n => String(n).padStart(2, '0');
-                const created_at = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} - ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-                banners.push({ id: newId, desktop: desktopData, mobile: mobileData, alt, url, sequence, status, created_at });
-                localStorage.setItem('londontfe_banners', JSON.stringify(banners));
+        fetch('/admin/website/banners', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
                 showToast('Banner saved successfully!');
                 setTimeout(() => { window.location.href = '/admin/website/banners'; }, 1000);
+            } else {
+                alert(data.error || 'Failed to save banner.');
             }
-        };
-
-        const readerDesk = new FileReader();
-        readerDesk.onload = e => { desktopData = e.target.result; saveBanner(); };
-        readerDesk.readAsDataURL(desktopInput.files[0]);
-
-        const readerMob = new FileReader();
-        readerMob.onload = e => { mobileData = e.target.result; saveBanner(); };
-        readerMob.readAsDataURL(mobileInput.files[0]);
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while saving the banner.');
+        });
     }
 
     function showToast(msg) {

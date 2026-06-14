@@ -32,7 +32,8 @@
     </div>
 
     <!-- Filters Card -->
-    <form id="filter-form" method="GET" action="{{ route('admin.courses.index') }}">
+    <form id="filter-form" method="GET" action="/admin/courses">
+        <button type="submit" class="hidden">Submit</button>
         <!-- Hidden inputs for date range -->
         <input type="hidden" name="date_from" id="filter-date-from" value="{{ request('date_from') }}">
         <input type="hidden" name="date_to" id="filter-date-to" value="{{ request('date_to') }}">
@@ -143,7 +144,7 @@
                         <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
                         <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
                     </select>
-                    <a href="{{ route('admin.courses.index') }}" class="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors whitespace-nowrap">
+                    <a href="/admin/courses" class="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors whitespace-nowrap">
                         Clear
                     </a>
                 </div>
@@ -352,10 +353,28 @@
     function toggleKebab(btn) {
         const menu = btn.nextElementSibling;
         const isOpen = !menu.classList.contains('hidden');
-        // Close all others first
-        document.querySelectorAll('.kebab-menu').forEach(m => m.classList.add('hidden'));
-        if (!isOpen) menu.classList.remove('hidden');
+        document.querySelectorAll('.kebab-menu').forEach(m => {
+            m.classList.add('hidden');
+            m.style.position = '';
+            m.style.top = '';
+            m.style.left = '';
+        });
+        
+        if (!isOpen) {
+            menu.classList.remove('hidden');
+            const rect = btn.getBoundingClientRect();
+            menu.style.position = 'fixed';
+            menu.style.top = (rect.bottom + 4) + 'px';
+            menu.style.left = (rect.right - 224) + 'px'; // w-56 is 224px
+        }
     }
+
+    // Hide dropdown on any scroll event to prevent floating menus
+    document.addEventListener('scroll', function(e) {
+        if (!e.target.closest('.kebab-menu')) {
+            document.querySelectorAll('.kebab-menu').forEach(m => m.classList.add('hidden'));
+        }
+    }, true);
 
     // Row checkbox logic
     document.getElementById('select-all').addEventListener('change', function() {
@@ -416,5 +435,16 @@
             document.getElementById('filter-form').submit();
         }, 500);
     }
+
+    // Refocus search input after reload
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput && searchInput.value) {
+            searchInput.focus();
+            const val = searchInput.value;
+            searchInput.value = '';
+            searchInput.value = val;
+        }
+    });
 </script>
 @endsection

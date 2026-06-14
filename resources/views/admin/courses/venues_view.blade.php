@@ -133,154 +133,13 @@
 
 <!-- ================= JAVASCRIPT ================= -->
 <script>
-    // Local database representing the primary venues database
-    const primaryVenuesDb = [
-        { 
-            id: 1, 
-            name: "Athens", 
-            image: "https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?auto=format&fit=crop&w=800&q=80", 
-            flag: "Greece", 
-            region: "Europe", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Avenue Vassilissis Sofias 46, Athina 106 76, Greece</p>",
-            description: "<p>Athens is a historic and majestic training location that connects ancient history with modern commercial capabilities. The training facility resides right in the heart of downtown Athens close to the historic landmarks and local corporate hubs.</p>",
-            featuredText: "<p>Experience fully immersive interactive training with modern high-speed workspace facilities in central Greece.</p>",
-            metaTitle: "Athens Global Training Venue | London TFE",
-            metaDesc: "Discover premium courses in Athens, Greece. Located close to beautiful sights and corporate headquarters."
-        },
-        { 
-            id: 2, 
-            name: "Dubai", 
-            image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80", 
-            flag: "United Arab Emirates", 
-            region: "Middle East", 
-            featured: true, 
-            sealsStatus: true,
-            address: "<p>Marina Heights, Tower A, 24th Floor, Dubai Marina, UAE</p>",
-            description: "<p>Dubai represents a thriving, futuristic global business capital. Known for highly sophisticated workspace and luxury facilities, our Dubai Marina venue provides perfect corporate suites equipped with high-tech conference spaces.</p>",
-            featuredText: "<p>Premium featured venue in the UAE providing 5-star executive lounges, high-tech lecture halls, and beautiful marina views.</p>",
-            metaTitle: "Dubai Marina Executive Courses | London TFE",
-            metaDesc: "Advance your corporate skills at our premium Dubai Marina training facility. Enjoy luxury accommodations and smart hubs."
-        },
-        { 
-            id: 3, 
-            name: "Vienna", 
-            image: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=800&q=80", 
-            flag: "Austria", 
-            region: "Europe", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Schönbrunner Schloßstraße 47, 1130 Wien, Austria</p>",
-            description: "<p>Vienna offers class and heritage combined with state-of-the-art administrative services. Ideal for delegates who appreciate cultural marvels and quiet study settings close to the Schönbrunn palace gardens.</p>",
-            featuredText: "<p>Beautiful garden spaces, high-speed campus amenities, and proximity to major rail hubs.</p>",
-            metaTitle: "Vienna Training Venues | London TFE",
-            metaDesc: "Take professional courses in Vienna, Austria. Highly rated conference halls near majestic palaces."
-        },
-        { 
-            id: 4, 
-            name: "London", 
-            image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80", 
-            flag: "United Kingdom", 
-            region: "Europe", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Kensington High St, London W8 5SA, United Kingdom</p>",
-            description: "<p>London is our flagship training center city. Boasting advanced educational facilities, this hub in historic Kensington accommodates hundreds of global corporate delegates every month.</p>",
-            featuredText: "<p>Fully equipped computing centers, quiet study lounges, and direct access to transit stations.</p>",
-            metaTitle: "London Corporate Seminars | London TFE",
-            metaDesc: "Join our flagship courses in the United Kingdom. Located in the beautiful borough of Kensington."
-        },
-        { 
-            id: 5, 
-            name: "Copenhagen", 
-            image: "https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=800&q=80", 
-            flag: "Denmark", 
-            region: "Europe", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Nyhavn Canal 12, 1051 København, Denmark</p>",
-            description: "<p>Copenhagen venue offers a unique Scandinavian experience. Fully modern, minimalist styling coupled with beautiful views of the historic canal harbor.</p>",
-            featuredText: "<p>Sleek design, green credentials, and cozy community study rooms.</p>",
-            metaTitle: "Copenhagen Courses - London TFE",
-            metaDesc: "Explore professional training programs in Copenhagen, Denmark near Nyhavn Canal."
-        },
-        { 
-            id: 6, 
-            name: "Budapest", 
-            image: "https://images.unsplash.com/photo-1565426960434-08f1b621eefb?auto=format&fit=crop&w=800&q=80", 
-            flag: "Hungary", 
-            region: "Europe", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Andrássy út 22, 1061 Budapest, Hungary</p>",
-            description: "<p>Budapest provides a cost-effective and spectacular European location. Our venue along Andrássy Boulevard offers premium facilities and rich architectural scenery.</p>",
-            featuredText: "<p>Historic training rooms, modern smartboards, and excellent city views.</p>",
-            metaTitle: "Budapest Seminars - London TFE",
-            metaDesc: "Sign up for courses in Budapest, Hungary. Budget-friendly European business school facilities."
-        },
-        { 
-            id: 7, 
-            name: "Stockholm", 
-            image: "https://images.unsplash.com/photo-1509142168808-57d19c9e3650?auto=format&fit=crop&w=800&q=80", 
-            flag: "Sweden", 
-            region: "Europe", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Hamngatan 18, 111 47 Stockholm, Sweden</p>",
-            description: "<p>Stockholm provides exceptional facilities designed for smart working. Our Sweden offices represent clean, airy spaces with high focus on sustainability.</p>",
-            featuredText: "<p>Sustainable green building, direct metro connectivity, and premium tech tools.</p>",
-            metaTitle: "Stockholm Training Center | London TFE",
-            metaDesc: "Boost your credentials in Sweden. Smart classrooms designed with ergonomic and eco-friendly features."
-        },
-        { 
-            id: 8, 
-            name: "Istanbul", 
-            image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=800&q=80", 
-            flag: "Turkey", 
-            region: "Europe", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Istiklal Cd. No:142, 34430 Beyoğlu/İstanbul, Turkey</p>",
-            description: "<p>Istanbul serves as a gorgeous bridge between eastern and western styles. Located on Istiklal Avenue, Beyoglu, this venue is fully active and features rich views and high-quality delegate spaces.</p>",
-            featuredText: "<p>Stunning skyline views, historic learning center, and active community lounge.</p>",
-            metaTitle: "Istanbul Business Programs | London TFE",
-            metaDesc: "Take premium corporate workshops in Turkey. Located in the lively historic heart of Beyoglu."
-        },
-        { 
-            id: 9, 
-            name: "Kuala Lumpur", 
-            image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80", 
-            flag: "Malaysia", 
-            region: "Rest of World", 
-            featured: false, 
-            sealsStatus: true,
-            address: "<p>Jalan Ampang, 50450 Kuala Lumpur, Malaysia</p>",
-            description: "<p>Kuala Lumpur serves our delegates in the Asia Pacific region. Situated in the shadow of the Petronas Towers, it is a key training hub offering top-class computing infrastructure.</p>",
-            featuredText: "<p>Centrally located, high-speed fiber internet, and panoramic city skyscraper view.</p>",
-            metaTitle: "Kuala Lumpur Training Venue | London TFE",
-            metaDesc: "Discover dynamic skills courses in Malaysia. Smart facilities located directly in central Kuala Lumpur."
-        }
-    ];
+    const venue = @json($mappedVenue);
 
-
-
-    // Parse URL Parameter and Load Venue details
     document.addEventListener("DOMContentLoaded", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const venueId = parseInt(urlParams.get('id'));
-
-        if (!venueId) {
+        if (!venue || !venue.id) {
             showError();
             return;
         }
-
-        const venue = primaryVenuesDb.find(v => v.id === venueId);
-        if (!venue) {
-            showError();
-            return;
-        }
-
         renderVenueDetails(venue);
     });
 
@@ -304,8 +163,6 @@
         document.getElementById("venue-hero-country").textContent = v.flag;
         document.getElementById("venue-hero-region").textContent = v.region;
 
-
-
         // Set descriptions
         document.getElementById("view-venue-description").innerHTML = v.description || "<p class='text-gray-400 italic'>No description provided yet.</p>";
         document.getElementById("view-venue-featured-text").innerHTML = v.featuredText || "<p class='text-gray-400 italic'>No promotional text provided.</p>";
@@ -313,8 +170,6 @@
         // Set SEO
         document.getElementById("view-meta-title").textContent = v.metaTitle || "Not set";
         document.getElementById("view-meta-desc").textContent = v.metaDesc || "Not set";
-
-
     }
 </script>
 @endsection

@@ -234,4 +234,28 @@ class CourseController extends Controller
         $course->delete();
         return response()->json(['success' => true]);
     }
+    public function popular()
+    {
+        $courses = Course::where('course_type', '1')
+            ->where('status', '1')
+            ->orderByRaw("is_featured = 'yes' DESC")
+            ->orderBy('course_name', 'asc')
+            ->get(['id', 'course_name', 'is_featured']);
+        return view('admin.courses.popular', compact('courses'));
+    }
+
+    public function updatePopular(Request $request)
+    {
+        $selectedCourseIds = $request->input('popular_courses', []);
+
+        // Reset all courses
+        Course::query()->update(['is_featured' => 'no']);
+
+        // Set selected courses as featured
+        if (!empty($selectedCourseIds)) {
+            Course::whereIn('id', $selectedCourseIds)->update(['is_featured' => 'yes']);
+        }
+
+        return response()->json(['success' => true]);
+    }
 }

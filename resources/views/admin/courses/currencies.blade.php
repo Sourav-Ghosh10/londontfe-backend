@@ -160,15 +160,26 @@
         loadSavedRates();
     });
 
-    function loadSavedRates() {
-        const saved = localStorage.getItem("londontfe_currency_rates");
-        if (saved) {
-            try {
-                ratesConfig = JSON.parse(saved);
-                console.log("Loaded existing rates from local storage:", ratesConfig);
-            } catch (e) {
-                console.error("Error parsing stored currency rates", e);
+    async function loadSavedRates() {
+        try {
+            const response = await fetch('/admin/courses/currencies', {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            const data = await response.json();
+            if (data.success && data.rates) {
+                ratesConfig = {
+                    baseCurrency: data.baseCurrency,
+                    rates: {
+                        GBP: data.rates.GBP || 1.0,
+                        USD: data.rates.USD || 1.24
+                    }
+                };
             }
+        } catch (error) {
+            console.error("Error fetching currency rates from DB", error);
         }
         
         // Pre-fill form inputs
@@ -191,8 +202,8 @@
         gbpInput.disabled = false;
         usdInput.disabled = false;
 
-        gbpInput.className = "w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-650 text-gray-900 dark:text-gray-100 rounded-md px-3.5 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-all duration-200 font-mono";
-        usdInput.className = "w-full text-sm bg-gray-50 dark:bg-gray-750 border border-gray-300 dark:border-gray-650 text-gray-900 dark:text-gray-100 rounded-md px-3.5 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-all duration-200 font-mono";
+        gbpInput.className = "w-full text-sm bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-md px-3.5 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-all duration-200 font-mono";
+        usdInput.className = "w-full text-sm bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-md px-3.5 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-[#008060] focus:border-[#008060] transition-all duration-200 font-mono";
 
         // Disable base currency input as it has to be exactly 1.0
         if (base === "GBP") {
@@ -284,8 +295,7 @@
         showToast("Configurations reset to last saved state.", "success");
     }
 
-    // Form submission
-    function handleUpdate(e) {
+    async function handleUpdate(e) {
         e.preventDefault();
 
         // Perform validation check on all active currency rates
@@ -307,29 +317,47 @@
         btnText.textContent = "Updating...";
         spinner.classList.remove("hidden");
 
-        setTimeout(() => {
-            // Update ratesConfig values
-            ratesConfig.rates.GBP = valGBP;
-            ratesConfig.rates.USD = valUSD;
-            ratesConfig.baseCurrency = document.getElementById("base-currency").value;
+        ratesConfig.rates.GBP = valGBP;
+        ratesConfig.rates.USD = valUSD;
+        ratesConfig.baseCurrency = document.getElementById("base-currency").value;
 
-            // Save to localStorage
-            localStorage.setItem("londontfe_currency_rates", JSON.stringify(ratesConfig));
+        try {
+            const response = await fetch('/admin/courses/currencies', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(ratesConfig)
+            });
+            const data = await response.json();
 
-            // Complete loading action
+            if (data.success) {
+                // Complete loading action
+                updateBtn.disabled = false;
+                updateBtn.classList.remove("opacity-80");
+                btnText.textContent = "Update Rates";
+                spinner.classList.add("hidden");
+
+                // Mark badge as synchronized
+                const badge = document.getElementById("save-badge");
+                badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xxs font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400";
+                badge.innerHTML = `<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>Synchronized`;
+                
+                // Show premium success toast
+                showToast("Currency configuration updated successfully!", "success");
+            } else {
+                throw new Error("Failed to save");
+            }
+        } catch(err) {
+            console.error(err);
             updateBtn.disabled = false;
             updateBtn.classList.remove("opacity-80");
-            btnText.textContent = "Update";
+            btnText.textContent = "Update Rates";
             spinner.classList.add("hidden");
-
-            // Mark badge as synchronized
-            const badge = document.getElementById("save-badge");
-            badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xxs font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400";
-            badge.innerHTML = `<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>Synchronized`;
-            
-            // Show premium success toast
-            showToast("Currency configuration updated successfully!", "success");
-        }, 800);
+            showToast("Failed to update currency rates.", "error");
+        }
     }
 
     // Premium Toast Control

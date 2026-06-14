@@ -90,11 +90,7 @@
 </div>
 
 <script>
-    let bands = [
-        { id: 1, name: "tesitig", type: "Plus", venues: "Amman, Abu Dhabi", adjustment: "10", created: "09/01/2026 - 07:01", updated: "09/01/2026 - 07:01" },
-        { id: 2, name: "Test", type: "Plus", venues: "Barcelona, Abu Dhabi", adjustment: "10", created: "10/01/2026 - 08:21", updated: "10/01/2026 - 08:21" }
-    ];
-
+    let bands = [];
     let currentPage = 1;
     let itemsPerPage = 100;
     let filteredBands = [];
@@ -102,12 +98,23 @@
     let sortAsc = true;
 
     document.addEventListener("DOMContentLoaded", () => {
-        const saved = localStorage.getItem("londontfe_location_bands");
-        if (saved) { try { bands = JSON.parse(saved); } catch(e) {} }
-        filterBands();
+        fetchBands();
     });
 
-    function saveBands() { localStorage.setItem("londontfe_location_bands", JSON.stringify(bands)); }
+    async function fetchBands() {
+        try {
+            const response = await fetch('/admin/course-price/location-bands', {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await response.json();
+            if (data.success) {
+                bands = data.bands;
+                filterBands();
+            }
+        } catch (error) {
+            console.error('Failed to fetch bands', error);
+        }
+    }
 
     function filterBands() {
         const search = document.getElementById("band-search").value.toLowerCase().trim();
@@ -238,10 +245,10 @@
                                 <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                                 View
                             </button>
-                            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                            <a href="/admin/course-price/location-bands/${item.id}/edit" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
                                 <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                 Edit
-                            </button>
+                            </a>
                             <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
                             <button onclick="deleteBand(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -257,12 +264,25 @@
         summary.innerHTML = `Displaying <span class="font-bold text-gray-900 dark:text-white">${start + 1}</span> to <span class="font-bold text-gray-900 dark:text-white">${end}</span> of <span class="font-bold text-gray-900 dark:text-white">${total}</span> items`;
     }
 
-    function deleteBand(id) {
+    async function deleteBand(id) {
         if (confirm("Delete this Location Band?")) {
-            bands = bands.filter(b => b.id !== id);
-            saveBands();
-            filterBands();
-            showToast("Location Band deleted!");
+            try {
+                const response = await fetch('/admin/course-price/location-bands/' + id, {
+                    method: 'DELETE',
+                    headers: { 
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    bands = bands.filter(b => b.id !== id);
+                    filterBands();
+                    showToast("Location Band deleted!");
+                }
+            } catch (error) {
+                console.error('Failed to delete', error);
+            }
         }
     }
 

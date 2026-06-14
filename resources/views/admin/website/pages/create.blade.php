@@ -1,21 +1,7 @@
 @extends('admin.layout')
 
 @push('head')
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-<style>
-    .ql-toolbar.ql-snow { border-radius: 8px 8px 0 0; border-color: #d1d5db !important; background: #f6f6f7; font-family: inherit; padding: 8px 10px; }
-    .dark .ql-toolbar.ql-snow { background: #374151; border-color: #4b5563 !important; }
-    .ql-container.ql-snow { border-radius: 0 0 8px 8px; border-color: #d1d5db !important; font-size: 14px; font-family: inherit; background: #f6f6f7; }
-    .dark .ql-container.ql-snow { background: #374151; border-color: #4b5563 !important; color: #e5e7eb; }
-    .ql-editor { min-height: 250px; line-height: 1.7; }
-    .ql-editor.ql-blank::before { color: #9ca3af; font-style: normal; }
-    .dark .ql-toolbar .ql-stroke { stroke: #d1d5db; }
-    .dark .ql-toolbar .ql-fill { fill: #d1d5db; }
-    .dark .ql-toolbar .ql-picker { color: #d1d5db; }
-    .dark .ql-toolbar .ql-picker-options { background: #374151; border-color: #4b5563; }
-    .ql-snow .ql-active .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke { stroke: #008060 !important; }
-    .ql-snow .ql-active .ql-fill { fill: #008060 !important; }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.css"/>
 @endpush
 
 @section('content')
@@ -60,8 +46,7 @@
                                 <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider">Content <span class="text-red-500">*</span></label>
                                 <button type="button" class="text-xs font-semibold text-[#008060] hover:underline">+ Add accordion</button>
                             </div>
-                            <textarea id="page-content-hidden" class="hidden"></textarea>
-                            <div id="page-content-editor" class="rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600"></div>
+                            <textarea id="page-content-editor"></textarea>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -130,10 +115,10 @@
                             <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Parent Page</label>
                             <div class="relative">
                                 <select id="parent-page" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] appearance-none cursor-pointer">
-                                    <option value="">-- None --</option>
-                                    <option value="Learning Solutions">Learning Solutions</option>
-                                    <option value="Online Courses">Online Courses</option>
-                                    <option value="About Us">About Us</option>
+                                    <option value="0">-- None --</option>
+                                    @foreach($parentPages as $p)
+                                        <option value="{{ $p->id }}">{{ $p->title }}</option>
+                                    @endforeach
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -169,22 +154,12 @@
     <span id="toast-message" class="text-sm font-semibold">Saved!</span>
 </div>
 
-<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.js"></script>
 <script>
-    // Quill Content editor
-    const contentQuill = new Quill('#page-content-editor', {
-        theme: 'snow',
-        placeholder: 'Write the page content here...',
-        modules: {
-            toolbar: [
-                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['link', 'image', 'video'],
-                [{ 'color': [] }, { 'background': [] }],
-                ['clean']
-            ]
-        }
+    // Jodit Content editor
+    var joditEditor = Jodit.make('#page-content-editor', {
+        height: 300,
+        placeholder: 'Write the page content here...'
     });
 
     function previewImage(input) {
@@ -204,23 +179,50 @@
         const status  = document.getElementById('page-status').value;
         const seo     = document.getElementById('seo-title').value.trim();
         const meta    = document.getElementById('meta-desc').value.trim();
+        const parentPage = document.getElementById('parent-page').value;
+        const bannerInput = document.getElementById('page-banner');
 
-        // Sync Quill content
-        const htmlContent = contentQuill.root.innerHTML;
-        document.getElementById('page-content-hidden').value = htmlContent;
+        // Get Jodit content
+        const htmlContent = joditEditor.value;
 
         if (!title || !url || !seo || !meta) { alert('Please fill all required fields.'); return; }
-        if (contentQuill.getText().trim() === '') { alert('Content cannot be empty.'); return; }
+        if (!htmlContent.trim()) { alert('Content cannot be empty.'); return; }
 
-        let pages = [];
-        try { pages = JSON.parse(localStorage.getItem('londontfe_pages') || '[]'); } catch(err) {}
-        const newId = pages.length ? Math.max(...pages.map(c => c.id)) + 1 : 1;
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('menu_title', menu);
+        formData.append('url', url);
+        formData.append('status', status);
+        formData.append('seo_title', seo);
+        formData.append('meta_description', meta);
+        formData.append('parent_page_id', parentPage);
+        formData.append('content', htmlContent);
         
-        pages.push({ id: newId, title, content: contentQuill.getText().trim(), menu_title: menu, status });
-        localStorage.setItem('londontfe_pages', JSON.stringify(pages));
-        
-        showToast('Page saved successfully!');
-        setTimeout(() => { window.location.href = '/admin/website/pages'; }, 1000);
+        if (bannerInput.files && bannerInput.files[0]) {
+            formData.append('page_banner', bannerInput.files[0]);
+        }
+
+        fetch('/admin/website/pages', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('Page saved successfully!');
+                setTimeout(() => { window.location.href = '/admin/website/pages'; }, 1000);
+            } else {
+                alert(data.error || 'Failed to save page.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while saving the page.');
+        });
     }
 
     function showToast(msg) {

@@ -61,68 +61,28 @@
         <!-- Course List -->
         <div class="divide-y divide-gray-100 dark:divide-gray-700 max-h-[460px] overflow-y-auto" id="course-list">
 
-            @php
-            $courses = [
-                ['name' => 'Accounting and Financial Analysis for Decision Makers', 'popular' => true],
-                ['name' => 'Skills of Auditing and Internal Control', 'popular' => true],
-                ['name' => 'A-Z of Credit Control', 'popular' => false],
-                ['name' => 'Accounting Standards and Practices', 'popular' => false],
-                ['name' => 'Accounting Treatment of Financial Operations', 'popular' => false],
-                ['name' => 'Administrative Communications Mastery', 'popular' => false],
-                ['name' => 'ADR and Oil and Gas Disputes: Exploring Mediation and Arbitration Techniques', 'popular' => false],
-                ['name' => 'Advanced Accounts Payable', 'popular' => false],
-                ['name' => 'Advanced Board Governance', 'popular' => false],
-                ['name' => 'Advanced Business Development Professional', 'popular' => false],
-                ['name' => 'Advanced Business Management for Senior Professionals', 'popular' => false],
-                ['name' => 'Advanced Chemical Reactors', 'popular' => false],
-                ['name' => 'Advanced Contract Management', 'popular' => false],
-                ['name' => 'Advanced Corrosion Management', 'popular' => false],
-                ['name' => 'Advanced Leadership Programme', 'popular' => false],
-                ['name' => 'Advanced Negotiation Skills', 'popular' => false],
-                ['name' => 'Advanced Project Management', 'popular' => false],
-                ['name' => 'Advanced Sales Management', 'popular' => false],
-                ['name' => 'Agile Project Management', 'popular' => false],
-                ['name' => 'Applied Data Analytics for Business', 'popular' => false],
-                ['name' => 'Budget Planning and Cost Control', 'popular' => false],
-                ['name' => 'Business Process Management and Improvement', 'popular' => false],
-                ['name' => 'Certified Associate in Project Management (CAPM®) Exam Preparatory', 'popular' => false],
-                ['name' => 'Certified Cost Manager', 'popular' => false],
-                ['name' => 'Certified Leadership and Management Excellence CMI Recognised', 'popular' => false],
-                ['name' => 'Change Management Strategies', 'popular' => false],
-                ['name' => 'Corporate Governance and Ethics', 'popular' => false],
-                ['name' => 'Crisis Management and Business Continuity', 'popular' => false],
-                ['name' => 'Digital Marketing and Social Media Strategy', 'popular' => false],
-                ['name' => 'Energy Management and Sustainability', 'popular' => false],
-            ];
-            @endphp
-
-            @foreach($courses as $index => $course)
-            <div class="course-item group flex items-center gap-3 px-5 py-3 transition-colors {{ $course['popular'] ? 'bg-yellow-50 dark:bg-yellow-900/10' : 'hover:bg-gray-50 dark:hover:bg-gray-700/40' }}"
-                id="course-row-{{ $index }}"
-                data-name="{{ strtolower($course['name']) }}">
+            @foreach($courses as $course)
+            <div class="course-item group flex items-center gap-3 px-5 py-3 transition-colors {{ $course->is_featured == 'yes' ? 'bg-yellow-50 dark:bg-yellow-900/10' : 'hover:bg-gray-50 dark:hover:bg-gray-700/40' }}"
+                id="course-row-{{ $course->id }}"
+                data-name="{{ strtolower($course->course_name) }}">
                 <input type="checkbox"
-                    id="course-{{ $index }}"
-                    {{ $course['popular'] ? 'checked' : '' }}
-                    onchange="handleCourseToggle(this, {{ $index }})"
+                    id="course-{{ $course->id }}"
+                    value="{{ $course->id }}"
+                    {{ $course->is_featured == 'yes' ? 'checked' : '' }}
+                    onchange="handleCourseToggle(this, {{ $course->id }})"
                     class="course-checkbox rounded border-gray-300 dark:border-gray-600 text-yellow-500 focus:ring-yellow-400 w-4 h-4 flex-shrink-0 cursor-pointer">
-                <label for="course-{{ $index }}" class="flex-1 flex items-center gap-2.5 cursor-pointer select-none min-w-0">
-                    <span class="text-sm text-gray-800 dark:text-gray-200 course-name truncate">{{ $course['name'] }}</span>
-                    @if($course['popular'])
-                    <span class="popular-badge flex-shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-700/50">
+                <label for="course-{{ $course->id }}" class="flex-1 flex items-center gap-2.5 cursor-pointer select-none min-w-0">
+                    <span class="text-sm text-gray-800 dark:text-gray-200 course-name truncate">{{ $course->course_name }}</span>
+                    <span class="popular-badge {{ $course->is_featured == 'yes' ? '' : 'hidden' }} flex-shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-700/50">
                         Popular
                     </span>
-                    @else
-                    <span class="popular-badge hidden flex-shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-700/50">
-                        Popular
-                    </span>
-                    @endif
                 </label>
-                <a href="/admin/courses/{{ $index }}"
+                <a href="/admin/courses/{{ $course->id }}/edit"
                     class="flex-shrink-0 flex items-center gap-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ml-2 whitespace-nowrap">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                     </svg>
-                    View Details
+                    Edit Course
                 </a>
             </div>
             @endforeach
@@ -208,17 +168,42 @@
         });
     }
 
-    // Save action (placeholder — shows success feedback)
-    function savePopularCourses() {
+    // Save action
+    async function savePopularCourses() {
         const selected = [];
         document.querySelectorAll('.course-checkbox:checked').forEach(cb => {
-            const label = cb.closest('.course-item').querySelector('.course-name');
-            if (label) selected.push(label.textContent.trim());
+            selected.push(cb.value);
         });
 
-        const feedback = document.getElementById('save-feedback');
-        feedback.classList.remove('hidden');
-        setTimeout(() => feedback.classList.add('hidden'), 3000);
+        const btn = document.querySelector('button[onclick="savePopularCourses()"]');
+        btn.disabled = true;
+        btn.innerHTML = 'Saving...';
+
+        try {
+            const response = await fetch('/admin/courses/popular', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ popular_courses: selected })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                const feedback = document.getElementById('save-feedback');
+                feedback.classList.remove('hidden');
+                setTimeout(() => feedback.classList.add('hidden'), 3000);
+            }
+        } catch (error) {
+            console.error('Error saving popular courses:', error);
+            alert('Failed to save. Please try again.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg> Save Popular Courses`;
+        }
     }
 
     // Clear All

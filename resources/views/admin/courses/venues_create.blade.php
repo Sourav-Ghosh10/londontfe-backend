@@ -1,62 +1,8 @@
 @extends('admin.layout')
 
 @section('content')
-<!-- Quill rich text styles & dark mode adjustments -->
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
-<style>
-    /* Premium Shopify/modern inspired styles for custom Quill editors */
-    .ql-toolbar.ql-snow {
-        border: 1px solid #d1d5db !important;
-        background-color: #f9fafb;
-        border-top-left-radius: 0.375rem;
-        border-top-right-radius: 0.375rem;
-        padding: 6px 12px !important;
-    }
-    .ql-container.ql-snow {
-        border: 1px solid #d1d5db !important;
-        background-color: #ffffff;
-        border-bottom-left-radius: 0.375rem;
-        border-bottom-right-radius: 0.375rem;
-        font-family: inherit;
-        font-size: 0.875rem;
-    }
-    .ql-editor {
-        min-height: 140px;
-        color: #1f2937;
-        font-size: 0.875rem;
-        line-height: 1.5;
-    }
-    .ql-editor.ql-blank::before {
-        color: #9ca3af !important;
-        font-style: normal !important;
-    }
-    
-    /* Sleek dark mode rules for Quill */
-    .dark .ql-toolbar.ql-snow {
-        border-color: #4b5563 !important;
-        background-color: #1f2937;
-    }
-    .dark .ql-container.ql-snow {
-        border-color: #4b5563 !important;
-        background-color: #374151;
-    }
-    .dark .ql-editor {
-        color: #f3f4f6;
-    }
-    .dark .ql-stroke {
-        stroke: #9ca3af !important;
-    }
-    .dark .ql-fill {
-        fill: #9ca3af !important;
-    }
-    .dark .ql-picker {
-        color: #9ca3af !important;
-    }
-    .dark .ql-picker-options {
-        background-color: #1f2937 !important;
-        border-color: #4b5563 !important;
-    }
-</style>
+<!-- Jodit stylesheet -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.css"/>
 
 <div class="w-full pb-12">
 
@@ -95,13 +41,21 @@
                             <!-- Venue Name -->
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Venue Name <span class="text-red-500">*</span></label>
-                                <input type="text" id="venue-name" required placeholder="e.g. Athens" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                                <input type="text" id="venue-name" required placeholder="e.g. Athens" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors" oninput="clearError('name')">
+                                <p id="error-name" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                    <span id="error-name-text"></span>
+                                </p>
                             </div>
 
                             <!-- Country / Flag Name -->
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Country / Flag Image Name <span class="text-red-500">*</span></label>
-                                <input type="text" id="flag-name" required placeholder="e.g. Greece" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                                <input type="text" id="flag-name" required placeholder="e.g. Greece" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors" oninput="clearError('flag')">
+                                <p id="error-flag" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                    <span id="error-flag-text"></span>
+                                </p>
                             </div>
                         </div>
 
@@ -109,7 +63,7 @@
                             <!-- Region -->
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Region <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <select id="venue-region" required class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
+                                <select id="venue-region" required class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer" onchange="clearError('region')">
                                     <option value="">Select Region</option>
                                     <option value="Europe">Europe</option>
                                     <option value="Middle East">Middle East</option>
@@ -121,13 +75,17 @@
                                     </svg>
                                 </div>
                             </div>
+                            <p id="error-region" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                <span id="error-region-text"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2. Rich Content Fields -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm transition-colors overflow-hidden">
-                    <div class="px-5 py-4 border-b border-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-900/30">
+                    <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-900/30">
                         <h2 class="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                             <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -140,45 +98,13 @@
                         <!-- Venue Description -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Venue Description</label>
-                            <div class="relative">
-                                <div id="toolbar-description" class="flex flex-wrap gap-1 p-2 bg-[#f6f6f7] dark:bg-gray-700/50 rounded-t-md border border-gray-200 dark:border-gray-600 border-b-0">
-                                    <button type="button" class="ql-bold font-bold text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">B</button>
-                                    <button type="button" class="ql-italic italic text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">I</button>
-                                    <button type="button" class="ql-underline underline text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">U</button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="bullet">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 5a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V6a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V10a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V14a1 1 0 011-1z"/><path d="M9 6h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2z"/></svg>
-                                    </button>
-                                    <button type="button" class="custom-html-btn description-html-btn p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center font-mono font-bold text-xs text-gray-600 dark:text-gray-400" onclick="toggleQuillSourceCode('description')">
-                                        &lt;&gt;
-                                    </button>
-                                </div>
-                                <div id="editor-description" class="min-h-[140px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
-                                <textarea id="source-description" class="hidden w-full min-h-[140px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="description">
-                            </div>
+                            <textarea id="editor-description" name="description"></textarea>
                         </div>
 
                         <!-- Venue Featured Text -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Venue Featured Text</label>
-                            <div class="relative">
-                                <div id="toolbar-featured-text" class="flex flex-wrap gap-1 p-2 bg-[#f6f6f7] dark:bg-gray-700/50 rounded-t-md border border-gray-200 dark:border-gray-600 border-b-0">
-                                    <button type="button" class="ql-bold font-bold text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">B</button>
-                                    <button type="button" class="ql-italic italic text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">I</button>
-                                    <button type="button" class="ql-underline underline text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">U</button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="bullet">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 5a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V6a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V10a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V14a1 1 0 011-1z"/><path d="M9 6h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2z"/></svg>
-                                    </button>
-                                    <button type="button" class="custom-html-btn featured-text-html-btn p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center font-mono font-bold text-xs text-gray-600 dark:text-gray-400" onclick="toggleQuillSourceCode('featured-text')">
-                                        &lt;&gt;
-                                    </button>
-                                </div>
-                                <div id="editor-featured-text" class="min-h-[140px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
-                                <textarea id="source-featured-text" class="hidden w-full min-h-[140px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="featured-text">
-                            </div>
+                            <textarea id="editor-featured-text" name="featured-text"></textarea>
                         </div>
 
                     </div>
@@ -230,8 +156,6 @@
                         </h2>
                     </div>
                     <div class="p-5 space-y-4">
-                        
-
 
                         <!-- Banner Image -->
                         <div>
@@ -263,13 +187,21 @@
                         <!-- Meta Title -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Meta Title <span class="text-red-500">*</span></label>
-                            <input type="text" id="meta-title" required placeholder="e.g. Athens Training Venues" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                            <input type="text" id="meta-title" required placeholder="e.g. Athens Training Venues" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors" oninput="clearError('meta_title')">
+                            <p id="error-meta_title" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                <span id="error-meta_title-text"></span>
+                            </p>
                         </div>
 
                         <!-- Meta Description -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Meta Description <span class="text-red-500">*</span></label>
-                            <textarea id="meta-description" required rows="4" placeholder="Brief SEO description (150-160 characters)..." class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none"></textarea>
+                            <textarea id="meta-description" required rows="4" placeholder="Brief SEO description (150-160 characters)..." class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none" oninput="clearError('meta_description')"></textarea>
+                            <p id="error-meta_description" class="hidden mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                <span id="error-meta_description-text"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -290,79 +222,21 @@
 </div>
 
 <!-- ================= JAVASCRIPT ================= -->
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.js"></script>
 <script>
-    const editors = {};
+    var editors = {};
 
-    // Initialise a Quill Instance
-    function setupQuill(id) {
-        const ql = new Quill('#editor-' + id, {
-            theme: 'snow',
-            modules: {
-                toolbar: '#toolbar-' + id
-            }
-        });
-        
-        editors[id] = ql;
-
-        // Synchronize content to hidden form input
-        ql.on('text-change', function() {
-            const html = ql.root.innerHTML;
-            const input = document.querySelector(`input[name="${id}"]`);
-            if (input) input.value = html;
-        });
-    }
-
-    // Initialize all 3 editors
+    // Initialize editors using Jodit
     document.addEventListener('DOMContentLoaded', () => {
-        setupQuill('description');
-        setupQuill('featured-text');
+        editors['description'] = Jodit.make('#editor-description', {
+            height: 200,
+            placeholder: 'Venue Description...'
+        });
+        editors['featured-text'] = Jodit.make('#editor-featured-text', {
+            height: 200,
+            placeholder: 'Venue Featured Text...'
+        });
     });
-
-    // Custom HTML source code viewer toggle function
-    window.toggleQuillSourceCode = function(id) {
-        const editorEl = document.getElementById('editor-' + id);
-        const textareaEl = document.getElementById('source-' + id);
-        const ql = editors[id];
-        const isSourceMode = textareaEl.classList.contains('active-source-mode');
-        const toolbar = document.getElementById('toolbar-' + id);
-        const btn = toolbar.querySelector('.custom-html-btn');
-
-        if (!isSourceMode) {
-            // Activate HTML Source view
-            textareaEl.classList.add('active-source-mode');
-            textareaEl.classList.remove('hidden');
-            editorEl.classList.add('hidden');
-            textareaEl.value = ql.root.innerHTML;
-            
-            btn.classList.add('bg-[#008060]', 'text-white');
-            btn.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-            
-            toolbar.querySelectorAll('button:not(.custom-html-btn)').forEach(b => {
-                b.disabled = true;
-                b.style.opacity = '0.35';
-                b.style.pointerEvents = 'none';
-            });
-        } else {
-            // Deactivate HTML Source view
-            textareaEl.classList.remove('active-source-mode');
-            textareaEl.classList.add('hidden');
-            editorEl.classList.remove('hidden');
-            
-            ql.root.innerHTML = textareaEl.value;
-            const input = document.querySelector(`input[name="${id}"]`);
-            if (input) input.value = textareaEl.value;
-
-            btn.classList.remove('bg-[#008060]', 'text-white');
-            btn.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-            
-            toolbar.querySelectorAll('button:not(.custom-html-btn)').forEach(b => {
-                b.disabled = false;
-                b.style.opacity = '1';
-                b.style.pointerEvents = 'auto';
-            });
-        }
-    };
 
     // Helper functions for file uploads
     function triggerFileInput(id) {
@@ -382,7 +256,7 @@
         }
     }
 
-    // Submit handler (Mock API action)
+    // Submit handler
     function handleFormSubmit(e) {
         e.preventDefault();
         saveVenueData(false);
@@ -390,45 +264,119 @@
 
     // Save and return to list
     function submitAndReturn() {
-        // Validate required fields manually since button is type="button"
-        const name = document.getElementById("venue-name");
-        const flag = document.getElementById("flag-name");
-        const region = document.getElementById("venue-region");
-        const metaTitle = document.getElementById("meta-title");
-        const metaDesc = document.getElementById("meta-description");
-
-        if (!name.checkValidity()) {
-            name.reportValidity();
-            return;
-        }
-        if (!flag.checkValidity()) {
-            flag.reportValidity();
-            return;
-        }
-        if (!region.checkValidity()) {
-            region.reportValidity();
-            return;
-        }
-        if (!metaTitle.checkValidity()) {
-            metaTitle.reportValidity();
-            return;
-        }
-        if (!metaDesc.checkValidity()) {
-            metaDesc.reportValidity();
-            return;
-        }
-
         saveVenueData(true);
     }
 
-    function saveVenueData(shouldRedirect) {
-        const venueName = document.getElementById("venue-name").value;
-        showToast(`Venue "${venueName}" created successfully!`, "success");
+    // --- Validation Helpers ---
+    function showFieldError(field, message) {
+        const el = document.getElementById('error-' + field);
+        const txt = document.getElementById('error-' + field + '-text');
+        const input = document.getElementById(
+            field === 'name' ? 'venue-name' :
+            field === 'flag' ? 'flag-name' :
+            field === 'region' ? 'venue-region' :
+            field === 'meta_title' ? 'meta-title' :
+            field === 'meta_description' ? 'meta-description' : field
+        );
+        if (el && txt) {
+            txt.textContent = message;
+            el.classList.remove('hidden');
+        }
+        if (input) {
+            input.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+            input.classList.remove('border-gray-300', 'dark:border-gray-600', 'focus:ring-[#008060]', 'focus:border-[#008060]');
+        }
+    }
 
-        if (shouldRedirect) {
-            setTimeout(() => {
-                window.location.href = "/admin/courses/venues";
-            }, 1200);
+    function clearError(field) {
+        const el = document.getElementById('error-' + field);
+        const input = document.getElementById(
+            field === 'name' ? 'venue-name' :
+            field === 'flag' ? 'flag-name' :
+            field === 'region' ? 'venue-region' :
+            field === 'meta_title' ? 'meta-title' :
+            field === 'meta_description' ? 'meta-description' : field
+        );
+        if (el) el.classList.add('hidden');
+        if (input) {
+            input.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+            input.classList.add('border-gray-300', 'dark:border-gray-600', 'focus:ring-[#008060]', 'focus:border-[#008060]');
+        }
+    }
+
+    // Clear all errors
+    function clearAllErrors() {
+        ['name', 'flag', 'region', 'meta_title', 'meta_description'].forEach(clearError);
+    }
+
+    async function saveVenueData(shouldRedirect) {
+        clearAllErrors();
+
+        let hasError = false;
+        const nameVal = document.getElementById("venue-name").value.trim();
+        const flagVal = document.getElementById("flag-name").value.trim();
+        const regionVal = document.getElementById("venue-region").value;
+        const metaTitleVal = document.getElementById("meta-title").value.trim();
+        const metaDescVal = document.getElementById("meta-description").value.trim();
+
+        if (!nameVal) { showFieldError('name', 'Venue name is required.'); hasError = true; }
+        if (!flagVal) { showFieldError('flag', 'Country / Flag Name is required.'); hasError = true; }
+        if (!regionVal) { showFieldError('region', 'Region is required.'); hasError = true; }
+        if (!metaTitleVal) { showFieldError('meta_title', 'Meta Title is required.'); hasError = true; }
+        if (!metaDescVal) { showFieldError('meta_description', 'Meta Description is required.'); hasError = true; }
+
+        if (hasError) {
+            const firstError = document.querySelector('[id^="error-"]:not(.hidden)');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('name', nameVal);
+        formData.append('flag', flagVal);
+        formData.append('region', regionVal);
+        formData.append('status', document.getElementById("venue-status").value);
+        formData.append('meta_title', metaTitleVal);
+        formData.append('meta_description', metaDescVal);
+
+        // Add rich text fields directly from Jodit editors
+        formData.append('description', editors['description'] ? editors['description'].value : '');
+        formData.append('featured_text', editors['featured-text'] ? editors['featured-text'].value : '');
+
+        // Add file fields
+        const bannerFile = document.getElementById("file-banner").files[0];
+        if (bannerFile) formData.append('banner_image', bannerFile);
+
+        // CSRF Token
+        const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+        try {
+            const response = await fetch('/admin/courses/venues', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': token || '' },
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                showToast(result.message || "Venue saved successfully!", "success");
+                if (shouldRedirect) {
+                    setTimeout(() => { window.location.href = "/admin/courses/venues"; }, 1200);
+                }
+            } else if (response.status === 422 && result.errors) {
+                Object.entries(result.errors).forEach(([field, messages]) => {
+                    showFieldError(field, messages[0]);
+                });
+                const firstError = document.querySelector('[id^="error-"]:not(.hidden)');
+                if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                showToast("Please fix the errors below.", "error");
+            } else {
+                showToast(result.message || "Failed to save venue.", "error");
+            }
+        } catch (error) {
+            console.error(error);
+            showToast("An error occurred while saving the venue.", "error");
         }
     }
 
@@ -445,6 +393,13 @@
             toastIconWrapper.innerHTML = `
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+            `;
+        } else if (type === "error") {
+            toastIconWrapper.className = "rounded-full p-1 bg-red-500 text-white";
+            toastIconWrapper.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             `;
         }

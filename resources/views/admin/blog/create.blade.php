@@ -1,41 +1,8 @@
 @extends('admin.layout')
 
 @push('head')
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.css"/>
 <style>
-    .ql-toolbar.ql-snow {
-        border-radius: 8px 8px 0 0;
-        border-color: #d1d5db !important;
-        background: #f6f6f7;
-        font-family: inherit;
-        padding: 8px 10px;
-    }
-    .dark .ql-toolbar.ql-snow {
-        background: #374151;
-        border-color: #4b5563 !important;
-    }
-    .ql-container.ql-snow {
-        border-radius: 0 0 8px 8px;
-        border-color: #d1d5db !important;
-        font-size: 14px;
-        font-family: inherit;
-        background: #f6f6f7;
-    }
-    .dark .ql-container.ql-snow {
-        background: #374151;
-        border-color: #4b5563 !important;
-        color: #e5e7eb;
-    }
-    .ql-editor { min-height: 320px; line-height: 1.7; }
-    .ql-editor.ql-blank::before { color: #9ca3af; font-style: normal; }
-    .dark .ql-toolbar .ql-stroke { stroke: #d1d5db; }
-    .dark .ql-toolbar .ql-fill { fill: #d1d5db; }
-    .dark .ql-toolbar .ql-picker { color: #d1d5db; }
-    .dark .ql-toolbar button:hover .ql-stroke { stroke: #fff; }
-    .dark .ql-toolbar .ql-picker-options { background: #374151; border-color: #4b5563; }
-    .ql-snow .ql-active .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke { stroke: #008060 !important; }
-    .ql-snow .ql-active .ql-fill { fill: #008060 !important; }
-    .ql-snow .ql-picker.ql-expanded .ql-picker-label { color: #008060; border-color: #008060; }
     #content-error { display: none; }
 </style>
 @endpush
@@ -80,10 +47,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Content <span class="text-red-500">*</span></label>
-                            <!-- Hidden textarea stores the HTML content for form submission -->
-                            <textarea id="art-content" class="hidden"></textarea>
-                            <!-- Quill Editor Container -->
-                            <div id="quill-editor" class="rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600"></div>
+                            <textarea id="quill-editor"></textarea>
                             <p id="content-error" class="text-xxs text-red-500 font-semibold mt-1">Content is required.</p>
                         </div>
                     </div>
@@ -128,11 +92,9 @@
                     <div class="relative">
                         <select id="art-category" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] appearance-none cursor-pointer">
                             <option value="">-- Select Category --</option>
-                            <option value="Project Management">Project Management</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Leadership">Leadership</option>
-                            <option value="Technology">Technology</option>
-                            <option value="General">General</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                            @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -181,34 +143,16 @@
     <span id="toast-message" class="text-sm font-semibold">Saved!</span>
 </div>
 
-<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.js"></script>
 <script>
     // Set today's date as default
     document.getElementById("art-date").valueAsDate = new Date();
 
-    // Initialise Quill editor
-    const quill = new Quill('#quill-editor', {
-        theme: 'snow',
-        placeholder: 'Write article content here...',
-        modules: {
-            toolbar: [
-                [{ 'header': [1, 2, 3, 4, false] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'color': [] }, { 'background': [] }],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                [{ 'indent': '-1' }, { 'indent': '+1' }],
-                [{ 'align': [] }],
-                ['link', 'image', 'blockquote', 'code-block'],
-                ['clean']
-            ]
-        }
+    // Initialise Jodit editor
+    var joditEditor = Jodit.make('#quill-editor', {
+        height: 350,
+        placeholder: 'Write article content here...'
     });
-
-    // Apply dark mode if active
-    if (document.documentElement.classList.contains('dark') ||
-        localStorage.getItem('color-theme') === 'dark') {
-        document.getElementById('quill-editor').closest('.rounded-lg').classList.add('dark');
-    }
 
     function previewImage(input) {
         const preview = document.getElementById("image-preview");
@@ -219,44 +163,53 @@
         }
     }
 
-    function handleSave(e) {
+    async function handleSave(e) {
         e.preventDefault();
         const title = document.getElementById("art-title").value.trim();
         if (!title) return;
 
-        // Sync Quill HTML to hidden textarea
-        const contentHtml = quill.root.innerHTML;
-        const contentText = quill.getText().trim();
-        if (!contentText) {
+        // Get Jodit content
+        const contentHtml = joditEditor.value;
+        if (!contentHtml.trim()) {
             document.getElementById("content-error").style.display = "block";
-            quill.root.style.borderColor = "#ef4444";
-            quill.focus();
             return;
         }
         document.getElementById("content-error").style.display = "none";
-        document.getElementById("art-content").value = contentHtml;
 
-        let articles = [];
-        try { articles = JSON.parse(localStorage.getItem("londontfe_blog_articles") || "[]"); } catch(err) {}
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('category', document.getElementById("art-category").value);
+        formData.append('date', document.getElementById("art-date").value);
+        formData.append('status', document.getElementById("art-status").value);
+        formData.append('content', contentHtml);
+        formData.append('meta_title', document.getElementById("art-meta-title").value);
+        formData.append('meta_desc', document.getElementById("art-meta-desc").value);
 
-        const newId = articles.length ? Math.max(...articles.map(a => a.id)) + 1 : 1;
-        const today = new Date();
-        const dateStr = document.getElementById("art-date").value
-            ? new Date(document.getElementById("art-date").value).toLocaleDateString('en-GB').replace(/\//g, '/')
-            : today.toLocaleDateString('en-GB').replace(/\//g, '/');
+        const imageFile = document.getElementById('art-image').files[0];
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
 
-        articles.unshift({
-            id: newId,
-            title: title,
-            category: document.getElementById("art-category").value || "General",
-            date: dateStr,
-            status: document.getElementById("art-status").value,
-            content: contentHtml
-        });
+        try {
+            const response = await fetch('/admin/blog', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            });
 
-        localStorage.setItem("londontfe_blog_articles", JSON.stringify(articles));
-        showToast("Article saved successfully!");
-        setTimeout(() => { window.location.href = "/admin/blog"; }, 1200);
+            const data = await response.json();
+            if (data.success) {
+                showToast("Article saved successfully!");
+                setTimeout(() => { window.location.href = "/admin/blog"; }, 1200);
+            } else {
+                alert("Failed to save article.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error saving article.");
+        }
     }
 
     function showToast(msg) {

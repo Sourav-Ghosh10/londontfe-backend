@@ -1,0 +1,206 @@
+@extends('admin.layout')
+
+@section('content')
+<div class="w-full">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+            <div class="flex items-center gap-1.5 text-xxs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
+                <a href="/admin" class="hover:text-gray-600 dark:hover:text-gray-300">Admin</a>
+                <span>&rsaquo;</span>
+                <a href="/admin/website/accreditation" class="hover:text-gray-600 dark:hover:text-gray-300">Accreditation Body</a>
+                <span>&rsaquo;</span>
+                <span class="text-[#008060] font-extrabold">Edit Accreditation Body</span>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Accreditation Body</h1>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Edit details of the accreditation body.</p>
+        </div>
+        <a href="/admin/website/accreditation" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 px-4 py-2.5 rounded-md border border-gray-300 dark:border-gray-650 transition-all">
+            &larr; Back
+        </a>
+    </div>
+
+    <form onsubmit="handleSave(event)">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Left: Main Fields -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Basic Details -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xs border border-gray-250 dark:border-gray-700 p-6">
+                    <h2 class="text-sm font-bold text-gray-900 dark:text-white mb-4">Accreditation Details</h2>
+                    <div class="space-y-4">
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Accreditation Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="acc-name" value="{{ $item->accreditation_name }}" required placeholder="e.g. CMI"
+                                class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Accreditation Content <span class="text-red-500">*</span></label>
+                            <textarea id="acc-content" required rows="4" placeholder="Describe this accreditation body..."
+                                class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none">{{ $item->content }}</textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Accreditation Heading</label>
+                            <input type="text" id="acc-heading" value="{{ $item->heading }}" placeholder="e.g. Chartered Management Institute"
+                                class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Tag Line</label>
+                            <input type="text" id="acc-tagline" value="{{ $item->tag_line }}" placeholder="e.g. Leading Management Excellence"
+                                class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xs border border-gray-250 dark:border-gray-700 p-6">
+                    <h2 class="text-sm font-bold text-gray-900 dark:text-white mb-4">Statistics</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">No Of Members</label>
+                            <input type="text" id="acc-members" value="{{ $item->members }}" placeholder="e.g. 230,000+"
+                                class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">No Of Countries</label>
+                            <input type="text" id="acc-countries" value="{{ $item->countries }}" placeholder="e.g. 80+"
+                                class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">No Of Chapters</label>
+                            <input type="text" id="acc-chapters" value="{{ $item->chapters }}" placeholder="e.g. 300+"
+                                class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right: Sidebar -->
+            <div class="space-y-6">
+
+                <!-- Publish Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xs border border-gray-250 dark:border-gray-700 p-6">
+                    <h2 class="text-sm font-bold text-gray-900 dark:text-white mb-4">Publish</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
+                            <div class="relative">
+                                <select id="acc-status" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] appearance-none cursor-pointer">
+                                    <option value="Active" {{ $item->status === 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="Inactive" {{ $item->status === 0 ? 'selected' : '' }}>Inactive</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 pt-5 border-t border-gray-200 dark:border-gray-700 mt-5">
+                        <a href="/admin/website/accreditation" class="flex-1 text-center px-4 py-2.5 text-sm font-semibold rounded-md border border-gray-300 dark:border-gray-650 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-750 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">Cancel</a>
+                        <button type="submit" class="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-[#008060] hover:bg-[#006e52] rounded-md transition-colors cursor-pointer">Save</button>
+                    </div>
+                </div>
+
+                <!-- Logo Upload -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xs border border-gray-250 dark:border-gray-700 p-6">
+                    <h2 class="text-sm font-bold text-gray-900 dark:text-white mb-1">Accreditation Logo</h2>
+                    <p class="text-xxs text-gray-400 dark:text-gray-500 mb-3">Upload the accreditation body logo</p>
+                    <div id="logo-drop" onclick="document.getElementById('acc-logo').click()"
+                        class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-[#008060] transition-colors">
+                        <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Click to upload logo</p>
+                        <p class="text-xxs text-gray-400 dark:text-gray-500 mt-1">PNG, JPG, SVG, WebP</p>
+                    </div>
+                    <input type="file" id="acc-logo" accept="image/*" class="hidden" onchange="previewLogo(this)">
+                    <img id="logo-preview" class="mt-3 w-full rounded-lg object-contain max-h-32 bg-gray-50 dark:bg-gray-700 p-2 {{ $item->logo_url ? '' : 'hidden' }}" src="{{ $item->logo_url ?? '' }}" alt="Logo Preview">
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm">
+    <div class="rounded-full p-1 bg-green-500 text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <span id="toast-message" class="text-sm font-semibold">Saved!</span>
+</div>
+
+<script>
+    function previewLogo(input) {
+        const preview = document.getElementById('logo-preview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => { preview.src = e.target.result; preview.classList.remove('hidden'); };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function handleSave(e) {
+        e.preventDefault();
+        const name     = document.getElementById('acc-name').value.trim();
+        const content  = document.getElementById('acc-content').value.trim();
+        const heading  = document.getElementById('acc-heading').value.trim();
+        const tagline  = document.getElementById('acc-tagline').value.trim();
+        const members  = document.getElementById('acc-members').value.trim();
+        const countries= document.getElementById('acc-countries').value.trim();
+        const chapters = document.getElementById('acc-chapters').value.trim();
+        const status   = document.getElementById('acc-status').value;
+        const logoInput= document.getElementById('acc-logo');
+
+        if (!name)    { alert('Accreditation Name is required.'); return; }
+        if (!content) { alert('Accreditation Content is required.'); return; }
+
+        const formData = new FormData();
+        formData.append('accreditation_name', name);
+        formData.append('content', content);
+        formData.append('heading', heading);
+        formData.append('tag_line', tagline);
+        formData.append('members', members);
+        formData.append('countries', countries);
+        formData.append('chapters', chapters);
+        formData.append('status', status);
+
+        if (logoInput.files && logoInput.files[0]) {
+            formData.append('logo', logoInput.files[0]);
+        }
+
+        fetch('/admin/website/accreditation/{{ $item->id }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('Accreditation body updated!');
+                setTimeout(() => { window.location.href = '/admin/website/accreditation'; }, 1000);
+            } else {
+                alert(data.error || 'Failed to update accreditation body.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while updating the accreditation body.');
+        });
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-message').innerText = msg;
+        t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
+        setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 3500);
+    }
+</script>
+@endsection

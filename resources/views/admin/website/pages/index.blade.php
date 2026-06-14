@@ -98,27 +98,12 @@
 </div>
 
 <script>
-    let pages = [], filtered = [], currentPage = 1, itemsPerPage = 100, sortCol = '', sortAsc = true;
+    let pages = @json($pages);
+    let filtered = [], currentPage = 1, itemsPerPage = 100, sortCol = '', sortAsc = true;
 
     document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('londontfe_pages');
-        if (saved) { try { pages = JSON.parse(saved); } catch(e) {} }
-        if (pages.length === 0) {
-            pages = [
-                { id: 1, title: 'Bespoke Learning', content: 'What is Bespoke Learning? We have...', menu_title: 'Bespoke Courses', status: 'Active' },
-                { id: 2, title: 'Learning Solutions', content: 'At London Training for Excellence...', menu_title: 'Learning Solutions', status: 'Active' },
-                { id: 3, title: 'Online Courses', content: 'Online Courses We are excited...', menu_title: 'Online Courses', status: 'Active' },
-                { id: 4, title: 'In-house Learning', content: 'In-house Learning With in-house...', menu_title: 'In-house Learning', status: 'Active' },
-                { id: 5, title: 'Short Courses', content: 'Short Courses At London Training...', menu_title: 'Short Courses', status: 'Active' },
-                { id: 6, title: 'Book a Trainer', content: 'Book a Trainer We have a worldwide...', menu_title: 'Book a Trainer', status: 'Active' },
-                { id: 7, title: 'About Us', content: 'About Us As one of the UK\'s...', menu_title: 'About London TFE', status: 'Active' },
-            ];
-            save();
-        }
         filterPages();
     });
-
-    function save() { localStorage.setItem('londontfe_pages', JSON.stringify(pages)); }
 
     function filterPages() {
         const q = document.getElementById('pages-search').value.toLowerCase().trim();
@@ -175,10 +160,10 @@
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
                         </button>
                         <div class="kebab-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 py-1">
-                            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                            <a href="/admin/website/pages/${item.id}/edit" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
                                 <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                 Edit
-                            </button>
+                            </a>
                             <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
                             <button onclick="deletePage(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -193,24 +178,63 @@
     }
 
     function toggleStatus(id) {
-        const page = pages.find(p => p.id === id);
-        if (page) {
-            page.status = page.status === 'Active' ? 'Inactive' : 'Active';
-            save();
-            filterPages();
-            const t = document.getElementById('toast'); document.getElementById('toast-message').innerText = 'Status updated!';
-            t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
-            setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 2000);
-        }
+        fetch(`/admin/website/pages/${id}/toggle-status`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const page = pages.find(p => p.id === id);
+                if (page) {
+                    page.status = data.status;
+                    filterPages();
+                    showToast('Status updated!');
+                }
+            } else {
+                alert(data.error || 'Failed to update status.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while toggling status.');
+        });
     }
 
     function deletePage(id) {
         if (confirm('Delete this page?')) {
-            pages = pages.filter(p => p.id !== id); save(); filterPages();
-            const t = document.getElementById('toast'); document.getElementById('toast-message').innerText = 'Page deleted!';
-            t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
-            setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 3000);
+            fetch(`/admin/website/pages/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    pages = pages.filter(p => p.id !== id);
+                    filterPages();
+                    showToast('Page deleted!');
+                } else {
+                    alert(data.error || 'Failed to delete page.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('An error occurred while deleting the page.');
+            });
         }
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-message').innerText = msg;
+        t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
+        setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 2000);
     }
 
     function toggleKebab(btn) {

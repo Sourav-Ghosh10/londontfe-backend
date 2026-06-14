@@ -30,20 +30,20 @@
 
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Author Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="author-name" required placeholder="e.g. Peter W."
+                        <input type="text" id="author-name" required value="{{ old('author_name', $testimonial->author_name) }}" placeholder="e.g. Peter W."
                             class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Testimonial <span class="text-red-500">*</span></label>
                         <textarea id="testimonial-text" required rows="5" placeholder="Enter the customer testimonial..."
-                            class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none"></textarea>
+                            class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none">{{ old('testimonial_text', $testimonial->testimonial_text) }}</textarea>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Author Info <span class="text-red-500">*</span></label>
                         <textarea id="author-info" required rows="3" placeholder="e.g. Senior Manager, London"
-                            class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none"></textarea>
+                            class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors resize-none">{{ old('author_description', $testimonial->author_description) }}</textarea>
                         <p class="text-xxs text-gray-400 dark:text-gray-500 mt-1">Job title, company name, or location of the author.</p>
                     </div>
 
@@ -59,8 +59,8 @@
                     <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Status</label>
                     <div class="relative">
                         <select id="testimonial-status" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] appearance-none cursor-pointer">
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
+                            <option value="Active" {{ $testimonial->status === '1' ? 'selected' : '' }}>Active</option>
+                            <option value="Inactive" {{ $testimonial->status === '0' ? 'selected' : '' }}>Inactive</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -86,41 +86,43 @@
 </div>
 
 <script>
-    const pathParts = window.location.pathname.split('/');
-    const editId = parseInt(pathParts[pathParts.indexOf('testimonials') + 1]) || 0;
-
-    document.addEventListener('DOMContentLoaded', () => {
-        let items = [];
-        try { items = JSON.parse(localStorage.getItem('londontfe_testimonials') || '[]'); } catch(e) {}
-        const item = items.find(i => i.id === editId);
-        if (item) {
-            document.getElementById('author-name').value      = item.author || '';
-            document.getElementById('testimonial-text').value = item.description || '';
-            document.getElementById('author-info').value      = item.authorInfo || '';
-            document.getElementById('testimonial-status').value = item.status || 'Active';
-        }
-    });
-
     function handleUpdate() {
-        const author      = document.getElementById('author-name').value.trim();
-        const description = document.getElementById('testimonial-text').value.trim();
-        const authorInfo  = document.getElementById('author-info').value.trim();
-        const status      = document.getElementById('testimonial-status').value;
+        const authorName        = document.getElementById('author-name').value.trim();
+        const testimonialText   = document.getElementById('testimonial-text').value.trim();
+        const authorDescription = document.getElementById('author-info').value.trim();
+        const status            = document.getElementById('testimonial-status').value;
 
-        if (!author)      { alert('Author Name is required.'); return; }
-        if (!description) { alert('Testimonial text is required.'); return; }
-        if (!authorInfo)  { alert('Author Info is required.'); return; }
+        if (!authorName)        { alert('Author Name is required.'); return; }
+        if (!testimonialText)   { alert('Testimonial text is required.'); return; }
+        if (!authorDescription) { alert('Author Info is required.'); return; }
 
-        let items = [];
-        try { items = JSON.parse(localStorage.getItem('londontfe_testimonials') || '[]'); } catch(e) {}
-        const idx = items.findIndex(i => i.id === editId);
-        if (idx !== -1) {
-            items[idx] = { ...items[idx], author, description, authorInfo, status };
-        }
-        localStorage.setItem('londontfe_testimonials', JSON.stringify(items));
+        const formData = new FormData();
+        formData.append('author_name', authorName);
+        formData.append('testimonial_text', testimonialText);
+        formData.append('author_description', authorDescription);
+        formData.append('status', status);
 
-        showToast('Testimonial updated!');
-        setTimeout(() => { window.location.href = '/admin/website/testimonials'; }, 900);
+        fetch('/admin/website/testimonials/{{ $testimonial->id }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('Testimonial updated successfully!');
+                setTimeout(() => { window.location.href = '/admin/website/testimonials'; }, 1000);
+            } else {
+                alert(data.error || 'Failed to update testimonial.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred.');
+        });
     }
 
     function showToast(msg) {

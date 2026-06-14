@@ -83,42 +83,12 @@
 </div>
 
 <script>
-    const FORM_NAMES = ['Contact Us','Admin - Pay Later mail','Registration','Subscribe','Quote','Event','Enquire','Brochure','Course Registration','Certificate Validation','Pretraining','Outline Fail','Location PDF','Event Capture','Course Outline','Directory Document Download','Course Callus','Webinar Courses','Pay Later','Custom Payment'];
-
-    const DEFAULT_ITEMS = [
-        { id:1,  formName:'Contact Us',                  mailSubject:'Your support request has been received',      mailContent:'+44 20 7183 6657',           defaultContent:'Dear Test, Thank you for contacting...', mailPreview:'Thank you for your support request, you will shortly hear back from us.', status:'Active' },
-        { id:2,  formName:'Admin - Pay Later mail',      mailSubject:'Pay later order details',                     mailContent:'[style*=Roboto] { font-family:...', defaultContent:'',                                  mailPreview:'', status:'Active' },
-        { id:3,  formName:'Registration',                mailSubject:'Your registration request has been received', mailContent:'+44...',                     defaultContent:'Dear Test, Thank you for registering...', mailPreview:'', status:'Active' },
-        { id:4,  formName:'Subscribe',                   mailSubject:"You're Subscribed!",                          mailContent:'+44...',                     defaultContent:'Dear Test, Thank you for signing...',    mailPreview:'', status:'Active' },
-        { id:5,  formName:'Quote',                       mailSubject:'We have received your quotation request',     mailContent:'+44...',                     defaultContent:'Dear Test, Thank you for requesting...', mailPreview:'', status:'Active' },
-        { id:6,  formName:'Event',                       mailSubject:'Your event registration request',             mailContent:'+44...',                     defaultContent:'',                                       mailPreview:'', status:'Active' },
-        { id:7,  formName:'Enquire',                     mailSubject:'Your training course enquiry',                mailContent:'+44...',                     defaultContent:'',                                       mailPreview:'', status:'Active' },
-        { id:8,  formName:'Brochure',                    mailSubject:'Your brochure is waiting for you',            mailContent:'+44...',                     defaultContent:'+44...',                                 mailPreview:'', status:'Active' },
-        { id:9,  formName:'Course Registration',         mailSubject:'Your registration request',                   mailContent:'+44...',                     defaultContent:'',                                       mailPreview:'', status:'Active' },
-        { id:10, formName:'Certificate Validation',      mailSubject:'Your certificate validation request',         mailContent:'+44...',                     defaultContent:'',                                       mailPreview:'', status:'Active' },
-        { id:11, formName:'Pretraining',                 mailSubject:'We have received your Pre-Training request',  mailContent:'+44...',                     defaultContent:'Dear Trainee, Thank you for contacting...', mailPreview:'', status:'Active' },
-        { id:12, formName:'Outline Fail',                mailSubject:'We have received your request',               mailContent:'+44...',                     defaultContent:'',                                       mailPreview:'', status:'Active' },
-        { id:13, formName:'Location PDF',                mailSubject:'Your course joining instructions',            mailContent:'+44...',                     defaultContent:'Dear Trainee, Thank you for contacting...', mailPreview:'', status:'Active' },
-        { id:14, formName:'Event Capture',               mailSubject:'Thank you for visiting us',                   mailContent:'+44...',                     defaultContent:'...',                                    mailPreview:'', status:'Active' },
-        { id:15, formName:'Course Outline',              mailSubject:'Your course outline is ready',                mailContent:'+44...',                     defaultContent:'...',                                    mailPreview:'', status:'Active' },
-        { id:16, formName:'Directory Document Download', mailSubject:'Your course outline is ready',                mailContent:'+44...',                     defaultContent:'...',                                    mailPreview:'', status:'Active' },
-        { id:17, formName:'Course Callus',               mailSubject:'Your call back request has been received',    mailContent:'+44...',                     defaultContent:'...',                                    mailPreview:'', status:'Active' },
-        { id:18, formName:'Outline Fail',                mailSubject:'Course Outline Limit Reached',                mailContent:'...',                        defaultContent:'',                                       mailPreview:'', status:'Active' },
-        { id:19, formName:'Webinar Courses',             mailSubject:'Online training has never been easier',       mailContent:'+44...',                     defaultContent:'+44...',                                 mailPreview:'', status:'Active' },
-        { id:20, formName:'Pay Later',                   mailSubject:'Your course registration request',            mailContent:'+44...',                     defaultContent:'',                                       mailPreview:'', status:'Active' },
-        { id:21, formName:'Custom Payment',              mailSubject:'Thank you for your payment',                  mailContent:'+44...',                     defaultContent:'',                                       mailPreview:'', status:'Active' },
-    ];
-
-    let items = [], filtered = [], currentPage = 1, itemsPerPage = 25, sortCol = '', sortAsc = true;
+    let items = @json($items);
+    let filtered = [], currentPage = 1, itemsPerPage = 25, sortCol = '', sortAsc = true;
 
     document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('londontfe_autoreply');
-        if (saved) { try { items = JSON.parse(saved); } catch(e) {} }
-        if (items.length === 0) { items = DEFAULT_ITEMS; save(); }
         filterItems();
     });
-
-    function save() { localStorage.setItem('londontfe_autoreply', JSON.stringify(items)); }
     function truncate(str, n) { return str && str.length > n ? str.substring(0, n) + '...' : (str || '—'); }
 
     function filterItems() {

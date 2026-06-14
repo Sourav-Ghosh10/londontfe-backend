@@ -86,26 +86,12 @@
 </div>
 
 <script>
-    let items = [], filtered = [], currentPage = 1, itemsPerPage = 100, sortCol = '', sortAsc = true;
+    let items = @json($items);
+    let filtered = [], currentPage = 1, itemsPerPage = 100, sortCol = '', sortAsc = true;
 
     document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('londontfe_accreditation');
-        if (saved) { try { items = JSON.parse(saved); } catch(e) {} }
-        if (items.length === 0) {
-            items = [
-                { id: 1, name: 'CMI', content: 'The Chartered Management Institute (CMI) supports over 230,000 members and works with more than 1,000 organisations to improve management and leadership standards.', logo: '', heading: 'Chartered Management Institute', members: '230,000+', countries: '80+', chapters: '', tagline: 'Leading Management & Leadership Excellence', status: 'Active' },
-                { id: 2, name: 'LTFE Professional Certificate', content: 'Our LTFE-Certified courses are designed for those ready to go the extra mile.', logo: '', heading: '', members: '', countries: '', chapters: '', tagline: '', status: 'Active' },
-                { id: 3, name: 'CertNexus', content: "CertNexus' offerings are recognised globally, with candidates from over fifty countries participating.", logo: '', heading: 'CertNexus', members: '', countries: '50+', chapters: '', tagline: 'Global Technology Certifications', status: 'Active' },
-                { id: 4, name: 'ISO 9001:2015', content: 'London Training for Excellence management system is certified to ISO 9001:2015 standards.', logo: '', heading: 'ISO 9001:2015 Certified', members: '', countries: '', chapters: '', tagline: 'Quality Management System Certified', status: 'Active' },
-                { id: 5, name: 'CPD', content: 'Employees of professional or formally regulated bodies are generally expected to have CPD accredited training.', logo: '', heading: 'Continuing Professional Development', members: '', countries: '', chapters: '', tagline: 'Recognised CPD Accreditation', status: 'Active' },
-                { id: 6, name: 'PMI', content: 'Project Management Institute (PMI) is the leading professional association for project management.', logo: '', heading: 'Project Management Institute', members: '700,000+', countries: '200+', chapters: '300+', tagline: "World's Leading Project Management Association", status: 'Active' },
-            ];
-            save();
-        }
         filterItems();
     });
-
-    function save() { localStorage.setItem('londontfe_accreditation', JSON.stringify(items)); }
 
     function filterItems() {
         const q = document.getElementById('accreditation-search').value.toLowerCase().trim();
@@ -181,13 +167,55 @@
     }
 
     function toggleStatus(id) {
-        const item = items.find(c => c.id === id);
-        if (item) { item.status = item.status === 'Active' ? 'Inactive' : 'Active'; save(); filterItems(); showToast('Status updated!'); }
+        fetch(`/admin/website/accreditation/${id}/toggle-status`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const item = items.find(c => c.id === id);
+                if (item) {
+                    item.status = data.status;
+                    filterItems();
+                    showToast('Status updated!');
+                }
+            } else {
+                alert(data.error || 'Failed to update status.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while toggling status.');
+        });
     }
 
     function deleteItem(id) {
         if (confirm('Delete this accreditation body?')) {
-            items = items.filter(c => c.id !== id); save(); filterItems(); showToast('Accreditation body deleted!');
+            fetch(`/admin/website/accreditation/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    items = items.filter(c => c.id !== id);
+                    filterItems();
+                    showToast('Accreditation body deleted!');
+                } else {
+                    alert(data.error || 'Failed to delete accreditation body.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('An error occurred while deleting the accreditation body.');
+            });
         }
     }
 

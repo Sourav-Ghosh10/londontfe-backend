@@ -110,7 +110,7 @@
         document.getElementById("slug-preview").innerText = slug || "—";
     }
 
-    function handleSave(e, goBack) {
+    async function handleSave(e, goBack) {
         e.preventDefault();
         const name = document.getElementById("cat-name").value.trim();
         const title = document.getElementById("cat-title").value.trim();
@@ -120,25 +120,35 @@
 
         const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
-        let categories = [];
-        try { categories = JSON.parse(localStorage.getItem("londontfe_blog_cats") || "[]"); } catch(err) {}
+        try {
+            const response = await fetch('/admin/blog/categories', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ name, slug, title, meta })
+            });
 
-        const newId = categories.length ? Math.max(...categories.map(c => c.id)) + 1 : 1;
-        categories.push({ id: newId, name, slug, title, meta, articles: 0, status: "Active" });
-        localStorage.setItem("londontfe_blog_cats", JSON.stringify(categories));
+            const data = await response.json();
+            if (data.success) {
+                showToast("Category added successfully!");
 
-        showToast("Category added successfully!");
-
-        if (goBack) {
-            setTimeout(() => { window.location.href = "/admin/blog/categories"; }, 900);
-        } else {
-            // Clear form for another entry
-            setTimeout(() => {
-                document.getElementById("cat-name").value = "";
-                document.getElementById("cat-title").value = "";
-                document.getElementById("cat-meta").value = "";
-                document.getElementById("slug-preview").innerText = "—";
-            }, 900);
+                if (goBack) {
+                    setTimeout(() => { window.location.href = "/admin/blog/categories"; }, 900);
+                } else {
+                    // Clear form for another entry
+                    setTimeout(() => {
+                        document.getElementById("cat-name").value = "";
+                        document.getElementById("cat-title").value = "";
+                        document.getElementById("cat-meta").value = "";
+                        document.getElementById("slug-preview").innerText = "—";
+                    }, 900);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Failed to save category.");
         }
     }
 

@@ -90,23 +90,42 @@
 <script>
     function handleSave(e) {
         e.preventDefault();
-        const author     = document.getElementById('author-name').value.trim();
-        const description= document.getElementById('testimonial-text').value.trim();
-        const authorInfo = document.getElementById('author-info').value.trim();
-        const status     = document.getElementById('testimonial-status').value;
+        const authorName        = document.getElementById('author-name').value.trim();
+        const testimonialText   = document.getElementById('testimonial-text').value.trim();
+        const authorDescription = document.getElementById('author-info').value.trim();
+        const status            = document.getElementById('testimonial-status').value;
 
-        if (!author)      { alert('Author Name is required.'); return; }
-        if (!description) { alert('Testimonial text is required.'); return; }
-        if (!authorInfo)  { alert('Author Info is required.'); return; }
+        if (!authorName)        { alert('Author Name is required.'); return; }
+        if (!testimonialText)   { alert('Testimonial text is required.'); return; }
+        if (!authorDescription) { alert('Author Info is required.'); return; }
 
-        let items = [];
-        try { items = JSON.parse(localStorage.getItem('londontfe_testimonials') || '[]'); } catch(err) {}
-        const newId = items.length ? Math.max(...items.map(c => c.id)) + 1 : 1;
-        items.push({ id: newId, author, description, authorInfo, status });
-        localStorage.setItem('londontfe_testimonials', JSON.stringify(items));
+        const formData = new FormData();
+        formData.append('author_name', authorName);
+        formData.append('testimonial_text', testimonialText);
+        formData.append('author_description', authorDescription);
+        formData.append('status', status);
 
-        showToast('Testimonial saved!');
-        setTimeout(() => { window.location.href = '/admin/website/testimonials'; }, 1000);
+        fetch('/admin/website/testimonials', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('Testimonial saved successfully!');
+                setTimeout(() => { window.location.href = '/admin/website/testimonials'; }, 1000);
+            } else {
+                alert(data.error || 'Failed to save testimonial.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred.');
+        });
     }
 
     function showToast(msg) {

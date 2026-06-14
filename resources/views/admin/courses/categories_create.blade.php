@@ -1,62 +1,8 @@
 @extends('admin.layout')
 
 @section('content')
-<!-- Quill rich text styles & dark mode adjustments -->
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
-<style>
-    /* Premium Shopify inspired styles for custom Quill editors */
-    .ql-toolbar.ql-snow {
-        border: 1px solid #d1d5db !important;
-        background-color: #f9fafb;
-        border-top-left-radius: 0.375rem;
-        border-top-right-radius: 0.375rem;
-        padding: 6px 12px !important;
-    }
-    .ql-container.ql-snow {
-        border: 1px solid #d1d5db !important;
-        background-color: #ffffff;
-        border-bottom-left-radius: 0.375rem;
-        border-bottom-right-radius: 0.375rem;
-        font-family: inherit;
-        font-size: 0.875rem;
-    }
-    .ql-editor {
-        min-height: 180px;
-        color: #1f2937;
-        font-size: 0.875rem;
-        line-height: 1.5;
-    }
-    .ql-editor.ql-blank::before {
-        color: #9ca3af !important;
-        font-style: normal !important;
-    }
-    
-    /* Sleek dark mode rules for Quill */
-    .dark .ql-toolbar.ql-snow {
-        border-color: #4b5563 !important;
-        background-color: #1f2937;
-    }
-    .dark .ql-container.ql-snow {
-        border-color: #4b5563 !important;
-        background-color: #374151;
-    }
-    .dark .ql-editor {
-        color: #f3f4f6;
-    }
-    .dark .ql-stroke {
-        stroke: #9ca3af !important;
-    }
-    .dark .ql-fill {
-        fill: #9ca3af !important;
-    }
-    .dark .ql-picker {
-        color: #9ca3af !important;
-    }
-    .dark .ql-picker-options {
-        background-color: #1f2937 !important;
-        border-color: #4b5563 !important;
-    }
-</style>
+<!-- Jodit stylesheet -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.css"/>
 
 <div class="w-full pb-12">
 
@@ -143,79 +89,19 @@
                         <!-- Category Tagline -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Category Tag Line</label>
-                            <div class="relative">
-                                <div id="toolbar-tagline" class="flex flex-wrap gap-1 p-2 bg-[#f6f6f7] dark:bg-gray-700/50 rounded-t-md border border-gray-200 dark:border-gray-600 border-b-0">
-                                    <button type="button" class="ql-bold font-bold text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">B</button>
-                                    <button type="button" class="ql-italic italic text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">I</button>
-                                    <button type="button" class="ql-underline underline text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">U</button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="bullet">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 5a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V6a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V10a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V14a1 1 0 011-1z"/><path d="M9 6h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2z"/></svg>
-                                    </button>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="ordered">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4h1v3H3V4zm1 9H3v1h1v-1zm-1-4h1v1H3V9zm4-5h9v2H7V4zm0 6h9v2H7v-2zm0 6h9v2H7v-2zM3 13v1h1v-1H3z"/></svg>
-                                    </button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="custom-html-btn tagline-html-btn p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center font-mono font-bold text-xs text-gray-600 dark:text-gray-400" onclick="toggleQuillSourceCode('tagline')">
-                                        &lt;&gt;
-                                    </button>
-                                </div>
-                                <div id="editor-tagline" class="min-h-[160px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
-                                <textarea id="source-tagline" class="hidden w-full min-h-[160px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="tagline">
-                            </div>
+                            <textarea id="editor-tagline" name="tagline"></textarea>
                         </div>
 
                         <!-- Category Content -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Category Content</label>
-                            <div class="relative">
-                                <div id="toolbar-content" class="flex flex-wrap gap-1 p-2 bg-[#f6f6f7] dark:bg-gray-700/50 rounded-t-md border border-gray-200 dark:border-gray-600 border-b-0">
-                                    <button type="button" class="ql-bold font-bold text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">B</button>
-                                    <button type="button" class="ql-italic italic text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">I</button>
-                                    <button type="button" class="ql-underline underline text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">U</button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="bullet">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 5a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V6a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V10a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V14a1 1 0 011-1z"/><path d="M9 6h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2z"/></svg>
-                                    </button>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="ordered">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4h1v3H3V4zm1 9H3v1h1v-1zm-1-4h1v1H3V9zm4-5h9v2H7V4zm0 6h9v2H7v-2zm0 6h9v2H7v-2zM3 13v1h1v-1H3z"/></svg>
-                                    </button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="custom-html-btn content-html-btn p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center font-mono font-bold text-xs text-gray-600 dark:text-gray-400" onclick="toggleQuillSourceCode('content')">
-                                        &lt;&gt;
-                                    </button>
-                                </div>
-                                <div id="editor-content" class="min-h-[220px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
-                                <textarea id="source-content" class="hidden w-full min-h-[220px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="content">
-                            </div>
+                            <textarea id="editor-content" name="content"></textarea>
                         </div>
 
                         <!-- About This Category -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">About This Category</label>
-                            <div class="relative">
-                                <div id="toolbar-about" class="flex flex-wrap gap-1 p-2 bg-[#f6f6f7] dark:bg-gray-700/50 rounded-t-md border border-gray-200 dark:border-gray-600 border-b-0">
-                                    <button type="button" class="ql-bold font-bold text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">B</button>
-                                    <button type="button" class="ql-italic italic text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">I</button>
-                                    <button type="button" class="ql-underline underline text-xs p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center">U</button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="bullet">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 5a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V6a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V10a1 1 0 011-1zm-3 4a1 1 0 100 2 1 1 0 000-2zm3 0a1 1 0 011 1v.01a1 1 0 01-2 0V14a1 1 0 011-1z"/><path d="M9 6h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2zm0 4h7a1 1 0 010 2H9a1 1 0 110-2z"/></svg>
-                                    </button>
-                                    <button type="button" class="ql-list p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center" value="ordered">
-                                        <svg class="w-3.5 h-3.5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4h1v3H3V4zm1 9H3v1h1v-1zm-1-4h1v1H3V9zm4-5h9v2H7V4zm0 6h9v2H7v-2zm0 6h9v2H7v-2zM3 13v1h1v-1H3z"/></svg>
-                                    </button>
-                                    <div class="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5 self-center"></div>
-                                    <button type="button" class="custom-html-btn about-html-btn p-1.5 w-7 h-7 rounded hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center font-mono font-bold text-xs text-gray-600 dark:text-gray-400" onclick="toggleQuillSourceCode('about')">
-                                        &lt;&gt;
-                                    </button>
-                                </div>
-                                <div id="editor-about" class="min-h-[220px] text-sm text-gray-800 dark:text-gray-200 bg-[#f6f6f7] dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-b-md p-3"></div>
-                                <textarea id="source-about" class="hidden w-full min-h-[220px] font-mono text-xs bg-gray-900 text-green-400 border border-gray-800 p-3 rounded-b-md focus:outline-none"></textarea>
-                                <input type="hidden" name="about">
-                            </div>
+                            <textarea id="editor-about" name="about"></textarea>
                         </div>
 
                     </div>
@@ -258,8 +144,6 @@
                         </h2>
                     </div>
                     <div class="p-5 space-y-4">
-                        
-
 
                         <!-- Featured Image -->
                         <div>
@@ -351,80 +235,25 @@
 </div>
 
 <!-- ================= JAVASCRIPT ================= -->
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.4/jodit.es2018.min.js"></script>
 <script>
-    const editors = {};
+    var editors = {};
 
-    // Initialise a Quill Instance
-    function setupQuill(id) {
-        const ql = new Quill('#editor-' + id, {
-            theme: 'snow',
-            modules: {
-                toolbar: '#toolbar-' + id
-            }
-        });
-        
-        editors[id] = ql;
-
-        // Synchronize content to hidden form input
-        ql.on('text-change', function() {
-            const html = ql.root.innerHTML;
-            const input = document.querySelector(`input[name="${id}"]`);
-            if (input) input.value = html;
-        });
-    }
-
-    // Initialize all 3 editors
+    // Initialize all 3 editors using Jodit
     document.addEventListener('DOMContentLoaded', () => {
-        setupQuill('tagline');
-        setupQuill('content');
-        setupQuill('about');
+        editors['tagline'] = Jodit.make('#editor-tagline', {
+            height: 200,
+            placeholder: 'Category Tag Line...'
+        });
+        editors['content'] = Jodit.make('#editor-content', {
+            height: 300,
+            placeholder: 'Category Content...'
+        });
+        editors['about'] = Jodit.make('#editor-about', {
+            height: 300,
+            placeholder: 'About This Category...'
+        });
     });
-
-    // Custom HTML source code viewer toggle function
-    window.toggleQuillSourceCode = function(id) {
-        const editorEl = document.getElementById('editor-' + id);
-        const textareaEl = document.getElementById('source-' + id);
-        const ql = editors[id];
-        const isSourceMode = textareaEl.classList.contains('active-source-mode');
-        const toolbar = document.getElementById('toolbar-' + id);
-        const btn = toolbar.querySelector('.custom-html-btn');
-
-        if (!isSourceMode) {
-            // Activate HTML Source view
-            textareaEl.classList.add('active-source-mode');
-            textareaEl.classList.remove('hidden');
-            editorEl.classList.add('hidden');
-            textareaEl.value = ql.root.innerHTML;
-            
-            btn.classList.add('bg-[#008060]', 'text-white');
-            btn.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-            
-            toolbar.querySelectorAll('button:not(.custom-html-btn)').forEach(b => {
-                b.disabled = true;
-                b.style.opacity = '0.35';
-                b.style.pointerEvents = 'none';
-            });
-        } else {
-            // Deactivate HTML Source view
-            textareaEl.classList.remove('active-source-mode');
-            textareaEl.classList.add('hidden');
-            editorEl.classList.remove('hidden');
-            
-            ql.root.innerHTML = textareaEl.value;
-            const input = document.querySelector(`input[name="${id}"]`);
-            if (input) input.value = textareaEl.value;
-
-            btn.classList.remove('bg-[#008060]', 'text-white');
-            btn.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-            
-            toolbar.querySelectorAll('button:not(.custom-html-btn)').forEach(b => {
-                b.disabled = false;
-                b.style.opacity = '1';
-                b.style.pointerEvents = 'auto';
-            });
-        }
-    };
 
     // Helper functions for file uploads
     function triggerFileInput(id) {
@@ -537,14 +366,9 @@
         formData.append('meta_keywords', document.getElementById("meta-keywords").value || '');
         
         // Add rich text fields
-        const tagline = document.querySelector('input[name="tagline"]');
-        if (tagline && tagline.value) formData.append('tagline', tagline.value);
-        
-        const content = document.querySelector('input[name="content"]');
-        if (content && content.value) formData.append('content', content.value);
-        
-        const about = document.querySelector('input[name="about"]');
-        if (about && about.value) formData.append('about', about.value);
+        formData.append('tagline', editors['tagline'] ? editors['tagline'].value : '');
+        formData.append('content', editors['content'] ? editors['content'].value : '');
+        formData.append('about', editors['about'] ? editors['about'].value : '');
 
         // Add file fields
         const featuredFile = document.getElementById("file-featured").files[0];
@@ -600,6 +424,13 @@
             toastIconWrapper.innerHTML = `
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+            `;
+        } else {
+            toastIconWrapper.className = "rounded-full p-1 bg-red-500 text-white";
+            toastIconWrapper.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             `;
         }

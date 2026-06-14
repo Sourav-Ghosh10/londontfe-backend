@@ -210,53 +210,56 @@
 
 <!-- ================= JAVASCRIPT ================= -->
 <script>
-    // Prepopulated Venue Database matching exact screenshots
-    let venues = [
-        { id: 1, name: "Athens", image: "https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?auto=format&fit=crop&w=120&q=80", flag: "Greece", region: "Europe", featured: false, sealsStatus: true },
-        { id: 2, name: "Dubai", image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=120&q=80", flag: "United Arab Emirates", region: "Middle East", featured: true, sealsStatus: true },
-        { id: 3, name: "Vienna", image: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=120&q=80", flag: "Austria", region: "Europe", featured: false, sealsStatus: true },
-        { id: 4, name: "London", image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=120&q=80", flag: "United Kingdom", region: "Europe", featured: false, sealsStatus: true },
-        { id: 5, name: "Copenhagen", image: "https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=120&q=80", flag: "Denmark", region: "Europe", featured: false, sealsStatus: true },
-        { id: 6, name: "Budapest", image: "https://images.unsplash.com/photo-1565426960434-08f1b621eefb?auto=format&fit=crop&w=120&q=80", flag: "Hungary", region: "Europe", featured: false, sealsStatus: true },
-        { id: 7, name: "Stockholm", image: "https://images.unsplash.com/photo-1509142168808-57d19c9e3650?auto=format&fit=crop&w=120&q=80", flag: "Sweden", region: "Europe", featured: false, sealsStatus: true },
-        { id: 8, name: "Istanbul", image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=120&q=80", flag: "Turkey", region: "Europe", featured: false, sealsStatus: true },
-        { id: 9, name: "Kuala Lumpur", image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=120&q=80", flag: "Malaysia", region: "Rest of World", featured: false, sealsStatus: true }
-    ];
-
+    let venues = [];
     let deleteId = null;
 
     // Initialize Table
     document.addEventListener("DOMContentLoaded", () => {
-        renderTable();
+        fetchVenues();
     });
+
+    // Fetch Venues from server
+    function fetchVenues() {
+        const searchVal = document.getElementById("venue-search").value.trim();
+        const regionVal = document.getElementById("region-filter").value;
+
+        // Build query string
+        let url = new URL('/admin/courses/venues', window.location.origin);
+        if (searchVal) url.searchParams.append('search', searchVal);
+        if (regionVal) url.searchParams.append('region', regionVal);
+
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                venues = data.venues;
+                renderTable();
+            }
+        })
+        .catch(err => {
+            console.error("Error fetching venues:", err);
+            showToast("Failed to fetch venues from database.", "error");
+        });
+    }
 
     // Render Table Content
     function renderTable() {
         const tbody = document.getElementById("venues-table-body");
         const emptyState = document.getElementById("empty-state");
-        const searchVal = document.getElementById("venue-search").value.toLowerCase().trim();
-        const regionVal = document.getElementById("region-filter").value;
-
-        // Filter database
-        const filtered = venues.filter(v => {
-            const matchesSearch = v.name.toLowerCase().includes(searchVal) || v.flag.toLowerCase().includes(searchVal);
-            
-            let matchesRegion = true;
-            if (regionVal !== "all") {
-                matchesRegion = v.region === regionVal;
-            }
-
-            return matchesSearch && matchesRegion;
-        });
 
         // Clear Table
         tbody.innerHTML = "";
 
-        if (filtered.length === 0) {
+        if (venues.length === 0) {
             emptyState.classList.remove("hidden");
         } else {
             emptyState.classList.add("hidden");
-            filtered.forEach(v => {
+            venues.forEach(v => {
                 const tr = document.createElement("tr");
                 tr.className = "hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors group text-gray-900 dark:text-gray-200";
 
@@ -270,14 +273,14 @@
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
                             </button>
                             <div class="kebab-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 py-1">
-                                <a href="/admin/courses/venues/view?id=${v.id}" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                                <a href="/admin/courses/venues/${v.id}" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
                                     <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                     View
                                 </a>
-                                <button onclick="openEditVenueModal(${v.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                                <a href="/admin/courses/venues/${v.id}/edit" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
                                     <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                     Edit
-                                </button>
+                                </a>
                                 <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
                                 <button onclick="openDeleteVenueModal(${v.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -292,47 +295,13 @@
         }
 
         // Update counts
-        document.getElementById("displayed-count").textContent = filtered.length;
+        document.getElementById("displayed-count").textContent = venues.length;
         document.getElementById("total-count").textContent = venues.length;
     }
 
     // Trigger filters on input
     function filterVenues() {
-        renderTable();
-    }
-
-    // Modal Control: Edit Venue
-    function openEditVenueModal(id) {
-        const v = venues.find(item => item.id === id);
-        if (v) {
-            document.getElementById("edit-venue-id").value = v.id;
-            document.getElementById("edit-venue-name").value = v.name;
-            document.getElementById("edit-venue-flag").value = v.flag;
-            document.getElementById("edit-venue-region").value = v.region;
-            document.getElementById("edit-venue-modal").classList.remove("hidden");
-        }
-    }
-
-    function closeEditVenueModal() {
-        document.getElementById("edit-venue-modal").classList.add("hidden");
-    }
-
-    function handleEditVenue(e) {
-        e.preventDefault();
-        const idVal = parseInt(document.getElementById("edit-venue-id").value);
-        const nameVal = document.getElementById("edit-venue-name").value.trim();
-        const flagVal = document.getElementById("edit-venue-flag").value.trim();
-        const regionVal = document.getElementById("edit-venue-region").value;
-
-        const v = venues.find(item => item.id === idVal);
-        if (v && nameVal && flagVal) {
-            v.name = nameVal;
-            v.flag = flagVal;
-            v.region = regionVal;
-            closeEditVenueModal();
-            renderTable();
-            showToast(`Venue updated successfully!`, "success");
-        }
+        fetchVenues();
     }
 
     // Modal Control: Delete Venue
@@ -352,14 +321,27 @@
 
     function confirmDeleteVenue() {
         if (deleteId) {
-            const index = venues.findIndex(item => item.id === deleteId);
-            if (index !== -1) {
-                const deletedName = venues[index].name;
-                venues.splice(index, 1);
-                closeDeleteVenueModal();
-                renderTable();
-                showToast(`Venue "${deletedName}" deleted!`, "error");
-            }
+            fetch(`/admin/courses/venues/${deleteId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    closeDeleteVenueModal();
+                    fetchVenues();
+                    showToast(data.message || `Venue deleted successfully!`, "success");
+                } else {
+                    showToast(data.message || `Failed to delete venue.`, "error");
+                }
+            })
+            .catch(err => {
+                console.error("Error deleting venue:", err);
+                showToast("Error deleting venue.", "error");
+            });
         }
     }
 
@@ -401,14 +383,34 @@
     function toggleKebab(btn) {
         const menu = btn.nextElementSibling;
         const isOpen = !menu.classList.contains('hidden');
-        document.querySelectorAll('.kebab-menu').forEach(m => m.classList.add('hidden'));
-        if (!isOpen) menu.classList.remove('hidden');
+        document.querySelectorAll('.kebab-menu').forEach(m => {
+            m.classList.add('hidden');
+            m.style.position = '';
+            m.style.top = '';
+            m.style.left = '';
+        });
+        
+        if (!isOpen) {
+            menu.classList.remove('hidden');
+            const rect = btn.getBoundingClientRect();
+            menu.style.position = 'fixed';
+            menu.style.top = (rect.bottom + 4) + 'px';
+            menu.style.left = (rect.right - 160) + 'px'; // 160px is w-40
+        }
     }
+    
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.kebab-menu') && !e.target.closest('[onclick*="toggleKebab"]')) {
             document.querySelectorAll('.kebab-menu').forEach(m => m.classList.add('hidden'));
         }
     });
+
+    // Hide dropdown on any scroll event to prevent floating menus
+    document.addEventListener('scroll', function(e) {
+        if (!e.target.closest('.kebab-menu')) {
+            document.querySelectorAll('.kebab-menu').forEach(m => m.classList.add('hidden'));
+        }
+    }, true);
 </script>
 
 <style>

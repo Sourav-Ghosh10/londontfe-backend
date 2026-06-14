@@ -159,23 +159,41 @@
         if (!name)    { alert('Accreditation Name is required.'); return; }
         if (!content) { alert('Accreditation Content is required.'); return; }
 
-        const doSave = (logo) => {
-            let items = [];
-            try { items = JSON.parse(localStorage.getItem('londontfe_accreditation') || '[]'); } catch(err) {}
-            const newId = items.length ? Math.max(...items.map(c => c.id)) + 1 : 1;
-            items.push({ id: newId, name, content, logo, heading, tagline, members, countries, chapters, status });
-            localStorage.setItem('londontfe_accreditation', JSON.stringify(items));
-            showToast('Accreditation body saved!');
-            setTimeout(() => { window.location.href = '/admin/website/accreditation'; }, 1000);
-        };
+        const formData = new FormData();
+        formData.append('accreditation_name', name);
+        formData.append('content', content);
+        formData.append('heading', heading);
+        formData.append('tag_line', tagline);
+        formData.append('members', members);
+        formData.append('countries', countries);
+        formData.append('chapters', chapters);
+        formData.append('status', status);
 
         if (logoInput.files && logoInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = e => doSave(e.target.result);
-            reader.readAsDataURL(logoInput.files[0]);
-        } else {
-            doSave('');
+            formData.append('logo', logoInput.files[0]);
         }
+
+        fetch('/admin/website/accreditation', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('Accreditation body saved!');
+                setTimeout(() => { window.location.href = '/admin/website/accreditation'; }, 1000);
+            } else {
+                alert(data.error || 'Failed to save accreditation body.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while saving the accreditation body.');
+        });
     }
 
     function showToast(msg) {

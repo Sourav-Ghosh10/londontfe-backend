@@ -85,29 +85,12 @@
 </div>
 
 <script>
-    const DEFAULT_TESTIMONIALS = [
-        { id:1,  author:'Peter W.',     description:'Thank you for the opportunity for having attended Advanced Skills of the Bid and Tender Management Process...', authorInfo:'Senior Manager, UK', status:'Active' },
-        { id:2,  author:'Ove H.',       description:'The course is very adaptable to everyday work and contributes to developing CSR framework in our own...', authorInfo:'Director, Norway', status:'Active' },
-        { id:3,  author:'Bilal M.',     description:'The training provided by LondonTFE are very inspirational and thought provoking. The outlines are comprehensive and the...', authorInfo:'Manager, Saudi Arabia', status:'Active' },
-        { id:4,  author:'Anna M.',      description:'I was learning everything about effective training administration, from training needs analysis to final evaluation. The trainer...', authorInfo:'Training Officer, UAE', status:'Active' },
-        { id:5,  author:'Gerry B.',     description:'Our employees are always having interest on your offered public courses or programs. This is why...', authorInfo:'HR Director, Ireland', status:'Active' },
-        { id:6,  author:'Margret J.',   description:'London Training for Excellence has given me a great opportunity and the style of teaching was...', authorInfo:'Administrator, Canada', status:'Active' },
-        { id:7,  author:'Eng. Mazin A.',description:'London Training for Excellence has offered a wide selection of training courses that has allowed me...', authorInfo:'Engineer, Kuwait', status:'Active' },
-        { id:8,  author:'Lusine H.',    description:'I received excellent service during all steps of training registration, payment process and the actual training...', authorInfo:'Specialist, Armenia', status:'Active' },
-        { id:9,  author:'Nabil B.',     description:'I can certainly say that the quality of service I was offered with was very impressive...', authorInfo:'Consultant, Lebanon', status:'Active' },
-        { id:10, author:'Ahoud A.',     description:'The training was very inspirational, bringing lots of ideas and learning from experience. I have gained...', authorInfo:'Analyst, Jordan', status:'Active' },
-    ];
-
-    let items = [], filtered = [], currentPage = 1, itemsPerPage = 25, sortCol = '', sortAsc = true;
+    let items = @json($testimonials), filtered = [], currentPage = 1, itemsPerPage = 25, sortCol = '', sortAsc = true;
 
     document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('londontfe_testimonials');
-        if (saved) { try { items = JSON.parse(saved); } catch(e) {} }
-        if (items.length === 0) { items = DEFAULT_TESTIMONIALS; save(); }
         filterItems();
     });
 
-    function save() { localStorage.setItem('londontfe_testimonials', JSON.stringify(items)); }
     function truncate(str, n) { return str && str.length > n ? str.substring(0, n) + '...' : (str || ''); }
 
     function filterItems() {
@@ -146,13 +129,7 @@
         filtered.slice(start, end).forEach(item => {
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-gray-50/50 dark:hover:bg-gray-900/10 transition-colors text-xs text-gray-800 dark:text-gray-300';
-            const disabledIcon = item.status === 'Active'
-                ? `<button onclick="toggleStatus(${item.id})" title="Disable" class="text-red-500 hover:text-red-700 transition-colors p-1">
-                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
-                   </button>`
-                : `<button onclick="toggleStatus(${item.id})" title="Enable" class="text-gray-400 hover:text-green-600 transition-colors p-1">
-                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                   </button>`;
+            
             tr.innerHTML = `
                 <td class="px-5 py-3 font-medium text-gray-900 dark:text-white whitespace-nowrap">${item.author}</td>
                 <td class="px-5 py-3 text-[#008060] dark:text-emerald-400 max-w-lg">${truncate(item.description, 110)}</td>
@@ -166,16 +143,15 @@
                                 <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                 Edit
                             </button>
+                            <button onclick="toggleStatus(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs ${item.status === 'Active' ? 'text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20' : 'text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'} transition-colors whitespace-nowrap">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+                                ${item.status === 'Active' ? 'Disable' : 'Enable'}
+                            </button>
                             <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
-                            ${item.status === 'Active' 
-                                ? `<button onclick="toggleStatus(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
-                                       <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
-                                       Disable
-                                   </button>`
-                                : `<button onclick="toggleStatus(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors whitespace-nowrap">
-                                       <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                       Enable
-                                   </button>`}
+                            <button onclick="deleteItem(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
+                                <svg class="w-3.5 h-3.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </td>`;
@@ -185,12 +161,56 @@
     }
 
     function toggleStatus(id) {
-        const item = items.find(c => c.id === id);
-        if (item) {
-            item.status = item.status === 'Active' ? 'Inactive' : 'Active';
-            save(); filterItems();
-            showToast(item.status === 'Active' ? 'Testimonial enabled!' : 'Testimonial disabled!');
-        }
+        fetch(`/admin/website/testimonials/${id}/toggle`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const item = items.find(c => c.id === id);
+                if (item) {
+                    item.status = data.status;
+                    filterItems();
+                    showToast(data.status === 'Active' ? 'Testimonial enabled!' : 'Testimonial disabled!');
+                }
+            } else {
+                alert('Failed to update status.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred.');
+        });
+    }
+
+    function deleteItem(id) {
+        if (!confirm('Are you sure you want to delete this testimonial?')) return;
+
+        fetch(`/admin/website/testimonials/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                items = items.filter(c => c.id !== id);
+                filterItems();
+                showToast('Testimonial deleted successfully!');
+            } else {
+                alert('Failed to delete testimonial.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred.');
+        });
     }
 
     function editItem(id) { window.location.href = `/admin/website/testimonials/${id}/edit`; }

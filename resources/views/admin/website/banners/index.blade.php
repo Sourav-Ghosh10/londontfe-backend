@@ -91,28 +91,16 @@
 </div>
 
 <script>
-    let banners = [], filtered = [], currentPage = 1, itemsPerPage = 100, sortCol = '', sortAsc = true;
+    let banners = @json($banners);
+    let filtered = [], currentPage = 1, itemsPerPage = 100, sortCol = '', sortAsc = true;
 
     document.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('londontfe_banners');
-        if (saved) { try { banners = JSON.parse(saved); } catch(e) {} }
-        if (banners.length === 0) {
-            banners = [
-                { id: 1, desktop: '', mobile: '', alt: 'ChatGPT', url: 'https://www.londontfe.com/course/innovation-and-artificial-intelligence-ai-/professional-certificate-in-ai-and-machine-learning-for-professionals', sequence: 4, status: 'Active', created_at: '24/07/2025 - 20:41' },
-                { id: 2, desktop: '', mobile: '', alt: 'London Courses', url: 'https://www.londontfe.com/course/allcategories/london', sequence: 5, status: 'Active', created_at: '24/07/2025 - 20:43' },
-                { id: 3, desktop: '', mobile: '', alt: 'Summer Courses', url: 'https://www.londontfe.com/course/allcategories/allvenues/july%7Caugust%7Cseptember/allyears/', sequence: 1, status: 'Inactive', created_at: '24/07/2025 - 20:44' },
-                { id: 4, desktop: '', mobile: '', alt: 'AI-Training', url: 'https://www.londontfe.com/course/innovation-and-artificial-intelligence-ai-', sequence: 3, status: 'Active', created_at: '12/09/2025 - 12:35' },
-            ];
-            save();
-        }
         filterBanners();
     });
 
-    function save() { localStorage.setItem('londontfe_banners', JSON.stringify(banners)); }
-
     function filterBanners() {
         const q = document.getElementById('banners-search').value.toLowerCase().trim();
-        filtered = banners.filter(c => c.alt.toLowerCase().includes(q) || c.status.toLowerCase().includes(q) || String(c.sequence).includes(q) || c.url.toLowerCase().includes(q));
+        filtered = banners.filter(c => c.alt.toLowerCase().includes(q) || c.status.toLowerCase().includes(q) || String(c.sequence).includes(q) || (c.url && c.url.toLowerCase().includes(q)));
         if (sortCol) filtered.sort((a, b) => {
             let A = String(a[sortCol]).toLowerCase(), B = String(b[sortCol]).toLowerCase();
             return sortAsc ? A.localeCompare(B) : B.localeCompare(A);
@@ -158,7 +146,7 @@
                 <td class="px-4 py-3">${desktopLogoCell}</td>
                 <td class="px-4 py-3">${mobileLogoCell}</td>
                 <td class="px-4 py-3">${item.alt}</td>
-                <td class="px-4 py-3 max-w-xs truncate" title="${item.url}"><a href="${item.url}" target="_blank" class="text-blue-600 hover:underline">${item.url}</a></td>
+                <td class="px-4 py-3 max-w-xs truncate" title="${item.url || ''}"><a href="${item.url || '#'}" target="_blank" class="text-blue-600 hover:underline">${item.url || ''}</a></td>
                 <td class="px-4 py-3">${item.sequence}</td>
                 <td class="px-4 py-3">${statusSwitch}</td>
                 <td class="px-4 py-3 whitespace-nowrap">${item.created_at}</td>
@@ -168,10 +156,10 @@
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
                         </button>
                         <div class="kebab-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 py-1">
-                            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                            <a href="/admin/website/banners/${item.id}/edit" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
                                 <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                 Edit
-                            </button>
+                            </a>
                             <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
                             <button onclick="deleteBanner(${item.id})" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -186,24 +174,63 @@
     }
 
     function toggleStatus(id) {
-        const banner = banners.find(b => b.id === id);
-        if (banner) {
-            banner.status = banner.status === 'Active' ? 'Inactive' : 'Active';
-            save();
-            filterBanners();
-            const t = document.getElementById('toast'); document.getElementById('toast-message').innerText = 'Status updated!';
-            t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
-            setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 2000);
-        }
+        fetch(`/admin/website/banners/${id}/toggle-status`, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const banner = banners.find(b => b.id === id);
+                if (banner) {
+                    banner.status = data.status;
+                    filterBanners();
+                    showToast('Status updated!');
+                }
+            } else {
+                alert(data.error || 'Failed to update status.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while toggling status.');
+        });
     }
 
     function deleteBanner(id) {
         if (confirm('Delete this banner?')) {
-            banners = banners.filter(c => c.id !== id); save(); filterBanners();
-            const t = document.getElementById('toast'); document.getElementById('toast-message').innerText = 'Banner deleted!';
-            t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
-            setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 3000);
+            fetch(`/admin/website/banners/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    banners = banners.filter(c => c.id !== id);
+                    filterBanners();
+                    showToast('Banner deleted!');
+                } else {
+                    alert(data.error || 'Failed to delete banner.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('An error occurred while deleting the banner.');
+            });
         }
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-message').innerText = msg;
+        t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm';
+        setTimeout(() => { t.className = 'fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-3 rounded-lg shadow-xl max-w-sm'; }, 2000);
     }
 
     function toggleKebab(btn) {

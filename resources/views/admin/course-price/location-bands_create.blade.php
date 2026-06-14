@@ -61,14 +61,9 @@
                     </label>
                     <div class="md:col-span-3">
                         <select id="band-venues" multiple="multiple" class="w-full md:w-1/2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060]">
-                            <option value="035">035</option>
-                            <option value="Abu Dhabi">Abu Dhabi</option>
-                            <option value="Amman">Amman</option>
-                            <option value="Amsterdam">Amsterdam</option>
-                            <option value="Antalya">Antalya</option>
-                            <option value="Athens">Athens</option>
-                            <option value="Barcelona">Barcelona</option>
-                            <option value="Berlin">Berlin</option>
+                            @foreach($venues as $v)
+                                <option value="{{ $v->id }}">{{ $v->venue_name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -148,7 +143,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-    function handleSave(e, goBack) {
+    async function handleSave(e, goBack) {
         e.preventDefault();
         const name = document.getElementById("band-name").value.trim();
         const type = document.getElementById("band-type").value;
@@ -156,31 +151,45 @@
         
         // Get selected venues using jQuery for Select2
         const selected = $('#band-venues').val();
-        const venues = selected ? selected.join(", ") : "";
 
         if (!name || !type || !adj) return;
 
-        let bands = [];
-        try { bands = JSON.parse(localStorage.getItem("londontfe_location_bands") || "[]"); } catch(err) {}
+        const data = {
+            location_band_name: name,
+            location_band_type: type,
+            adjustment: adj,
+            venue: selected || []
+        };
 
-        const now = new Date();
-        const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} - ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        try {
+            const response = await fetch('/admin/course-price/location-bands', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(data)
+            });
 
-        const newId = bands.length ? Math.max(...bands.map(b => b.id)) + 1 : 1;
-        bands.push({ id: newId, name, type, venues, adjustment: adj, created: dateStr, updated: dateStr });
-        localStorage.setItem("londontfe_location_bands", JSON.stringify(bands));
-
-        showToast("Location Band added successfully!");
-
-        if (goBack) {
-            setTimeout(() => { window.location.href = "/admin/course-price/location-bands"; }, 900);
-        } else {
-            setTimeout(() => {
-                document.getElementById("band-name").value = "";
-                document.getElementById("band-type").value = "";
-                document.getElementById("band-adj").value = "";
-                $('#band-venues').val(null).trigger('change');
-            }, 900);
+            const result = await response.json();
+            if (result.success) {
+                showToast("Location Band added successfully!");
+                if (goBack) {
+                    setTimeout(() => { window.location.href = "/admin/course-price/location-bands"; }, 900);
+                } else {
+                    setTimeout(() => {
+                        document.getElementById("band-name").value = "";
+                        document.getElementById("band-type").value = "";
+                        document.getElementById("band-adj").value = "";
+                        $('#band-venues').val(null).trigger('change');
+                    }, 900);
+                }
+            } else {
+                alert("Failed to save. Please try again.");
+            }
+        } catch(error) {
+            console.error(error);
+            alert("Error saving location band.");
         }
     }
 

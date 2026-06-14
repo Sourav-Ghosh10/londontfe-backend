@@ -10,6 +10,19 @@
     <script>
         tailwind.config = {
             darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            250: '#e1e3e6',
+                            450: '#848a94',
+                            650: '#484f5c',
+                            655: '#3e4450',
+                            750: '#252b36',
+                        }
+                    }
+                }
+            }
         }
     </script>
     <script>
@@ -23,6 +36,66 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+        html.dark {
+            color-scheme: dark;
+        }
+        /* Style select options to ensure they are visible in both light and dark modes */
+        select option {
+            background-color: #ffffff;
+            color: #1f2937;
+        }
+        html.dark select option {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+
+        /* Jodit Editor Dark Mode support */
+        html.dark .jodit-container {
+            background-color: #1f2937 !important;
+            color: #e5e7eb !important;
+            border-color: #374151 !important;
+            --jd-color-background-default: #1f2937 !important;
+            --jd-color-border: #374151 !important;
+            --jd-color-panel: #111827 !important;
+            --jd-color-text: #e5e7eb !important;
+            --jd-color-icon: #9ca3af !important;
+        }
+        html.dark .jodit-wysiwyg {
+            background-color: #1f2937 !important;
+            color: #e5e7eb !important;
+        }
+        html.dark .jodit-toolbar__box {
+            background-color: #111827 !important;
+            border-bottom: 1px solid #374151 !important;
+        }
+        html.dark .jodit-toolbar-button {
+            background-color: transparent !important;
+        }
+        html.dark .jodit-toolbar-button:hover {
+            background-color: #374151 !important;
+        }
+        html.dark .jodit-toolbar-button__button {
+            color: #e5e7eb !important;
+        }
+        html.dark .jodit-icon {
+            fill: #9ca3af !important;
+        }
+        html.dark .jodit-status-bar {
+            background-color: #111827 !important;
+            border-top: 1px solid #374151 !important;
+            color: #9ca3af !important;
+        }
+        html.dark .jodit-status-bar a {
+            color: #9ca3af !important;
+        }
+        html.dark .jodit-popup__container,
+        html.dark .jodit-popup,
+        html.dark .jodit-dialog__box,
+        html.dark .jodit-dialog {
+            background-color: #1f2937 !important;
+            color: #e5e7eb !important;
+            border-color: #374151 !important;
         }
     </style>
     @stack('head')

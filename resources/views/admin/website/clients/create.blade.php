@@ -123,17 +123,32 @@
         if (!alt) { alert('Alt Text is required.'); return; }
         if (!logoInput.files || !logoInput.files[0]) { alert('Please upload a client logo.'); return; }
 
-        const reader = new FileReader();
-        reader.onload = e => {
-            let clients = [];
-            try { clients = JSON.parse(localStorage.getItem('londontfe_clients') || '[]'); } catch(err) {}
-            const newId = clients.length ? Math.max(...clients.map(c => c.id)) + 1 : 1;
-            clients.push({ id: newId, logo: e.target.result, alt, order, status });
-            localStorage.setItem('londontfe_clients', JSON.stringify(clients));
-            showToast('Client saved successfully!');
-            setTimeout(() => { window.location.href = '/admin/website/clients'; }, 1000);
-        };
-        reader.readAsDataURL(logoInput.files[0]);
+        const formData = new FormData();
+        formData.append('alt_text', alt);
+        formData.append('order', order);
+        formData.append('status', status);
+        formData.append('logo', logoInput.files[0]);
+
+        fetch('/admin/website/clients', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('Client saved successfully!');
+                setTimeout(() => { window.location.href = '/admin/website/clients'; }, 1000);
+            } else {
+                alert(data.error || 'Failed to save client.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('An error occurred while saving the client.');
+        });
     }
 
     function showToast(msg) {
