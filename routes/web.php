@@ -60,6 +60,7 @@ Route::get('/admin/courses/send-outline/dates', [\App\Http\Controllers\Admin\Sen
 use App\Http\Controllers\Admin\UserController;
 
 Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+Route::match(['get', 'post'], '/admin/import-users', [\App\Http\Controllers\Admin\UserImportController::class, 'import'])->name('admin.users.import');
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
 Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
