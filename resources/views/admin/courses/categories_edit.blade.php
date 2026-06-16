@@ -186,7 +186,7 @@
                                 </svg>
                                 <span class="block mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Upload a file</span>
                                 <div id="img-container-featured" class="mt-3 mb-2 flex justify-center {{ $category->featured_image ? '' : 'hidden' }}">
-                                    <img id="img-preview-featured" src="{{ $category->featured_image ? Storage::disk('s3')->url($category->featured_image) : '' }}" alt="Featured Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
+                                    <img id="img-preview-featured" src="{{ $category->featured_image ? Storage::disk('s3')->url('course_categories/' . $category->featured_image) : '' }}" alt="Featured Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
                                 </div>
                                 @if($category->featured_image)
                                     <span class="block mt-1 text-[10px] text-gray-500 dark:text-gray-400" id="preview-featured">Current: {{ basename($category->featured_image) }}</span>
@@ -206,7 +206,7 @@
                                 </svg>
                                 <span class="block mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Upload a file</span>
                                 <div id="img-container-banner" class="mt-3 mb-2 flex justify-center {{ $category->banner_image ? '' : 'hidden' }}">
-                                    <img id="img-preview-banner" src="{{ $category->banner_image ? Storage::disk('s3')->url($category->banner_image) : '' }}" alt="Banner Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
+                                    <img id="img-preview-banner" src="{{ $category->banner_image ? Storage::disk('s3')->url('course_categories/' . $category->banner_image) : '' }}" alt="Banner Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
                                 </div>
                                 @if($category->banner_image)
                                     <span class="block mt-1 text-[10px] text-gray-500 dark:text-gray-400" id="preview-banner">Current: {{ basename($category->banner_image) }}</span>

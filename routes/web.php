@@ -60,7 +60,6 @@ Route::get('/admin/courses/send-outline/dates', [\App\Http\Controllers\Admin\Sen
 use App\Http\Controllers\Admin\UserController;
 
 Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
-Route::match(['get', 'post'], '/admin/import-users', [\App\Http\Controllers\Admin\UserImportController::class, 'import'])->name('admin.users.import');
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
 Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
@@ -136,7 +135,7 @@ Route::get('/admin/website/gallery/create', function () {
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 
-Route::prefix('admin/blog')->name('admin.blog.')->group(function() {
+Route::prefix('admin/blog')->name('admin.blog.')->group(function () {
     // Categories
     Route::get('/categories', [BlogCategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [BlogCategoryController::class, 'create'])->name('categories.create');
@@ -185,18 +184,18 @@ Route::post('/admin/website/gallery', function (Request $request) {
     if ($request->hasFile('media_file')) {
         // Store to S3 disk
         $path = $request->file('media_file')->storePublicly('gallery', 's3');
-        
+
         if (!$path) {
             return back()->with('error', 'Failed to upload media to S3. Check if your bucket exists and credentials are correct.');
         }
-        
+
         Gallery::create([
             'media_type' => $request->input('media_type'),
             'media_title' => $request->input('media_title'),
             'alt_text' => $request->input('alt_text'),
             'file_path' => $path,
         ]);
-        
+
         return redirect('/admin/website/gallery')->with('success', 'Media uploaded to S3 and saved to database successfully!');
     }
 

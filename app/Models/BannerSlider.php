@@ -19,6 +19,44 @@ class BannerSlider extends Model
     ];
 
     /**
+     * Boot the model and rebuild API cache on updates
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saved(function ($banner) {
+            self::updateApiCache();
+        });
+
+        static::deleted(function ($banner) {
+            self::updateApiCache();
+        });
+    }
+
+    /**
+     * Update the Redis API cache with the latest active banners.
+     */
+    public static function updateApiCache()
+    {
+        $banners = self::where('status', 'Active')
+            ->orderBy('sequence', 'asc')
+            ->get()
+            ->map(function ($banner) {
+                return [
+                    'id' => $banner->id,
+                    'title' => $banner->alt_tag ?? '',
+                    'image' => $banner->image_url,
+                    'link' => $banner->url ?? '',
+                ];
+            })->toArray();
+
+        \Illuminate\Support\Facades\Cache::store('redis')->put('api_active_banners_v1', $banners, 3600);
+        
+        return $banners;
+    }
+
+    /**
      * Get the desktop image URL from S3.
      */
     public function getImageUrlAttribute()

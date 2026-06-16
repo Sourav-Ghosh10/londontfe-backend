@@ -88,11 +88,11 @@ class CourseCategoryController extends Controller
         ];
 
         if ($request->hasFile('featured_image')) {
-            $data['featured_image'] = $request->file('featured_image')->storePublicly('course_categories/featured', 's3') ?: '';
+            $data['featured_image'] = $request->file('featured_image')->storePublicly('course_categories', 's3') ?: '';
         }
 
         if ($request->hasFile('banner_image')) {
-            $data['banner_image'] = $request->file('banner_image')->storePublicly('course_categories/banners', 's3') ?: '';
+            $data['banner_image'] = $request->file('banner_image')->storePublicly('course_categories', 's3') ?: '';
         }
 
         \App\Models\CourseCategory::create($data);
@@ -137,11 +137,11 @@ class CourseCategoryController extends Controller
         ];
 
         if ($request->hasFile('featured_image')) {
-            $data['featured_image'] = $request->file('featured_image')->storePublicly('course_categories/featured', 's3') ?: $category->featured_image;
+            $data['featured_image'] = $request->file('featured_image')->storePublicly('course_categories', 's3') ?: $category->featured_image;
         }
 
         if ($request->hasFile('banner_image')) {
-            $data['banner_image'] = $request->file('banner_image')->storePublicly('course_categories/banners', 's3') ?: $category->banner_image;
+            $data['banner_image'] = $request->file('banner_image')->storePublicly('course_categories', 's3') ?: $category->banner_image;
         }
 
         $category->update($data);
