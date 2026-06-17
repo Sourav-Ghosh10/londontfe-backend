@@ -22,6 +22,7 @@ Route::delete('/admin/courses/{id}', [\App\Http\Controllers\Admin\CourseControll
 
 Route::get('/admin/courses/popular', [\App\Http\Controllers\Admin\CourseController::class, 'popular'])->name('admin.courses.popular');
 Route::post('/admin/courses/popular', [\App\Http\Controllers\Admin\CourseController::class, 'updatePopular'])->name('admin.courses.popular.update');
+Route::patch('/admin/courses/{id}/toggle-popular', [\App\Http\Controllers\Admin\CourseController::class, 'togglePopular']);
 
 use App\Http\Controllers\Admin\CourseCategoryController;
 

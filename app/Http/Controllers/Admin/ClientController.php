@@ -54,6 +54,8 @@ class ClientController extends Controller
             'logo' => $logoPath,
         ]);
 
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_clients_v1');
+
         return response()->json(['success' => true, 'client' => $client]);
     }
 
@@ -98,6 +100,8 @@ class ClientController extends Controller
             'logo' => $logoPath,
         ]);
 
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_clients_v1');
+
         return response()->json(['success' => true, 'client' => $client]);
     }
 
@@ -109,6 +113,8 @@ class ClientController extends Controller
         $client = OurClient::findOrFail($id);
         $client->status = $client->status == 1 ? 0 : 1;
         $client->save();
+
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_clients_v1');
 
         return response()->json([
             'success' => true,
@@ -128,6 +134,8 @@ class ClientController extends Controller
         }
         
         $client->delete();
+
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_clients_v1');
 
         return response()->json(['success' => true]);
     }

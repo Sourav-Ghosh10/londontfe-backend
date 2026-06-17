@@ -176,6 +176,7 @@
                         <th class="px-5 py-3 text-center">Duration</th>
                         <th class="px-5 py-3 text-center">Sync API</th>
                         <th class="px-5 py-3 text-center">Rating</th>
+                        <th class="px-5 py-3 text-center">Popular</th>
                         <th class="px-5 py-3 text-center">Status</th>
                         <th class="px-5 py-3 text-center">Created</th>
                         <th class="px-5 py-3 text-right">Actions</th>
@@ -225,6 +226,12 @@
                             </div>
                         </td>
                         <td class="px-5 py-3.5 text-center">
+                            <label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation()">
+                                <input type="checkbox" class="sr-only peer" onchange="togglePopular(this, {{ $course->id }})" {{ $course->is_featured == 'yes' ? 'checked' : '' }}>
+                                <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#008060]"></div>
+                            </label>
+                        </td>
+                        <td class="px-5 py-3.5 text-center">
                             @if($course->status == 1)
                                 <span class="bg-[#e4f8ec] dark:bg-green-900/30 text-[#008060] dark:text-green-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">Active</span>
                             @else
@@ -271,7 +278,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="px-5 py-8 text-center text-sm text-gray-500">No courses found.</td>
+                        <td colspan="10" class="px-5 py-8 text-center text-sm text-gray-500">No courses found.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -390,6 +397,30 @@
             document.getElementById('selected-label').textContent = checked > 0 ? `${checked} selected` : '128 courses';
         });
     });
+
+    function togglePopular(checkbox, courseId) {
+        const isChecked = checkbox.checked;
+        fetch(`/admin/courses/${courseId}/toggle-popular`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ is_featured: isChecked })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                checkbox.checked = !isChecked; // revert
+                alert('Failed to update popular status.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            checkbox.checked = !isChecked; // revert
+            alert('An error occurred.');
+        });
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

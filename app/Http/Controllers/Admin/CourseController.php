@@ -256,6 +256,19 @@ class CourseController extends Controller
             Course::whereIn('id', $selectedCourseIds)->update(['is_featured' => 'yes']);
         }
 
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_popular_courses_v1');
+
         return response()->json(['success' => true]);
+    }
+
+    public function togglePopular(Request $request, $id)
+    {
+        $course = Course::findOrFail($id);
+        $course->is_featured = $request->is_featured ? 'yes' : 'no';
+        $course->save();
+
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_popular_courses_v1');
+
+        return response()->json(['success' => true, 'is_featured' => $course->is_featured]);
     }
 }

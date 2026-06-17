@@ -97,6 +97,8 @@ class CourseCategoryController extends Controller
 
         \App\Models\CourseCategory::create($data);
 
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_featured_categories_v1');
+
         return response()->json(['success' => true, 'message' => 'Category created successfully!']);
     }
 
@@ -146,6 +148,8 @@ class CourseCategoryController extends Controller
 
         $category->update($data);
 
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_featured_categories_v1');
+
         return response()->json(['success' => true, 'message' => 'Category updated successfully!']);
     }
 
@@ -159,6 +163,8 @@ class CourseCategoryController extends Controller
         
         $category->delete();
 
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_featured_categories_v1');
+
         return response()->json(['success' => true]);
     }
 
@@ -167,6 +173,8 @@ class CourseCategoryController extends Controller
         $category = \App\Models\CourseCategory::findOrFail($id);
         $category->featured_category = $category->featured_category == '1' ? '0' : '1';
         $category->save();
+
+        \Illuminate\Support\Facades\Cache::store('redis')->forget('api_featured_categories_v1');
 
         return response()->json(['success' => true, 'is_featured' => $category->featured_category == '1']);
     }
