@@ -71,4 +71,57 @@ class CategoryApiController extends Controller
             'data' => $categories
         ])->header('Cache-Control', "public, max-age={$cacheTtl}");
     }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/category/{slug}",
+     *      operationId="getCategoryBySlug",
+     *      tags={"Categories"},
+     *      summary="Get category details by slug",
+     *      description="Returns category details including banner image.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *      )
+     * )
+     */
+    public function show($slug)
+    {
+        $cacheKey = "api_category_v1_{$slug}";
+        $cacheTtl = 3600;
+
+        $category = Cache::store('redis')->remember($cacheKey, $cacheTtl, function () use ($slug) {
+            $cat = CourseCategory::where('category_seo_name', $slug)->where('status', 'active')->first();
+            if (!$cat) return null;
+
+            $catArr = $cat->toArray();
+            
+            if (!empty($catArr['featured_image']) && !filter_var($catArr['featured_image'], FILTER_VALIDATE_URL)) {
+                $imagePath = $catArr['featured_image'];
+                if (strpos($imagePath, '/') === false) {
+                    $imagePath = 'course_categories/' . $imagePath;
+                }
+                $catArr['featured_image'] = Storage::disk('s3')->url($imagePath);
+            }
+
+            if (!empty($catArr['banner_image']) && !filter_var($catArr['banner_image'], FILTER_VALIDATE_URL)) {
+                $imagePath = $catArr['banner_image'];
+                if (strpos($imagePath, '/') === false) {
+                    $imagePath = 'course_categories/' . $imagePath;
+                }
+                $catArr['banner_image'] = Storage::disk('s3')->url($imagePath);
+            }
+
+            return $catArr;
+        });
+
+        if (!$category) {
+            return response()->json(['success' => false, 'message' => 'Category not found'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $category
+        ])->header('Cache-Control', "public, max-age={$cacheTtl}");
+    }
 }
