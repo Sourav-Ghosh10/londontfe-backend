@@ -17,4 +17,10 @@ Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/clients', [\App\Http\Controllers\Api\V1\ClientApiController::class, 'index']);
     Route::get('/seo', [\App\Http\Controllers\Api\V1\SeoApiController::class, 'index']);
     Route::get('/category/{slug}', [\App\Http\Controllers\Api\V1\CategoryApiController::class, 'show']);
+    Route::get('/course/{category_slug}/{course_slug}', [\App\Http\Controllers\Api\V1\CourseApiController::class, 'show']);
+    Route::post('/payment/revolut/create-order', [\App\Http\Controllers\Api\V1\PaymentApiController::class, 'createRevolutOrder']);
+    
+    // Booking endpoints
+    Route::post('/booking/before-pay', [\App\Http\Controllers\Api\V1\BookingApiController::class, 'beforePay']);
+    Route::post('/booking/create', [\App\Http\Controllers\Api\V1\BookingApiController::class, 'create']);
 });

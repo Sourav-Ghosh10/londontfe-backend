@@ -1,0 +1,194 @@
+[
+ {
+ "Field": "id",
+ "Type": "int(11)",
+ "Null": "NO",
+ "Key": "PRI",
+ "Default": null,
+ "Extra": "auto_increment"
+ },
+ {
+ "Field": "log_type",
+ "Type": "varchar(20)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "name",
+ "Type": "varchar(50)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "email",
+ "Type": "varchar(50)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "phone_no",
+ "Type": "varchar(15)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "company_name",
+ "Type": "varchar(255)",
+ "Null": "YES",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "job_title",
+ "Type": "varchar(255)",
+ "Null": "YES",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "ip",
+ "Type": "varchar(20)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "country",
+ "Type": "varchar(25)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "course_url",
+ "Type": "text",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "coursename",
+ "Type": "text",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "categoryname",
+ "Type": "text",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "coursevenue",
+ "Type": "varchar(20)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "quantity",
+ "Type": "int(11)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "coursestartdt",
+ "Type": "varchar(20)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "currency",
+ "Type": "varchar(11)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "price",
+ "Type": "varchar(11)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "coupon",
+ "Type": "varchar(50)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "finance_info",
+ "Type": "text",
+ "Null": "YES",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "status",
+ "Type": "varchar(30)",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "created_dt",
+ "Type": "datetime",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "dyc_status",
+ "Type": "enum('1','0')",
+ "Null": "NO",
+ "Key": "",
+ "Default": "0",
+ "Extra": ""
+ },
+ {
+ "Field": "crm_ids",
+ "Type": "text",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ },
+ {
+ "Field": "crm_update_dt",
+ "Type": "datetime",
+ "Null": "NO",
+ "Key": "",
+ "Default": null,
+ "Extra": ""
+ }
+]

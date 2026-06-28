@@ -339,10 +339,19 @@
 
     // Initialize Jodit Editors
     document.addEventListener('DOMContentLoaded', function() {
-        editors['overview'] = Jodit.make('#editor-overview', { height: 200, placeholder: 'Overview...' });
-        editors['course_objective'] = Jodit.make('#editor-course_objective', { height: 200, placeholder: 'Objective...' });
-        editors['course_meterial_content'] = Jodit.make('#editor-course_meterial_content', { height: 200, placeholder: 'Week One...' });
-        editors['wsa'] = Jodit.make('#editor-wsa', { height: 200, placeholder: 'Who Should Attend...' });
+        const joditConfig = (placeholder) => ({
+            minHeight: 200,
+            autoresize: true,
+            placeholder: placeholder,
+            allowResizeX: false,
+            allowResizeY: true,
+            toolbarSticky: false,
+        });
+
+        editors['overview'] = Jodit.make('#editor-overview', joditConfig('Overview...'));
+        editors['course_objective'] = Jodit.make('#editor-course_objective', joditConfig('Objective...'));
+        editors['course_meterial_content'] = Jodit.make('#editor-course_meterial_content', joditConfig('Week One...'));
+        editors['wsa'] = Jodit.make('#editor-wsa', joditConfig('Who Should Attend...'));
 
         // Show price list if a tier is already selected (e.g. in edit mode)
         togglePriceList();

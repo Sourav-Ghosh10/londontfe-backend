@@ -216,18 +216,18 @@ class CourseApiController extends Controller
                 break;
             case 'this_week':
                 $query->whereBetween('cdv.start_date', [now()->startOfWeek()->format('Y-m-d'), now()->endOfWeek()->format('Y-m-d')])
-                      ->orderBy('cdv.start_date', 'asc');
+                    ->orderBy('cdv.start_date', 'asc');
                 break;
             case 'this_month':
                 $query->whereMonth('cdv.start_date', now()->month)
-                      ->whereYear('cdv.start_date', now()->year)
-                      ->orderBy('cdv.start_date', 'asc');
+                    ->whereYear('cdv.start_date', now()->year)
+                    ->orderBy('cdv.start_date', 'asc');
                 break;
             case 'upcoming_month':
                 $nextMonth = now()->addMonth();
                 $query->whereMonth('cdv.start_date', $nextMonth->month)
-                      ->whereYear('cdv.start_date', $nextMonth->year)
-                      ->orderBy('cdv.start_date', 'asc');
+                    ->whereYear('cdv.start_date', $nextMonth->year)
+                    ->orderBy('cdv.start_date', 'asc');
                 break;
             case 'date_asc':
             default:
@@ -269,5 +269,232 @@ class CourseApiController extends Controller
             'success' => true,
             'data' => $results
         ], 200, [], JSON_UNESCAPED_SLASHES);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/course/{category_slug}/{course_slug}",
+     *      operationId="getCourseDetails",
+     *      tags={"Courses"},
+     *      summary="Get details of a specific course",
+     *      description="Returns detailed information about a course, including schedules, accreditations, and related courses.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Course not found"
+     *      )
+     * )
+     */
+    public function show($category_slug, $course_slug)
+    {
+        $cacheKey = "api_course_details_{$category_slug}_{$course_slug}";
+        $cacheTtl = 3600; // 1 hour
+
+        $data = Cache::store('redis')->remember($cacheKey, $cacheTtl, function () use ($category_slug, $course_slug) {
+            // 1. Fetch course details
+            $course = DB::table('course as c')
+                ->join('course_category_assoc as cca', 'c.id', '=', 'cca.course_id')
+                ->join('category as cat', 'cca.category_id', '=', 'cat.id')
+                ->select(
+                    'c.id',
+                    'c.course_name',
+                    'c.seo_name',
+                    'c.overview',
+                    'c.course_material',
+                    'c.course_objective',
+                    'c.course_meterial_content',
+                    'c.wsa',
+                    'c.cpd_hours',
+                    'c.course_duration_type',
+                    'c.course_duration',
+                    'c.offer_type',
+                    'c.offer_value',
+                    'c.rating',
+                    'c.course_tag_line',
+                    'cat.id as cat_id',
+                    'cat.category_name',
+                    'cat.category_seo_name',
+                    'cat.banner_image',
+                    'cat.featured_image',
+                    'cat.parent_category as cat_parent_id'
+                )
+                ->where('c.seo_name', $course_slug)
+                ->where('cat.category_seo_name', $category_slug)
+                ->where('c.status', '1')
+                ->first();
+
+            if (!$course) {
+                return null;
+            }
+
+            // Fix Banner Image
+            if ($course->banner_image && !filter_var($course->banner_image, FILTER_VALIDATE_URL)) {
+                if (strpos($course->banner_image, '/') === false) {
+                    $course->banner_image = 'course_categories/' . $course->banner_image;
+                }
+                $course->banner_image_url = Storage::disk('s3')->url($course->banner_image);
+            } else {
+                $course->banner_image_url = $course->banner_image;
+            }
+
+            // Fix Featured Image
+            if ($course->featured_image && !filter_var($course->featured_image, FILTER_VALIDATE_URL)) {
+                if (strpos($course->featured_image, '/') === false) {
+                    $course->featured_image = 'course_categories/' . $course->featured_image;
+                }
+                $course->featured_image_url = Storage::disk('s3')->url($course->featured_image);
+            } else {
+                $course->featured_image_url = $course->featured_image;
+            }
+
+            // 2. Fetch upcoming schedules
+            $schedules = DB::table('course_date_venue as cdv')
+                ->join('venue as v', 'cdv.venue_id', '=', 'v.id')
+                ->select('cdv.id', 'cdv.start_date', 'v.venue_name as venue', 'v.id as venue_id', 'v.flag_image')
+                ->where('cdv.course_id', $course->id)
+                ->where('cdv.status', '1')
+                ->where('cdv.start_date', '>=', now()->format('Y-m-d'))
+                ->orderBy('cdv.start_date', 'asc')
+                ->get()
+                ->map(function ($schedule) use ($course) {
+                    $startDate = \Carbon\Carbon::parse($schedule->start_date);
+                    $duration = (int) $course->course_duration;
+
+                    // Simple interval duration end date logic
+                    $endDate = $startDate->copy()->addDays($duration > 0 ? $duration - 1 : 0);
+
+                    $schedule->formatted_start_date = $startDate->format('d M Y');
+                    $schedule->formatted_end_date = $endDate->format('d M Y');
+                    $schedule->date_range = $startDate->format('d') . ' - ' . $endDate->format('d M Y');
+
+                    return (array) $schedule;
+                })
+                ->toArray();
+
+            // 3. Accreditations
+            $accreditations = DB::table('course_accreditation_assoc as caa')
+                ->join('accreditation_content as ac', 'caa.accreditation_id', '=', 'ac.id')
+                ->select('ac.id', 'ac.accreditation_name', 'ac.logo', 'ac.content', 'ac.heading', 'ac.members', 'ac.countries', 'ac.chapters', 'ac.tag_line')
+                ->where('caa.course_id', $course->id)
+                ->where('ac.status', '1')
+                ->get()
+                ->map(function ($acc) {
+                    if ($acc->logo && !filter_var($acc->logo, FILTER_VALIDATE_URL)) {
+                        $logoPath = $acc->logo;
+                        if (strpos($logoPath, '/') === false) {
+                            $logoPath = 'accreditations/' . $logoPath;
+                        }
+                        $acc->logo = Storage::disk('s3')->url($logoPath);
+                    }
+                    return (array) $acc;
+                })
+                ->toArray();
+
+            // 4. Course Advisor
+            $advisor = DB::table('user_details as ud')
+                ->join('user as u', 'ud.user_id', '=', 'u.id')
+                ->join('category as c', function ($join) {
+                    $join->on(DB::raw('FIND_IN_SET(c.id, ud.category_ids)'), '>', DB::raw('0'));
+                })
+                ->select(
+                    'ud.first_name',
+                    'ud.last_name',
+                    'u.email',
+                    'ud.phone_code',
+                    'ud.phone',
+                    'ud.contact_no_code',
+                    'ud.contact_no',
+                    'ud.whatsapp as ud_whatsapp',
+                    'u.whats as u_whatsapp',
+                    'ud.image_name',
+                    'u.calender_link',
+                    'c.category_name'
+                )
+                ->where(function ($query) use ($course) {
+                    $query->where('c.id', $course->cat_id);
+                    if ($course->cat_parent_id) {
+                        $query->orWhere('c.id', $course->cat_parent_id);
+                    }
+                })
+                ->where('ud.status', 'Active')
+                ->where('u.status', '1')
+                ->first();
+
+            if ($advisor) {
+                if ($advisor->image_name) {
+                    $advisor->image_url = "https://www.londontfe.com/crm/uploads/staff_picture/" . $advisor->image_name;
+                } else {
+                    $advisor->image_url = "https://www.londontfe.com/assets/images/user_icon.png";
+                }
+                
+                $advisor->whatsapp = $advisor->u_whatsapp ?: $advisor->ud_whatsapp;
+                
+                $advisor->phone_full = ($advisor->phone_code ?: '') . ($advisor->phone ?: '');
+                if (!$advisor->phone_full && $advisor->contact_no) {
+                    $advisor->phone_full = ($advisor->contact_no_code ?: '') . $advisor->contact_no;
+                }
+                
+                $advisor = (array) $advisor;
+            }
+
+            // 5. SEO Details
+            $seo = DB::table('seo')
+                ->where('reference_id', $course->id)
+                ->where('page_type', 'Course')
+                ->where('status', '1')
+                ->first();
+
+            if ($seo) {
+                $seo = (array) $seo;
+            } else {
+                // Default SEO logic
+                $seo = [
+                    'title' => ucwords(str_replace("-", " ", $course->seo_name)) . ' Course in ' . $course->category_name,
+                    'meta_keywords' => 'Professional Training Courses London | London Training Excellence',
+                    'meta_description' => "London Training for Excellence is delivering world class training programs in {$course->category_name}. Join the upcoming course on {$course->course_name}"
+                ];
+            }
+
+            // 6. Related Courses (same category, active, upcoming schedules)
+            $relatedCourses = DB::table('course as c')
+                ->join('course_category_assoc as cca', 'c.id', '=', 'cca.course_id')
+                ->join('course_date_venue as cdv', 'c.id', '=', 'cdv.course_id')
+                ->join('venue as v', 'cdv.venue_id', '=', 'v.id')
+                ->select('c.id', 'c.course_name', 'c.seo_name', 'c.course_duration', 'cdv.start_date', 'v.venue_name as venue')
+                ->where('cca.category_id', $course->cat_id)
+                ->where('c.id', '!=', $course->id)
+                ->where('c.status', '1')
+                ->where('cdv.status', '1')
+                ->where('cdv.start_date', '>=', now()->format('Y-m-d'))
+                ->orderBy('cdv.start_date', 'asc')
+                ->groupBy('c.id', 'c.course_name', 'c.seo_name', 'c.course_duration', 'cdv.start_date', 'v.venue_name')
+                ->limit(4)
+                ->get()
+                ->toArray();
+
+            return [
+                'course' => (array) $course,
+                'schedules' => $schedules,
+                'accreditations' => $accreditations,
+                'advisor' => $advisor,
+                'seo' => $seo,
+                'related_courses' => $relatedCourses
+            ];
+        });
+
+        if (!$data) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ])->header('Cache-Control', "public, max-age={$cacheTtl}");
     }
 }
