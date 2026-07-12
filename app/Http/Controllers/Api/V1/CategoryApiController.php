@@ -124,4 +124,43 @@ class CategoryApiController extends Controller
             'data' => $category
         ])->header('Cache-Control', "public, max-age={$cacheTtl}");
     }
+
+    public function allCategories()
+    {
+        $cacheKey = 'api_all_categories_v1';
+        $cacheTtl = 3600; // 1 hour
+
+        // Retrieve from Redis Cache
+        $categories = Cache::store('redis')->remember($cacheKey, $cacheTtl, function () {
+            return CourseCategory::where('status', 'active')
+                ->get()
+                ->map(function ($category) {
+                    $catArr = $category->toArray();
+                    
+                    if (!empty($catArr['featured_image']) && !filter_var($catArr['featured_image'], FILTER_VALIDATE_URL)) {
+                        $imagePath = $catArr['featured_image'];
+                        if (strpos($imagePath, '/') === false) {
+                            $imagePath = 'course_categories/' . $imagePath;
+                        }
+                        $catArr['featured_image'] = Storage::disk('s3')->url($imagePath);
+                    }
+
+                    if (!empty($catArr['banner_image']) && !filter_var($catArr['banner_image'], FILTER_VALIDATE_URL)) {
+                        $imagePath = $catArr['banner_image'];
+                        if (strpos($imagePath, '/') === false) {
+                            $imagePath = 'course_categories/' . $imagePath;
+                        }
+                        $catArr['banner_image'] = Storage::disk('s3')->url($imagePath);
+                    }
+
+                    return $catArr;
+                })
+                ->toArray();
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $categories
+        ])->header('Cache-Control', "public, max-age={$cacheTtl}");
+    }
 }

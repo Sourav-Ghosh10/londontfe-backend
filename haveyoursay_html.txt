@@ -1,0 +1,1829 @@
+<div class="inner_midbody">
+    <div class="brdcam">
+    <div class="container">
+        <ul>
+            <li><a href="https://www.londontfe.com/">Home</a></li>
+                            <li><a href="https://www.londontfe.com/contact-us" class="">Contact Us</a></li>
+                            <li><a href="#" class="active">Have your say</a></li>
+                    </ul>
+    </div>
+</div>
+    <div class="your-say-block">
+        <div class="container">
+            <div class="bd">
+                <div class="row no-gutters">
+                    <div class="col-md-6">
+                        <div class="figure">
+                            <img src="https://www.londontfe.com/assets/images/have-ur-say.png" alt="Image" /> 
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="text-block">
+                            <!--<h3>How many stars do you rate us?</h3>-->
+                            <!--<span><img src="https://www.londontfe.com/assets/images/frame125.png" alt="" /></span>-->
+							<p>Please use the form below to rate your training course and experience with London Training for Excellence. We love to hear back your feedback, it helps us better our service and to show the world how fantastic our training is!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-bd">
+                <div class="reating">
+							  <div id="rateYo" style="margin: 20px auto 0;"></div>
+							</div>
+                   <form action="" method="post" name="frmhavesay" id="frmhavesay">
+                       <input type="hidden" name="formid"  value="203600"/>
+				   <input type="hidden" name="rating" class="counter" value="5"/>
+                        <div class="row">
+                        <div class="lpo2">
+                                <div class="item">
+                                    <input type="text" name="txttitle" id="txttitle" placeholder="Review Title *" placeholder="Review Title *"/>
+									<span></span>
+                                </div>
+                            </div>
+
+                            <!--<div class="lpo">
+                                <div class="item">
+                                    <select name="course-name-dropdown" id="course_name">
+									<option value="">select course</option>
+																			<option value="A-Z of Credit Control">
+										  A-Z of Credit Control										</option>
+																			<option value="Accounting and Financial Analysis for Decision Makers">
+										  Accounting and Financial Analysis for Decision Makers										</option>
+																			<option value="Accounting Standards and Practices">
+										  Accounting Standards and Practices										</option>
+																			<option value="Accounting Treatment of Financial Operations">
+										  Accounting Treatment of Financial Operations										</option>
+																			<option value="Administrative Communications Mastery">
+										  Administrative Communications Mastery										</option>
+																			<option value="ADR and Oil and Gas Disputes: Exploring Mediation and Arbitration Techniques">
+										  ADR and Oil and Gas Disputes: Exploring Mediation and Arbitration Techniques										</option>
+																			<option value="Advance Coaching Focus (ACF)">
+										  Advance Coaching Focus (ACF)										</option>
+																			<option value="Advanced Accounts Payable">
+										  Advanced Accounts Payable										</option>
+																			<option value="Advanced Board Governance">
+										  Advanced Board Governance										</option>
+																			<option value="Advanced Business Development Professional">
+										  Advanced Business Development Professional										</option>
+																			<option value="Advanced Business Management for Senior Professionals">
+										  Advanced Business Management for Senior Professionals										</option>
+																			<option value="Advanced Chemical Reactors">
+										  Advanced Chemical Reactors										</option>
+																			<option value="Advanced Communication Skills">
+										  Advanced Communication Skills										</option>
+																			<option value="Advanced Compensation and Benefits Management">
+										  Advanced Compensation and Benefits Management										</option>
+																			<option value="Advanced Concepts for Total Quality Management">
+										  Advanced Concepts for Total Quality Management										</option>
+																			<option value="Advanced Contract Management and Formulation">
+										  Advanced Contract Management and Formulation										</option>
+																			<option value="Advanced Credit Risk Management: Identification, Measurement, and Mitigation ">
+										  Advanced Credit Risk Management: Identification, Measurement, and Mitigation 										</option>
+																			<option value="Advanced Cyber Security">
+										  Advanced Cyber Security										</option>
+																			<option value="Advanced Emotional Intelligence ">
+										  Advanced Emotional Intelligence 										</option>
+																			<option value="Advanced Financial Modelling for Oil and Gas Professionals">
+										  Advanced Financial Modelling for Oil and Gas Professionals										</option>
+																			<option value="Advanced Financial Statements Analysis ">
+										  Advanced Financial Statements Analysis 										</option>
+																			<option value="Advanced High Potential Leadership and Career Development Programme">
+										  Advanced High Potential Leadership and Career Development Programme										</option>
+																			<option value="Advanced Leadership & Managerial Skills Programme for Second-Line Leaders">
+										  Advanced Leadership & Managerial Skills Programme for Second-Line Leaders										</option>
+																			<option value="Advanced Leadership Skills">
+										  Advanced Leadership Skills										</option>
+																			<option value="Advanced Organisational Development Practice for Sustainable Performance">
+										  Advanced Organisational Development Practice for Sustainable Performance										</option>
+																			<option value="Advanced Petroleum Economics and Decision Analysis">
+										  Advanced Petroleum Economics and Decision Analysis										</option>
+																			<option value="Advanced Polystyrene Chemistry">
+										  Advanced Polystyrene Chemistry										</option>
+																			<option value="Advanced Project Leadership, Management & Communications ">
+										  Advanced Project Leadership, Management & Communications 										</option>
+																			<option value="Advanced Project Management for Senior Leaders">
+										  Advanced Project Management for Senior Leaders										</option>
+																			<option value="Advanced Risk and Sustainability Leadership">
+										  Advanced Risk and Sustainability Leadership										</option>
+																			<option value="Advanced Skills of Government Relations Specialist">
+										  Advanced Skills of Government Relations Specialist										</option>
+																			<option value="Advanced Skills of Office Management and E-Secretariat">
+										  Advanced Skills of Office Management and E-Secretariat										</option>
+																			<option value="Advanced Skills of the Bid and Tender Management Process">
+										  Advanced Skills of the Bid and Tender Management Process										</option>
+																			<option value="Advanced Strategies: Accounting, Financial Control and Appraisals">
+										  Advanced Strategies: Accounting, Financial Control and Appraisals										</option>
+																			<option value="Advanced Strategies: Developing Performance of Accountants and Auditors">
+										  Advanced Strategies: Developing Performance of Accountants and Auditors										</option>
+																			<option value="Advanced Strategies: Financial Control and Performance Evaluation">
+										  Advanced Strategies: Financial Control and Performance Evaluation										</option>
+																			<option value="Advanced Team Building">
+										  Advanced Team Building										</option>
+																			<option value="Advanced Techniques: Strategic Thinking and Business Planning">
+										  Advanced Techniques: Strategic Thinking and Business Planning										</option>
+																			<option value="Advanced Time Management">
+										  Advanced Time Management										</option>
+																			<option value="Advanced Training & Development Leadership Program (10 Days)">
+										  Advanced Training & Development Leadership Program (10 Days)										</option>
+																			<option value="Advanced Turbo Expander Compressor Technology in Ethylene Plants">
+										  Advanced Turbo Expander Compressor Technology in Ethylene Plants										</option>
+																			<option value="Ageing Oil and Gas Assets">
+										  Ageing Oil and Gas Assets										</option>
+																			<option value="Agile Leadership: Leading with Flexibility and Resilience">
+										  Agile Leadership: Leading with Flexibility and Resilience										</option>
+																			<option value="AI & Data Driven Strategy for Business Leaders">
+										  AI & Data Driven Strategy for Business Leaders										</option>
+																			<option value="AI and Automation Awareness for Healthcare Leaders (Non-Clinical)">
+										  AI and Automation Awareness for Healthcare Leaders (Non-Clinical)										</option>
+																			<option value="AI Driven High Performance Leadership & Productivity Optimisation">
+										  AI Driven High Performance Leadership & Productivity Optimisation										</option>
+																			<option value="AI Enhanced Customer Relationship Management (CRM)">
+										  AI Enhanced Customer Relationship Management (CRM)										</option>
+																			<option value="AI for Finance and Strategic Planning">
+										  AI for Finance and Strategic Planning										</option>
+																			<option value="AI for Managers and Team Leaders">
+										  AI for Managers and Team Leaders										</option>
+																			<option value="AI Governance: Policies, Ethics & Compliance for Responsible AI">
+										  AI Governance: Policies, Ethics & Compliance for Responsible AI										</option>
+																			<option value="AI in Accounting">
+										  AI in Accounting										</option>
+																			<option value="AI in Education: Transforming Teaching and Learning">
+										  AI in Education: Transforming Teaching and Learning										</option>
+																			<option value="AI in Hospitality & Tourism: Transforming Guest Experiences and Operations ">
+										  AI in Hospitality & Tourism: Transforming Guest Experiences and Operations 										</option>
+																			<option value="AI in Procurement and Contract Management">
+										  AI in Procurement and Contract Management										</option>
+																			<option value="AI in Project Management (2 Days)">
+										  AI in Project Management (2 Days)										</option>
+																			<option value="AI Solutions for Enhancing Enterprise Risk and Data Analytics">
+										  AI Solutions for Enhancing Enterprise Risk and Data Analytics										</option>
+																			<option value="AI-Driven IT Change Management">
+										  AI-Driven IT Change Management										</option>
+																			<option value="AI-Savvy Manager: Leading Teams in the Age of Artificial Intelligence">
+										  AI-Savvy Manager: Leading Teams in the Age of Artificial Intelligence										</option>
+																			<option value="Analytical Thinking and Decision Making">
+										  Analytical Thinking and Decision Making										</option>
+																			<option value="Analytical Tools and Techniques">
+										  Analytical Tools and Techniques										</option>
+																			<option value="Applied Behavioural Research: Insights for Real-World Impact">
+										  Applied Behavioural Research: Insights for Real-World Impact										</option>
+																			<option value="Applied Chemical Engineering ">
+										  Applied Chemical Engineering 										</option>
+																			<option value="Applied Creative Thinking for Organisational Improvement">
+										  Applied Creative Thinking for Organisational Improvement										</option>
+																			<option value="Applied Methods of Cost-Effectiveness Analysis in the Healthcare">
+										  Applied Methods of Cost-Effectiveness Analysis in the Healthcare										</option>
+																			<option value="Applied Petroleum Geology and Reservoir Petrophysics">
+										  Applied Petroleum Geology and Reservoir Petrophysics										</option>
+																			<option value="Applying Advanced Analytics to HR Management Decisions">
+										  Applying Advanced Analytics to HR Management Decisions										</option>
+																			<option value="Artificial Intelligence (A.I) Essentials">
+										  Artificial Intelligence (A.I) Essentials										</option>
+																			<option value="Artificial Intelligence (AI) in Robotics with Human Interaction Project">
+										  Artificial Intelligence (AI) in Robotics with Human Interaction Project										</option>
+																			<option value="Artificial Intelligence for Everyone: Practical Applications and Best Practices">
+										  Artificial Intelligence for Everyone: Practical Applications and Best Practices										</option>
+																			<option value="Artificial Intelligence in Business: Transforming Modern Enterprises">
+										  Artificial Intelligence in Business: Transforming Modern Enterprises										</option>
+																			<option value="Artificial Intelligence in HR & Recruitment Certification ">
+										  Artificial Intelligence in HR & Recruitment Certification 										</option>
+																			<option value="Artificial Intelligence in Training Development">
+										  Artificial Intelligence in Training Development										</option>
+																			<option value="Artificial Intelligence: Implications for Modern Business Strategy">
+										  Artificial Intelligence: Implications for Modern Business Strategy										</option>
+																			<option value="Assertiveness Skills">
+										  Assertiveness Skills										</option>
+																			<option value="Assessor Skills Training">
+										  Assessor Skills Training										</option>
+																			<option value="Asset Lifecycle Management">
+										  Asset Lifecycle Management										</option>
+																			<option value="Assets and Liabilities Recognition">
+										  Assets and Liabilities Recognition										</option>
+																			<option value="Atomic Absorption Photospectrometry">
+										  Atomic Absorption Photospectrometry										</option>
+																			<option value="Automation of Government Business">
+										  Automation of Government Business										</option>
+																			<option value="Balanced Scorecard (BSC)">
+										  Balanced Scorecard (BSC)										</option>
+																			<option value="Benchmarking: Driving Performance Through Best Practice">
+										  Benchmarking: Driving Performance Through Best Practice										</option>
+																			<option value="Best Practices for Treatment of Spent Caustic">
+										  Best Practices for Treatment of Spent Caustic										</option>
+																			<option value="Big Data Analysis ">
+										  Big Data Analysis 										</option>
+																			<option value="Board Governance and Strategic Oversight for Organisational Effectiveness">
+										  Board Governance and Strategic Oversight for Organisational Effectiveness										</option>
+																			<option value="Board of Directors Secretary">
+										  Board of Directors Secretary										</option>
+																			<option value="Body Language Part 1">
+										  Body Language Part 1										</option>
+																			<option value="Body Language Part 2">
+										  Body Language Part 2										</option>
+																			<option value="Bookkeeping for Bloggers">
+										  Bookkeeping for Bloggers										</option>
+																			<option value="Branding & Positioning for FM & PM Businesses">
+										  Branding & Positioning for FM & PM Businesses										</option>
+																			<option value="Budget Planning and Financial Control for Organisational Performance">
+										  Budget Planning and Financial Control for Organisational Performance										</option>
+																			<option value="Budgeting for Performance Management">
+										  Budgeting for Performance Management										</option>
+																			<option value="Budgeting, Forecasting and Planning">
+										  Budgeting, Forecasting and Planning										</option>
+																			<option value="Budgeting: The Complete Guide ">
+										  Budgeting: The Complete Guide 										</option>
+																			<option value="Building and Sustaining an Effective Project Management Office (PMO)">
+										  Building and Sustaining an Effective Project Management Office (PMO)										</option>
+																			<option value="Building and Using KPIs for Organisational Excellence">
+										  Building and Using KPIs for Organisational Excellence										</option>
+																			<option value="Building Brand Identity and Brand Strategy Management">
+										  Building Brand Identity and Brand Strategy Management										</option>
+																			<option value="Building High Performing and Creative Teams">
+										  Building High Performing and Creative Teams										</option>
+																			<option value="Business Analysis, Decision Making and Developing a Strategy">
+										  Business Analysis, Decision Making and Developing a Strategy										</option>
+																			<option value="Business Continuity and Crisis Response">
+										  Business Continuity and Crisis Response										</option>
+																			<option value="Business Continuity Planning: Building Organisational Resilience">
+										  Business Continuity Planning: Building Organisational Resilience										</option>
+																			<option value="Business Development (Sales and Marketing)">
+										  Business Development (Sales and Marketing)										</option>
+																			<option value="Business Development and Team Leadership Skills ">
+										  Business Development and Team Leadership Skills 										</option>
+																			<option value="Business Etiquette and Professional Conduct  ">
+										  Business Etiquette and Professional Conduct  										</option>
+																			<option value="Business Management Daily: Mastering Daily Operations">
+										  Business Management Daily: Mastering Daily Operations										</option>
+																			<option value="Business Networking">
+										  Business Networking										</option>
+																			<option value="Business Operations Professional">
+										  Business Operations Professional										</option>
+																			<option value="Business Process Management">
+										  Business Process Management										</option>
+																			<option value="Business Systems: Analysis and Design">
+										  Business Systems: Analysis and Design										</option>
+																			<option value="Business to Business Sales Management ">
+										  Business to Business Sales Management 										</option>
+																			<option value="Business Travel Security Awareness - 1 Day">
+										  Business Travel Security Awareness - 1 Day										</option>
+																			<option value="C-Suite Leadership & Boardroom Mastery">
+										  C-Suite Leadership & Boardroom Mastery										</option>
+																			<option value="Carbon Dioxide Capture and Removal Methodologies Advances and Current Status">
+										  Carbon Dioxide Capture and Removal Methodologies Advances and Current Status										</option>
+																			<option value="Category Management (CAT MAN)  ">
+										  Category Management (CAT MAN)  										</option>
+																			<option value="Centrifugal Pumps Used on Steam Turbine">
+										  Centrifugal Pumps Used on Steam Turbine										</option>
+																			<option value="CEO Toolkit – Strategy, Finance, Culture & Change">
+										  CEO Toolkit – Strategy, Finance, Culture & Change										</option>
+																			<option value="Certificate in Advanced Budgeting and Forecasting">
+										  Certificate in Advanced Budgeting and Forecasting										</option>
+																			<option value="Certificate in Advanced Financial Budgeting">
+										  Certificate in Advanced Financial Budgeting										</option>
+																			<option value="Certificate in Financial Fluency">
+										  Certificate in Financial Fluency										</option>
+																			<option value="Certificate in Strategic IT Management and Operational Excellence (CSIMOE)">
+										  Certificate in Strategic IT Management and Operational Excellence (CSIMOE)										</option>
+																			<option value="Certificate in Workplace Behaviour and Organisational Effectiveness">
+										  Certificate in Workplace Behaviour and Organisational Effectiveness										</option>
+																			<option value="Certified Associate in Project Management CAPM® - Exam Preparatory">
+										  Certified Associate in Project Management CAPM® - Exam Preparatory										</option>
+																			<option value="Certified Brand Manager">
+										  Certified Brand Manager										</option>
+																			<option value="Certified Business Analysis Practitioner">
+										  Certified Business Analysis Practitioner										</option>
+																			<option value="Certified Business Decision Models">
+										  Certified Business Decision Models										</option>
+																			<option value="Certified Business Etiquette and Protocol Programme">
+										  Certified Business Etiquette and Protocol Programme										</option>
+																			<option value="Certified Compliance Specialist">
+										  Certified Compliance Specialist										</option>
+																			<option value="Certified Contract Manager (CCM) ">
+										  Certified Contract Manager (CCM) 										</option>
+																			<option value="Certified Contract Manager and Project Coordinator">
+										  Certified Contract Manager and Project Coordinator										</option>
+																			<option value="Certified Corporate Etiquette Professional ">
+										  Certified Corporate Etiquette Professional 										</option>
+																			<option value="Certified Cost Manager">
+										  Certified Cost Manager										</option>
+																			<option value="Certified Digital Transformation Practitioner ">
+										  Certified Digital Transformation Practitioner 										</option>
+																			<option value="Certified Disciplined Agile® Scrum Master DASM - Exam Preparatory">
+										  Certified Disciplined Agile® Scrum Master DASM - Exam Preparatory										</option>
+																			<option value="Certified Disciplined Agile® Senior Scrum Master DASSM - Exam Preparatory">
+										  Certified Disciplined Agile® Senior Scrum Master DASSM - Exam Preparatory										</option>
+																			<option value="Certified Event Manager (CEM)">
+										  Certified Event Manager (CEM)										</option>
+																			<option value="Certified Executive PA Masterclass">
+										  Certified Executive PA Masterclass										</option>
+																			<option value="Certified Financial Expert: Digital Financial Modelling, Budgeting & Automation">
+										  Certified Financial Expert: Digital Financial Modelling, Budgeting & Automation										</option>
+																			<option value="Certified Financial Modelling for Decision Making">
+										  Certified Financial Modelling for Decision Making										</option>
+																			<option value="Certified Fraud Examiner (CFE)">
+										  Certified Fraud Examiner (CFE)										</option>
+																			<option value="Certified HR Business Partnering (HRBP) Masterclass ">
+										  Certified HR Business Partnering (HRBP) Masterclass 										</option>
+																			<option value="Certified IT Project Management Program (10 Days)">
+										  Certified IT Project Management Program (10 Days)										</option>
+																			<option value="Certified Job Evaluation and Analysis ">
+										  Certified Job Evaluation and Analysis 										</option>
+																			<option value="Certified Leadership and Management Excellence CMI Recognised">
+										  Certified Leadership and Management Excellence CMI Recognised										</option>
+																			<option value="Certified Leadership Programme">
+										  Certified Leadership Programme										</option>
+																			<option value="Certified New Manager">
+										  Certified New Manager										</option>
+																			<option value="Certified Office Manager Specialist (COMS) ">
+										  Certified Office Manager Specialist (COMS) 										</option>
+																			<option value="Certified Organisational Developer (COD)">
+										  Certified Organisational Developer (COD)										</option>
+																			<option value="Certified Performance Management ">
+										  Certified Performance Management 										</option>
+																			<option value="Certified PMI Agile Certified Practitioner PMI-ACP® - Exam Preparatory">
+										  Certified PMI Agile Certified Practitioner PMI-ACP® - Exam Preparatory										</option>
+																			<option value="Certified PMI Risk Management Professional PMI-RMP® - Exam Preparatory">
+										  Certified PMI Risk Management Professional PMI-RMP® - Exam Preparatory										</option>
+																			<option value="Certified PMI Scheduling Professional PMI-SP® - Exam Preparatory">
+										  Certified PMI Scheduling Professional PMI-SP® - Exam Preparatory										</option>
+																			<option value="Certified Professional in Business Analysis PMI - PBA® - Exam Preparatory">
+										  Certified Professional in Business Analysis PMI - PBA® - Exam Preparatory										</option>
+																			<option value="Certified Professional Marketer (CPM)">
+										  Certified Professional Marketer (CPM)										</option>
+																			<option value="Certified Project Coordinator (CPC)">
+										  Certified Project Coordinator (CPC)										</option>
+																			<option value="Certified Project Management Professional PMP® - Exam Preparatory">
+										  Certified Project Management Professional PMP® - Exam Preparatory										</option>
+																			<option value="Certified Strategic Leadership Architect (SLA)">
+										  Certified Strategic Leadership Architect (SLA)										</option>
+																			<option value="Certified Strategic Planning and Performance Professional (CSPPP)">
+										  Certified Strategic Planning and Performance Professional (CSPPP)										</option>
+																			<option value="Certified Training and Development Manager (CTDM)">
+										  Certified Training and Development Manager (CTDM)										</option>
+																			<option value="Challenging Judicial Decisions">
+										  Challenging Judicial Decisions										</option>
+																			<option value="Change Management">
+										  Change Management										</option>
+																			<option value="Change Management and Organisational Development">
+										  Change Management and Organisational Development										</option>
+																			<option value="Change Management Essentials">
+										  Change Management Essentials										</option>
+																			<option value="Chemical Calculations and Laboratory Operations">
+										  Chemical Calculations and Laboratory Operations										</option>
+																			<option value="Chemical Engineering for Non Chemical Engineers">
+										  Chemical Engineering for Non Chemical Engineers										</option>
+																			<option value="Chemical Reactors Design, Operation and Control">
+										  Chemical Reactors Design, Operation and Control										</option>
+																			<option value="Chief Operating Officers Programme ">
+										  Chief Operating Officers Programme 										</option>
+																			<option value="Cloud Strategy: Accelerating Cloud Transformation">
+										  Cloud Strategy: Accelerating Cloud Transformation										</option>
+																			<option value="Coaching and Mentoring">
+										  Coaching and Mentoring										</option>
+																			<option value="Coaching Conversations for Transformational Leadership">
+										  Coaching Conversations for Transformational Leadership										</option>
+																			<option value="Coaching Skills">
+										  Coaching Skills										</option>
+																			<option value="Commercial Awareness">
+										  Commercial Awareness										</option>
+																			<option value="Commercial Awareness for Managers">
+										  Commercial Awareness for Managers										</option>
+																			<option value="Communicate to Negotiate, Influence and Persuade">
+										  Communicate to Negotiate, Influence and Persuade										</option>
+																			<option value="Communicating Positively with Team Members">
+										  Communicating Positively with Team Members										</option>
+																			<option value="Communication Excellence for Healthcare Professionals">
+										  Communication Excellence for Healthcare Professionals										</option>
+																			<option value="Communication Skills">
+										  Communication Skills										</option>
+																			<option value="Company Financial Valuation">
+										  Company Financial Valuation										</option>
+																			<option value="Compensation and Benefits Strategy Masterclass (CBSM) ">
+										  Compensation and Benefits Strategy Masterclass (CBSM) 										</option>
+																			<option value="Competency Based Recruitment and Interviewing">
+										  Competency Based Recruitment and Interviewing										</option>
+																			<option value="Competency Training">
+										  Competency Training										</option>
+																			<option value="Competitor Analysis Essentials">
+										  Competitor Analysis Essentials										</option>
+																			<option value="Complaint Handling, Escalation, and Patient Relations">
+										  Complaint Handling, Escalation, and Patient Relations										</option>
+																			<option value="Computational Chemistry Tools">
+										  Computational Chemistry Tools										</option>
+																			<option value="Conducting Effective Performance Appraisals">
+										  Conducting Effective Performance Appraisals										</option>
+																			<option value="Conducting Interviews">
+										  Conducting Interviews										</option>
+																			<option value="Conflict Management">
+										  Conflict Management										</option>
+																			<option value="Conflict Resolution and Difficult Conversations in Healthcare">
+										  Conflict Resolution and Difficult Conversations in Healthcare										</option>
+																			<option value="Conflict Resolution and Management – 1 Day">
+										  Conflict Resolution and Management – 1 Day										</option>
+																			<option value="Consultative Selling: 7 Steps to Success">
+										  Consultative Selling: 7 Steps to Success										</option>
+																			<option value="Content Marketing Essentials">
+										  Content Marketing Essentials										</option>
+																			<option value="Contract Administration, Claims Management and Negotiating Win-Win Settlements">
+										  Contract Administration, Claims Management and Negotiating Win-Win Settlements										</option>
+																			<option value="Contract and Commercial Management Practitioner">
+										  Contract and Commercial Management Practitioner										</option>
+																			<option value="Contract and Project Management">
+										  Contract and Project Management										</option>
+																			<option value="Contract Law for Business">
+										  Contract Law for Business										</option>
+																			<option value="Contract Management and Formulation">
+										  Contract Management and Formulation										</option>
+																			<option value="Contract Management: From Principles to Action">
+										  Contract Management: From Principles to Action										</option>
+																			<option value="Contracts Made Simple Understanding and Drafting Contracts">
+										  Contracts Made Simple Understanding and Drafting Contracts										</option>
+																			<option value="Corporate Event Planning and Execution">
+										  Corporate Event Planning and Execution										</option>
+																			<option value="Corporate Financial Restructuring ">
+										  Corporate Financial Restructuring 										</option>
+																			<option value="Corporate Governance & Ethical Risk Management Program (10 Days)">
+										  Corporate Governance & Ethical Risk Management Program (10 Days)										</option>
+																			<option value="Corporate Governance and Business Management">
+										  Corporate Governance and Business Management										</option>
+																			<option value="Corporate Governance and Conflict Management">
+										  Corporate Governance and Conflict Management										</option>
+																			<option value="Corporate Investigations - 1 Day">
+										  Corporate Investigations - 1 Day										</option>
+																			<option value="Corporate Service Excellence ">
+										  Corporate Service Excellence 										</option>
+																			<option value="Corporate Social Responsibility (CSR)">
+										  Corporate Social Responsibility (CSR)										</option>
+																			<option value="Cost Analysis">
+										  Cost Analysis										</option>
+																			<option value="Cost Control and Budget Awareness for Managers">
+										  Cost Control and Budget Awareness for Managers										</option>
+																			<option value="Cost Management">
+										  Cost Management										</option>
+																			<option value="Creative Training Management and Maximising the Return from Training">
+										  Creative Training Management and Maximising the Return from Training										</option>
+																			<option value="Creativity & Innovation">
+										  Creativity & Innovation										</option>
+																			<option value="Crisis Communication & Reputation Management">
+										  Crisis Communication & Reputation Management										</option>
+																			<option value="Crisis Communications and Damage Control">
+										  Crisis Communications and Damage Control										</option>
+																			<option value="Crisis Management and Effective Decision Making">
+										  Crisis Management and Effective Decision Making										</option>
+																			<option value="Crisis Management and Emergency Response in Humanitarian Organisation">
+										  Crisis Management and Emergency Response in Humanitarian Organisation										</option>
+																			<option value="Critical Thinking for Better Judgement and Decision Making">
+										  Critical Thinking for Better Judgement and Decision Making										</option>
+																			<option value="Crowd Control Management">
+										  Crowd Control Management										</option>
+																			<option value="Cultural Sensitivity and Inclusive Care in Healthcare Services">
+										  Cultural Sensitivity and Inclusive Care in Healthcare Services										</option>
+																			<option value="Cultural Tourism & Sustainable Development">
+										  Cultural Tourism & Sustainable Development										</option>
+																			<option value="Culture and Change Leadership for Organisational Excellence Masterclass">
+										  Culture and Change Leadership for Organisational Excellence Masterclass										</option>
+																			<option value="Customer Experience Excellence">
+										  Customer Experience Excellence										</option>
+																			<option value="Customer Service and Revenue Generation">
+										  Customer Service and Revenue Generation										</option>
+																			<option value="Customer Service Essentials">
+										  Customer Service Essentials										</option>
+																			<option value="Customer Service Excellence">
+										  Customer Service Excellence										</option>
+																			<option value="Customer Service Skills">
+										  Customer Service Skills										</option>
+																			<option value="Customer/Patient Empathy, Communication, and Anticipation Skills">
+										  Customer/Patient Empathy, Communication, and Anticipation Skills										</option>
+																			<option value="CXO Executive Leadership Programme">
+										  CXO Executive Leadership Programme										</option>
+																			<option value="Cyber Risk Awareness – 1 Day">
+										  Cyber Risk Awareness – 1 Day										</option>
+																			<option value="Cyber Security Awareness for Managers and Staff">
+										  Cyber Security Awareness for Managers and Staff										</option>
+																			<option value="Cybersecurity Fundamentals">
+										  Cybersecurity Fundamentals										</option>
+																			<option value="Data Analysis and Reporting Techniques">
+										  Data Analysis and Reporting Techniques										</option>
+																			<option value="Data Analysis with Pivot Tables ">
+										  Data Analysis with Pivot Tables 										</option>
+																			<option value="Data Management ">
+										  Data Management 										</option>
+																			<option value="Data Management & Power BI">
+										  Data Management & Power BI										</option>
+																			<option value="Data Protection Officer">
+										  Data Protection Officer										</option>
+																			<option value="Data Protection, GDPR, and Confidentiality in Healthcare">
+										  Data Protection, GDPR, and Confidentiality in Healthcare										</option>
+																			<option value="Data Storytelling for Managers">
+										  Data Storytelling for Managers										</option>
+																			<option value="Data Visualisation Fundamentals">
+										  Data Visualisation Fundamentals										</option>
+																			<option value="Data-Driven Leadership & Decision-Making">
+										  Data-Driven Leadership & Decision-Making										</option>
+																			<option value="Decision Making">
+										  Decision Making										</option>
+																			<option value="Deep Learning for Data Analysis">
+										  Deep Learning for Data Analysis										</option>
+																			<option value="DelegationSkills">
+										  DelegationSkills										</option>
+																			<option value="Design for Manufacturing and Assembly">
+										  Design for Manufacturing and Assembly										</option>
+																			<option value="Design Thinking ">
+										  Design Thinking 										</option>
+																			<option value="Design, Operation and Control of Crystallization Equipment">
+										  Design, Operation and Control of Crystallization Equipment										</option>
+																			<option value="Developing a Logistics Strategy to Achieve Business Goals">
+										  Developing a Logistics Strategy to Achieve Business Goals										</option>
+																			<option value="Developing and Managing Effective Policies and Procedures">
+										  Developing and Managing Effective Policies and Procedures										</option>
+																			<option value="Developing and Streamlining Work Processes">
+										  Developing and Streamlining Work Processes										</option>
+																			<option value="Developing Career Resilience">
+										  Developing Career Resilience										</option>
+																			<option value="Developing Security Plans, Assumptions & Scenarios">
+										  Developing Security Plans, Assumptions & Scenarios										</option>
+																			<option value="Developing the Skills of Training and Development Specialists">
+										  Developing the Skills of Training and Development Specialists										</option>
+																			<option value="Development of Leadership ">
+										  Development of Leadership 										</option>
+																			<option value="Development of Leadership and Supervisory skills and Enhancing Quality and Excellence in the Work Environment">
+										  Development of Leadership and Supervisory skills and Enhancing Quality and Excellence in the Work Environment										</option>
+																			<option value="Developments of Stakeholders Agreements ">
+										  Developments of Stakeholders Agreements 										</option>
+																			<option value="Digital Marketing Essentials">
+										  Digital Marketing Essentials										</option>
+																			<option value="Digital Marketing Essentials 3 Days">
+										  Digital Marketing Essentials 3 Days										</option>
+																			<option value="Digital Sales Mastery">
+										  Digital Sales Mastery										</option>
+																			<option value="Digital Transformation & AI Leadership">
+										  Digital Transformation & AI Leadership										</option>
+																			<option value="Digital Transformation Leadership">
+										  Digital Transformation Leadership										</option>
+																			<option value="Digital Transformation Planning">
+										  Digital Transformation Planning										</option>
+																			<option value="Dispute Resolution and Mediation in Contracts">
+										  Dispute Resolution and Mediation in Contracts										</option>
+																			<option value="Document Control and Records Management">
+										  Document Control and Records Management										</option>
+																			<option value="Documentation Management">
+										  Documentation Management										</option>
+																			<option value="Drafting, Negotiating, and Managing Legal Contracts & MOUs">
+										  Drafting, Negotiating, and Managing Legal Contracts & MOUs										</option>
+																			<option value="Driving Business Growth Through Human Capital Strategy">
+										  Driving Business Growth Through Human Capital Strategy										</option>
+																			<option value="Driving Continuous Improvement: Tools for Professional Excellence">
+										  Driving Continuous Improvement: Tools for Professional Excellence										</option>
+																			<option value="Driving Institutional Performance: Strategy, Measurement, and Results">
+										  Driving Institutional Performance: Strategy, Measurement, and Results										</option>
+																			<option value="Driving Organisational Excellence Through Culture and Change Leadership">
+										  Driving Organisational Excellence Through Culture and Change Leadership										</option>
+																			<option value="Due Diligence for Leaders: Strategic Decision Making and Risk Mitigation">
+										  Due Diligence for Leaders: Strategic Decision Making and Risk Mitigation										</option>
+																			<option value="E-Contracts and Digital Transactions">
+										  E-Contracts and Digital Transactions										</option>
+																			<option value="Economic Evaluation of Healthcare Technologies">
+										  Economic Evaluation of Healthcare Technologies										</option>
+																			<option value="Economic Impact & Legacy of Major Sporting Events">
+										  Economic Impact & Legacy of Major Sporting Events										</option>
+																			<option value="Economics for Non-Economists">
+										  Economics for Non-Economists										</option>
+																			<option value="Effective Communication for Improved Public Relations">
+										  Effective Communication for Improved Public Relations										</option>
+																			<option value="Effective Communication Skills">
+										  Effective Communication Skills										</option>
+																			<option value="Effective Investor Relations">
+										  Effective Investor Relations										</option>
+																			<option value="Effective Office Management and Administrator Skills">
+										  Effective Office Management and Administrator Skills										</option>
+																			<option value="Effective Planning of Media Campaigns">
+										  Effective Planning of Media Campaigns										</option>
+																			<option value="Effective Policy Review and Update Strategies">
+										  Effective Policy Review and Update Strategies										</option>
+																			<option value="Electronic Document Management System (EDMS) Techniques">
+										  Electronic Document Management System (EDMS) Techniques										</option>
+																			<option value="Emergency Response Planning">
+										  Emergency Response Planning										</option>
+																			<option value="Emotional and Social Intelligence">
+										  Emotional and Social Intelligence										</option>
+																			<option value="Emotional Intelligence">
+										  Emotional Intelligence										</option>
+																			<option value="Emotional Intelligence and Resilience at Work">
+										  Emotional Intelligence and Resilience at Work										</option>
+																			<option value="Emotional Intelligence and Resilience for Healthcare Staff">
+										  Emotional Intelligence and Resilience for Healthcare Staff										</option>
+																			<option value="Emotional Intelligence: The Key to Great Leadership">
+										  Emotional Intelligence: The Key to Great Leadership										</option>
+																			<option value="Employee Engagement and Motivation">
+										  Employee Engagement and Motivation										</option>
+																			<option value="Empowering Event Leaders with AI Tools">
+										  Empowering Event Leaders with AI Tools										</option>
+																			<option value="Energy Audits Based on ISO150001">
+										  Energy Audits Based on ISO150001										</option>
+																			<option value="Energy Efficiency and Sustainability in Chemical and  Power Plants">
+										  Energy Efficiency and Sustainability in Chemical and  Power Plants										</option>
+																			<option value="Energy Law and Regulations: Navigating Legal Frameworks in the Energy Sector">
+										  Energy Law and Regulations: Navigating Legal Frameworks in the Energy Sector										</option>
+																			<option value="Engagement Culture Onboarding: A Comprehensive Approach ">
+										  Engagement Culture Onboarding: A Comprehensive Approach 										</option>
+																			<option value="Enterprise Resource Planning (ERP)">
+										  Enterprise Resource Planning (ERP)										</option>
+																			<option value="Environmental Management for the Oil and Gas Industry">
+										  Environmental Management for the Oil and Gas Industry										</option>
+																			<option value="ESG & Sustainability Reporting">
+										  ESG & Sustainability Reporting										</option>
+																			<option value="ESG and Sustainability Awareness for Business Managers">
+										  ESG and Sustainability Awareness for Business Managers										</option>
+																			<option value="Essential Supervisory Skills">
+										  Essential Supervisory Skills										</option>
+																			<option value="Essential Technical Systems for Non-Technical Professionals">
+										  Essential Technical Systems for Non-Technical Professionals										</option>
+																			<option value="Essentials of Business Finance">
+										  Essentials of Business Finance										</option>
+																			<option value="Essentials of Effective Company Management">
+										  Essentials of Effective Company Management										</option>
+																			<option value="Essentials of Stakeholder Management">
+										  Essentials of Stakeholder Management										</option>
+																			<option value="Ethylene Polymerization Reactors">
+										  Ethylene Polymerization Reactors										</option>
+																			<option value="Ethylene Polymerization Technology">
+										  Ethylene Polymerization Technology										</option>
+																			<option value="Event Management">
+										  Event Management										</option>
+																			<option value="Event Management & Logistics for Sports Events">
+										  Event Management & Logistics for Sports Events										</option>
+																			<option value="Excel for Business Reporting and Analysis">
+										  Excel for Business Reporting and Analysis										</option>
+																			<option value="Excellence Through Performance Development Program (10 Days)">
+										  Excellence Through Performance Development Program (10 Days)										</option>
+																			<option value="Executive Certificate in Business & Leadership">
+										  Executive Certificate in Business & Leadership										</option>
+																			<option value="Executive Certificate in Strategic Management">
+										  Executive Certificate in Strategic Management										</option>
+																			<option value="Executive Leadership & Corporate Strategy ">
+										  Executive Leadership & Corporate Strategy 										</option>
+																			<option value="Executive Leadership for Sustainable Growth">
+										  Executive Leadership for Sustainable Growth										</option>
+																			<option value="Executive Leadership, Strategic Planning and Goal Achievement">
+										  Executive Leadership, Strategic Planning and Goal Achievement										</option>
+																			<option value="Executive Logistics and Supply Chain Management">
+										  Executive Logistics and Supply Chain Management										</option>
+																			<option value="Executive Protocol, Etiquette, and Guest Management ">
+										  Executive Protocol, Etiquette, and Guest Management 										</option>
+																			<option value="Facilitation Skills">
+										  Facilitation Skills										</option>
+																			<option value="Facility Management FM">
+										  Facility Management FM										</option>
+																			<option value="Facility Management Mastery ">
+										  Facility Management Mastery 										</option>
+																			<option value="Fast Closing Monthly and Year End Accounts">
+										  Fast Closing Monthly and Year End Accounts										</option>
+																			<option value="Feasibility Studies Preparation, Analysis & Evaluation">
+										  Feasibility Studies Preparation, Analysis & Evaluation										</option>
+																			<option value="Finance for Executives">
+										  Finance for Executives										</option>
+																			<option value="Finance for Financial Managers">
+										  Finance for Financial Managers										</option>
+																			<option value="Finance for Non Financial Managers">
+										  Finance for Non Financial Managers										</option>
+																			<option value="Finance for Non-Financial Managers">
+										  Finance for Non-Financial Managers										</option>
+																			<option value="Finance for Strategic HR Management">
+										  Finance for Strategic HR Management										</option>
+																			<option value="Financial & Economic Supplier Evaluation">
+										  Financial & Economic Supplier Evaluation										</option>
+																			<option value="Financial Accounts and Reports">
+										  Financial Accounts and Reports										</option>
+																			<option value="Financial Accounts and Reports Training (2 Weeks)">
+										  Financial Accounts and Reports Training (2 Weeks)										</option>
+																			<option value="Financial Analysis and Decision-Making (4 Weeks)">
+										  Financial Analysis and Decision-Making (4 Weeks)										</option>
+																			<option value="Financial Analysis Evaluation, Budgeting and Decision Making">
+										  Financial Analysis Evaluation, Budgeting and Decision Making										</option>
+																			<option value="Financial Analysis, Evaluation, Budgeting, and Decision-Making (4 Weeks)">
+										  Financial Analysis, Evaluation, Budgeting, and Decision-Making (4 Weeks)										</option>
+																			<option value="Financial and Technical Analysis">
+										  Financial and Technical Analysis										</option>
+																			<option value="Financial Business Planner Practitioner">
+										  Financial Business Planner Practitioner										</option>
+																			<option value="Financial CGE Modelling ">
+										  Financial CGE Modelling 										</option>
+																			<option value="Financial Control in Contracts ">
+										  Financial Control in Contracts 										</option>
+																			<option value="Financial Decision-Making for Executives & Business Leaders">
+										  Financial Decision-Making for Executives & Business Leaders										</option>
+																			<option value="Financial Management">
+										  Financial Management										</option>
+																			<option value="Financial Management for Project Development">
+										  Financial Management for Project Development										</option>
+																			<option value="Financial Performance and Sustainability">
+										  Financial Performance and Sustainability										</option>
+																			<option value="Financial Planning and Budgeting">
+										  Financial Planning and Budgeting										</option>
+																			<option value="Financial Policies Training Programme ">
+										  Financial Policies Training Programme 										</option>
+																			<option value="Financial Risk Management">
+										  Financial Risk Management										</option>
+																			<option value="Financial Sustainability: Building Long-Term Financial Resilience">
+										  Financial Sustainability: Building Long-Term Financial Resilience										</option>
+																			<option value="Fintech and Blockchain Masterclass">
+										  Fintech and Blockchain Masterclass										</option>
+																			<option value="Fixed Assets Management">
+										  Fixed Assets Management										</option>
+																			<option value="Fleet Planning and Management">
+										  Fleet Planning and Management										</option>
+																			<option value="Food Safety, Innovation and Future Food Systems">
+										  Food Safety, Innovation and Future Food Systems										</option>
+																			<option value="Foundations of Public Administration, Policy, and Governance">
+										  Foundations of Public Administration, Policy, and Governance										</option>
+																			<option value="Foundations of Technology Governance">
+										  Foundations of Technology Governance										</option>
+																			<option value="From Strategy to Successful Implementation">
+										  From Strategy to Successful Implementation										</option>
+																			<option value="Functional Description and Settings of the Turbine Governor">
+										  Functional Description and Settings of the Turbine Governor										</option>
+																			<option value="Fundamentals of Hydrogen Production Processing, Distribution, Storage and Applic">
+										  Fundamentals of Hydrogen Production Processing, Distribution, Storage and Applic										</option>
+																			<option value="Fundamentals of Investment & Portfolio Management">
+										  Fundamentals of Investment & Portfolio Management										</option>
+																			<option value="Fundamentals of Materials Characterization and Selection">
+										  Fundamentals of Materials Characterization and Selection										</option>
+																			<option value="Fundamentals of Process Control Instrumentation and Measurements">
+										  Fundamentals of Process Control Instrumentation and Measurements										</option>
+																			<option value="Fundamentals of Purchasing for New Buyers">
+										  Fundamentals of Purchasing for New Buyers										</option>
+																			<option value="Fundamentals of Trade Finance">
+										  Fundamentals of Trade Finance										</option>
+																			<option value="Furnaces: Safe Operation and Optimization">
+										  Furnaces: Safe Operation and Optimization										</option>
+																			<option value="GDPR and Data Protection Awareness">
+										  GDPR and Data Protection Awareness										</option>
+																			<option value="Giving Feedback">
+										  Giving Feedback										</option>
+																			<option value="Global Sourcing">
+										  Global Sourcing										</option>
+																			<option value="Goal Setting">
+										  Goal Setting										</option>
+																			<option value="Governance, Risk, and Compliance (GRC)">
+										  Governance, Risk, and Compliance (GRC)										</option>
+																			<option value="Government and Community Relations: Building Key Stakeholder Relations">
+										  Government and Community Relations: Building Key Stakeholder Relations										</option>
+																			<option value="Green Procurement">
+										  Green Procurement										</option>
+																			<option value="Handling Complaints">
+										  Handling Complaints										</option>
+																			<option value="Handling Difficult Situations and Confrontations">
+										  Handling Difficult Situations and Confrontations										</option>
+																			<option value="Health and Safety / Risk Awareness">
+										  Health and Safety / Risk Awareness										</option>
+																			<option value="Health and Wellness at Work">
+										  Health and Wellness at Work										</option>
+																			<option value="Healthcare Change Management and Transformation">
+										  Healthcare Change Management and Transformation										</option>
+																			<option value="Healthcare Leadership and Management Excellence (Non-Clinical)">
+										  Healthcare Leadership and Management Excellence (Non-Clinical)										</option>
+																			<option value="Healthcare Management Training ">
+										  Healthcare Management Training 										</option>
+																			<option value="Healthcare Operations and Service Workflow Optimisation">
+										  Healthcare Operations and Service Workflow Optimisation										</option>
+																			<option value="Healthcare Policies, Procedures, and Documentation Management">
+										  Healthcare Policies, Procedures, and Documentation Management										</option>
+																			<option value="Heat Exchangers (Design, Operation, Maintenance and Inspection)">
+										  Heat Exchangers (Design, Operation, Maintenance and Inspection)										</option>
+																			<option value="Heat Transfer Fundamentals">
+										  Heat Transfer Fundamentals										</option>
+																			<option value="High Impact Leadership">
+										  High Impact Leadership										</option>
+																			<option value="High Performance Leadership">
+										  High Performance Leadership										</option>
+																			<option value="High Performance Leadership & Productivity Optimisation">
+										  High Performance Leadership & Productivity Optimisation										</option>
+																			<option value="High Potential (HiPo) Development Programme">
+										  High Potential (HiPo) Development Programme										</option>
+																			<option value="High-Impact Visual Communications">
+										  High-Impact Visual Communications										</option>
+																			<option value="HR Administration Essentials">
+										  HR Administration Essentials										</option>
+																			<option value="HR Data Analytics">
+										  HR Data Analytics										</option>
+																			<option value="Human Resource Information System (HRIS)">
+										  Human Resource Information System (HRIS)										</option>
+																			<option value="Human Resource Management (HRM)">
+										  Human Resource Management (HRM)										</option>
+																			<option value="Human Resource Management Practice for Effective People Leadership">
+										  Human Resource Management Practice for Effective People Leadership										</option>
+																			<option value="Human Resources (HR) Mini MBA">
+										  Human Resources (HR) Mini MBA										</option>
+																			<option value="Human Resources Analytics ">
+										  Human Resources Analytics 										</option>
+																			<option value="Human Resources Governance">
+										  Human Resources Governance										</option>
+																			<option value="Human Resources Governance and Strategic Workforce Programme">
+										  Human Resources Governance and Strategic Workforce Programme										</option>
+																			<option value="Human Resources Strategy and Budgeting">
+										  Human Resources Strategy and Budgeting										</option>
+																			<option value="Hydrocarbon Cracking ">
+										  Hydrocarbon Cracking 										</option>
+																			<option value="Hydrogen Storage as an Energy Carrier for Onboard Applications: Methodologies">
+										  Hydrogen Storage as an Energy Carrier for Onboard Applications: Methodologies										</option>
+																			<option value="Hydrophobic and Oleo Phobic Coatings">
+										  Hydrophobic and Oleo Phobic Coatings										</option>
+																			<option value="HyperChem in Chemical Engineering">
+										  HyperChem in Chemical Engineering										</option>
+																			<option value="IFRS 15 & IFRS 16 ">
+										  IFRS 15 & IFRS 16 										</option>
+																			<option value="IFRS 9 - Financial Instruments ">
+										  IFRS 9 - Financial Instruments 										</option>
+																			<option value="IFRS SI & S2 Standards ">
+										  IFRS SI & S2 Standards 										</option>
+																			<option value="Imports and Exports Training">
+										  Imports and Exports Training										</option>
+																			<option value="Improving IT Confidence for Greater Competence">
+										  Improving IT Confidence for Greater Competence										</option>
+																			<option value="Inclusive Leadership and Respectful Workplace Behaviour">
+										  Inclusive Leadership and Respectful Workplace Behaviour										</option>
+																			<option value="Increase Profits Through Cross Selling and Up Selling">
+										  Increase Profits Through Cross Selling and Up Selling										</option>
+																			<option value="Influence & Persuasion for Modern Leaders">
+										  Influence & Persuasion for Modern Leaders										</option>
+																			<option value="Information Security Awareness – 1 Day">
+										  Information Security Awareness – 1 Day										</option>
+																			<option value="Innovation and Branding">
+										  Innovation and Branding										</option>
+																			<option value="Insurance Law (Theory and Applications)">
+										  Insurance Law (Theory and Applications)										</option>
+																			<option value="Intangible Cultural Heritage – Safeguarding Traditions & Cultural Identity">
+										  Intangible Cultural Heritage – Safeguarding Traditions & Cultural Identity										</option>
+																			<option value="Integrated Field Development Planning (IFDP)">
+										  Integrated Field Development Planning (IFDP)										</option>
+																			<option value="Integrated Strategy Management">
+										  Integrated Strategy Management										</option>
+																			<option value="Integration of Service Excellence into Daily Operations">
+										  Integration of Service Excellence into Daily Operations										</option>
+																			<option value="Intellectual Property (IP) Rules & Regulations">
+										  Intellectual Property (IP) Rules & Regulations										</option>
+																			<option value="Inter-Cultural Skills">
+										  Inter-Cultural Skills										</option>
+																			<option value="Intermediate Marketing Analytics">
+										  Intermediate Marketing Analytics										</option>
+																			<option value="International Contract Negotiation">
+										  International Contract Negotiation										</option>
+																			<option value="International Financial Planning & Analysis">
+										  International Financial Planning & Analysis										</option>
+																			<option value="International Oil and Gas Markets, Trades, Prices, and Economic Framework">
+										  International Oil and Gas Markets, Trades, Prices, and Economic Framework										</option>
+																			<option value="International Sustainability From Principles to Practice">
+										  International Sustainability From Principles to Practice										</option>
+																			<option value="InterviewSkills">
+										  InterviewSkills										</option>
+																			<option value="Introduction to Business Continuity Management - 1 Day">
+										  Introduction to Business Continuity Management - 1 Day										</option>
+																			<option value="Introduction to Cloud Security Architecture">
+										  Introduction to Cloud Security Architecture										</option>
+																			<option value="Introduction to Computational Fluid Dynamics">
+										  Introduction to Computational Fluid Dynamics										</option>
+																			<option value="Introduction to Credit Risk Fundamentals ">
+										  Introduction to Credit Risk Fundamentals 										</option>
+																			<option value="Introduction to Crisis Management - 1 Day">
+										  Introduction to Crisis Management - 1 Day										</option>
+																			<option value="Introduction to IT Governance">
+										  Introduction to IT Governance										</option>
+																			<option value="Introduction to Manufacturing processes">
+										  Introduction to Manufacturing processes										</option>
+																			<option value="Investigative Interviewing - 1 Day">
+										  Investigative Interviewing - 1 Day										</option>
+																			<option value="Investment and Private Equity Training Programme">
+										  Investment and Private Equity Training Programme										</option>
+																			<option value="Ionic Liquids">
+										  Ionic Liquids										</option>
+																			<option value="IT Business Management">
+										  IT Business Management										</option>
+																			<option value="IT Project Management">
+										  IT Project Management										</option>
+																			<option value="IT Resilience and Disaster Recovery Leadership ">
+										  IT Resilience and Disaster Recovery Leadership 										</option>
+																			<option value="Job Proficiency and Performance">
+										  Job Proficiency and Performance										</option>
+																			<option value="Key Account Management: Profitable Customer Relationships">
+										  Key Account Management: Profitable Customer Relationships										</option>
+																			<option value="Knowledge Management Essentials">
+										  Knowledge Management Essentials										</option>
+																			<option value="Laboratory General Safety">
+										  Laboratory General Safety										</option>
+																			<option value="Labour Market Research and Policy Planning">
+										  Labour Market Research and Policy Planning										</option>
+																			<option value="Large Steam Turbine Operations and Components">
+										  Large Steam Turbine Operations and Components										</option>
+																			<option value="Law Due Diligence: Identifying and Mitigating Legal Risks in Transactions ">
+										  Law Due Diligence: Identifying and Mitigating Legal Risks in Transactions 										</option>
+																			<option value="Law-Making: Principles, Processes, and Practice">
+										  Law-Making: Principles, Processes, and Practice										</option>
+																			<option value="Leadership and Capacity Building">
+										  Leadership and Capacity Building										</option>
+																			<option value="Leadership and Communication">
+										  Leadership and Communication										</option>
+																			<option value="Leadership and Management Essentials">
+										  Leadership and Management Essentials										</option>
+																			<option value="Leadership and Management for Field and Operational Leaders">
+										  Leadership and Management for Field and Operational Leaders										</option>
+																			<option value="Leadership and Organisational Culture">
+										  Leadership and Organisational Culture										</option>
+																			<option value="Leadership Essentials">
+										  Leadership Essentials										</option>
+																			<option value="Leadership for Senior Executives (LSE)">
+										  Leadership for Senior Executives (LSE)										</option>
+																			<option value="Leadership in the Age of AI">
+										  Leadership in the Age of AI										</option>
+																			<option value="Leadership Mastery – From Strategy to Execution">
+										  Leadership Mastery – From Strategy to Execution										</option>
+																			<option value="Leadership Skills">
+										  Leadership Skills										</option>
+																			<option value="Leadership: Performance and Power Course">
+										  Leadership: Performance and Power Course										</option>
+																			<option value="Leading Diverse & Inclusive Workforces">
+										  Leading Diverse & Inclusive Workforces										</option>
+																			<option value="Leading High Performing and Creative Teams">
+										  Leading High Performing and Creative Teams										</option>
+																			<option value="Leading HR Strategic Transformation and Talent Optimisation">
+										  Leading HR Strategic Transformation and Talent Optimisation										</option>
+																			<option value="Leading Human Capital Transformation and Workforce Performance">
+										  Leading Human Capital Transformation and Workforce Performance										</option>
+																			<option value="Leading Risk in Organisations">
+										  Leading Risk in Organisations										</option>
+																			<option value="Leading Teams for Emerging Leaders">
+										  Leading Teams for Emerging Leaders										</option>
+																			<option value="Leading the Portfolio Management: Masterclass">
+										  Leading the Portfolio Management: Masterclass										</option>
+																			<option value="Leading with Emotional Presence for Better Leadership">
+										  Leading with Emotional Presence for Better Leadership										</option>
+																			<option value="Legal and Regulatory Compliance for Today’s Workplace">
+										  Legal and Regulatory Compliance for Today’s Workplace										</option>
+																			<option value="Legal Drafting">
+										  Legal Drafting										</option>
+																			<option value="Legal Management">
+										  Legal Management										</option>
+																			<option value="Life Cycle Assessment Methodologies and Standards (LCA)">
+										  Life Cycle Assessment Methodologies and Standards (LCA)										</option>
+																			<option value="Life Cycle Assessment Methods for Environmental Impact & Sustainability Decision">
+										  Life Cycle Assessment Methods for Environmental Impact & Sustainability Decision										</option>
+																			<option value="Listening Skills">
+										  Listening Skills										</option>
+																			<option value="Logistics Fundamentals ">
+										  Logistics Fundamentals 										</option>
+																			<option value="Logistics Management ">
+										  Logistics Management 										</option>
+																			<option value="Logo and Identity Design">
+										  Logo and Identity Design										</option>
+																			<option value="LTFE Dynamic Leadership Programme">
+										  LTFE Dynamic Leadership Programme										</option>
+																			<option value="Lubricants: Materials and Application Fundamentals">
+										  Lubricants: Materials and Application Fundamentals										</option>
+																			<option value="Luxury Level Service Excellence Principles (Healthcare)">
+										  Luxury Level Service Excellence Principles (Healthcare)										</option>
+																			<option value="Machine Failure Analysis">
+										  Machine Failure Analysis										</option>
+																			<option value="Maintenance Management Best Practices">
+										  Maintenance Management Best Practices										</option>
+																			<option value="Management Communication Skills">
+										  Management Communication Skills										</option>
+																			<option value="Management Consultancy">
+										  Management Consultancy										</option>
+																			<option value="Management of the Chairman's Office">
+										  Management of the Chairman's Office										</option>
+																			<option value="Managerial Accounting: A Strategic Perspective">
+										  Managerial Accounting: A Strategic Perspective										</option>
+																			<option value="Managing Accounts Payable for Operational Excellence">
+										  Managing Accounts Payable for Operational Excellence										</option>
+																			<option value="Managing and Leading Strategic Communication">
+										  Managing and Leading Strategic Communication										</option>
+																			<option value="Managing Difficult Conversations and Workplace Conflict">
+										  Managing Difficult Conversations and Workplace Conflict										</option>
+																			<option value="Managing Efficient Shutdowns, Turnarounds and Outages">
+										  Managing Efficient Shutdowns, Turnarounds and Outages										</option>
+																			<option value="Managing Hybrid and Remote Teams">
+										  Managing Hybrid and Remote Teams										</option>
+																			<option value="Managing Integrated Programs Delivering Program and Products as Expected">
+										  Managing Integrated Programs Delivering Program and Products as Expected										</option>
+																			<option value="Managing Organisational Change for Sustainable Performance">
+										  Managing Organisational Change for Sustainable Performance										</option>
+																			<option value="Managing Tenders, Specifications & Contracts">
+										  Managing Tenders, Specifications & Contracts										</option>
+																			<option value="Managing Training and Development">
+										  Managing Training and Development										</option>
+																			<option value="Managing Workplace Dynamics and Conflict">
+										  Managing Workplace Dynamics and Conflict										</option>
+																			<option value="Market Innovation Strategy ">
+										  Market Innovation Strategy 										</option>
+																			<option value="Marketing Analysis and Strategy">
+										  Marketing Analysis and Strategy										</option>
+																			<option value="Marketing Communications Management">
+										  Marketing Communications Management										</option>
+																			<option value="Marketing Skills">
+										  Marketing Skills										</option>
+																			<option value="Mass Transfer Fundamentals">
+										  Mass Transfer Fundamentals										</option>
+																			<option value="Master Certificate in Contract Management (MCCM)">
+										  Master Certificate in Contract Management (MCCM)										</option>
+																			<option value="Master Procurement Programme ">
+										  Master Procurement Programme 										</option>
+																			<option value="Mastering & Modelling Financial Sustainability in Sport Management">
+										  Mastering & Modelling Financial Sustainability in Sport Management										</option>
+																			<option value="Mastering Accounts Payable (PA)">
+										  Mastering Accounts Payable (PA)										</option>
+																			<option value="Mastering Auditing Conference Planning and Delivery">
+										  Mastering Auditing Conference Planning and Delivery										</option>
+																			<option value="Mastering Conference Planning and Delivery">
+										  Mastering Conference Planning and Delivery										</option>
+																			<option value="Mastering Corporate Governance">
+										  Mastering Corporate Governance										</option>
+																			<option value="Mastering Financial Accounts and Reports">
+										  Mastering Financial Accounts and Reports										</option>
+																			<option value="Mastering Global Sourcing">
+										  Mastering Global Sourcing										</option>
+																			<option value="Mastering Legal Conference Planning and Delivery">
+										  Mastering Legal Conference Planning and Delivery										</option>
+																			<option value="Mastering Problem Resolution and Complaint Management">
+										  Mastering Problem Resolution and Complaint Management										</option>
+																			<option value="Mastering Public Speaking">
+										  Mastering Public Speaking										</option>
+																			<option value="Mastering Revenue Accounting">
+										  Mastering Revenue Accounting										</option>
+																			<option value="Mastering Revenue Recognition and Expense Matching">
+										  Mastering Revenue Recognition and Expense Matching										</option>
+																			<option value="Mastering Tenders and Contract Management">
+										  Mastering Tenders and Contract Management										</option>
+																			<option value="Mastering the Art of Board and Committee Governance">
+										  Mastering the Art of Board and Committee Governance										</option>
+																			<option value="Mastering the Art of Board and Committee Management">
+										  Mastering the Art of Board and Committee Management										</option>
+																			<option value="MATLAB Programming for Chemical Engineering">
+										  MATLAB Programming for Chemical Engineering										</option>
+																			<option value="Measurement and Sensor Technology for Mechanical Engineers ">
+										  Measurement and Sensor Technology for Mechanical Engineers 										</option>
+																			<option value="Meeting Skills">
+										  Meeting Skills										</option>
+																			<option value="Memory Skills">
+										  Memory Skills										</option>
+																			<option value="Metallurgy for Non Metallurgists Including Metal Processes">
+										  Metallurgy for Non Metallurgists Including Metal Processes										</option>
+																			<option value="Metaverse Strategic Planning">
+										  Metaverse Strategic Planning										</option>
+																			<option value="Methods and Skills for Calculating Economic Indicators">
+										  Methods and Skills for Calculating Economic Indicators										</option>
+																			<option value="Microsoft 365 Copilot">
+										  Microsoft 365 Copilot										</option>
+																			<option value="Microsoft Project: Managing Multiple Projects">
+										  Microsoft Project: Managing Multiple Projects										</option>
+																			<option value="Mini MBA (Business Management)">
+										  Mini MBA (Business Management)										</option>
+																			<option value="Mini MBA: Artificial Intelligence (AI) and Digital Transformation">
+										  Mini MBA: Artificial Intelligence (AI) and Digital Transformation										</option>
+																			<option value="Mini MBA: Oil & Gas and Energy Business">
+										  Mini MBA: Oil & Gas and Energy Business										</option>
+																			<option value="Modelling and Simulation in Chemical Engineering">
+										  Modelling and Simulation in Chemical Engineering										</option>
+																			<option value="Modern Techniques in Auditing and Financial Control">
+										  Modern Techniques in Auditing and Financial Control										</option>
+																			<option value="Modern Techniques of Financial Accounting and Reports">
+										  Modern Techniques of Financial Accounting and Reports										</option>
+																			<option value="Modern Techniques of Quality and Productivity Management">
+										  Modern Techniques of Quality and Productivity Management										</option>
+																			<option value="Modern Trends for Increasing the Efficiency of Accountants and Controllers">
+										  Modern Trends for Increasing the Efficiency of Accountants and Controllers										</option>
+																			<option value="Modern Trends in Legal Interpretation and Writing Legal Briefs">
+										  Modern Trends in Legal Interpretation and Writing Legal Briefs										</option>
+																			<option value="Motivating People">
+										  Motivating People										</option>
+																			<option value="Motivation, Persuasion & Creativity">
+										  Motivation, Persuasion & Creativity										</option>
+																			<option value="Motivational Leadership">
+										  Motivational Leadership										</option>
+																			<option value="Museums & Heritage Institutions Management">
+										  Museums & Heritage Institutions Management										</option>
+																			<option value="Navigating Environment, Social, and Governance (ESG)">
+										  Navigating Environment, Social, and Governance (ESG)										</option>
+																			<option value="Navigating the Digitalised Economy">
+										  Navigating the Digitalised Economy										</option>
+																			<option value="Negotiating Energy Contracts: A Legal Perspective">
+										  Negotiating Energy Contracts: A Legal Perspective										</option>
+																			<option value="Negotiation Mastery">
+										  Negotiation Mastery										</option>
+																			<option value="Negotiation Skills">
+										  Negotiation Skills										</option>
+																			<option value="Negotiation, Persuasion and Influencing Skills">
+										  Negotiation, Persuasion and Influencing Skills										</option>
+																			<option value="Neuroscience of Leadership & Emotional Intelligence">
+										  Neuroscience of Leadership & Emotional Intelligence										</option>
+																			<option value="NLP Core Skills">
+										  NLP Core Skills										</option>
+																			<option value="Non Destructive Testing">
+										  Non Destructive Testing										</option>
+																			<option value="Occupational Health and Safety">
+										  Occupational Health and Safety										</option>
+																			<option value="Occupational Health and Safety (OHS) ">
+										  Occupational Health and Safety (OHS) 										</option>
+																			<option value="Office AI: Practical AI for Everyday Office Work">
+										  Office AI: Practical AI for Everyday Office Work										</option>
+																			<option value="Office Management">
+										  Office Management										</option>
+																			<option value="Office Management and Executive Secretarial Skills   ">
+										  Office Management and Executive Secretarial Skills   										</option>
+																			<option value="Oil And Gas - Piping And Piping Systems">
+										  Oil And Gas - Piping And Piping Systems										</option>
+																			<option value="Oil and Gas Mini MBA, Management and Business Administration">
+										  Oil and Gas Mini MBA, Management and Business Administration										</option>
+																			<option value="Onboarding and Induction Training">
+										  Onboarding and Induction Training										</option>
+																			<option value="Operational Excellence ">
+										  Operational Excellence 										</option>
+																			<option value="Optimising Travel Arrangements: A Guide for Business Managers">
+										  Optimising Travel Arrangements: A Guide for Business Managers										</option>
+																			<option value="Organisational Design Masterclass">
+										  Organisational Design Masterclass										</option>
+																			<option value="Organisational Development (ODV) in Practice">
+										  Organisational Development (ODV) in Practice										</option>
+																			<option value="Organisational Performance Improvement: Strategy, Measurement, and Results">
+										  Organisational Performance Improvement: Strategy, Measurement, and Results										</option>
+																			<option value="People of Change">
+										  People of Change										</option>
+																			<option value="Performance Development and its Role in Achieving Excellence">
+										  Performance Development and its Role in Achieving Excellence										</option>
+																			<option value="Performance Management">
+										  Performance Management										</option>
+																			<option value="Performance Management and Leading High-Performing Teams">
+										  Performance Management and Leading High-Performing Teams										</option>
+																			<option value="Performance Measurement for Organisational Development(10 Days)">
+										  Performance Measurement for Organisational Development(10 Days)										</option>
+																			<option value="Personal Branding">
+										  Personal Branding										</option>
+																			<option value="Personal Branding: The Art & Science">
+										  Personal Branding: The Art & Science										</option>
+																			<option value="Persuasion Skills">
+										  Persuasion Skills										</option>
+																			<option value="Petroleum Economics and Decision Analysis">
+										  Petroleum Economics and Decision Analysis										</option>
+																			<option value="Piping Design & Stress Analysis">
+										  Piping Design & Stress Analysis										</option>
+																			<option value="Planning and Analysis of Financial Statements, Advanced Accounting and Preparation of Budgets">
+										  Planning and Analysis of Financial Statements, Advanced Accounting and Preparation of Budgets										</option>
+																			<option value="Planning and Decision Making Essentials">
+										  Planning and Decision Making Essentials										</option>
+																			<option value="Planning and Hosting VIP Visits">
+										  Planning and Hosting VIP Visits										</option>
+																			<option value="Pollution Control and Environmental Inspection">
+										  Pollution Control and Environmental Inspection										</option>
+																			<option value="Polymer Extrusion">
+										  Polymer Extrusion										</option>
+																			<option value="Polymers Production and Processing">
+										  Polymers Production and Processing										</option>
+																			<option value="Portfolio Management">
+										  Portfolio Management										</option>
+																			<option value="Power BI for Business Reporting and Data Visualisation">
+										  Power BI for Business Reporting and Data Visualisation										</option>
+																			<option value="Power BI Specialisation Programme ">
+										  Power BI Specialisation Programme 										</option>
+																			<option value="PR Strategy and Management">
+										  PR Strategy and Management										</option>
+																			<option value="Practical AI for Business Professionals">
+										  Practical AI for Business Professionals										</option>
+																			<option value="Practical Analysis Through Business Data">
+										  Practical Analysis Through Business Data										</option>
+																			<option value="Practical Problem Solving in Chemical Analysis">
+										  Practical Problem Solving in Chemical Analysis										</option>
+																			<option value="Predictive Maintenance & Troubleshooting of Pumps and Compressors">
+										  Predictive Maintenance & Troubleshooting of Pumps and Compressors										</option>
+																			<option value="Preliminary Design through Process Simulation">
+										  Preliminary Design through Process Simulation										</option>
+																			<option value="Present with Impact">
+										  Present with Impact										</option>
+																			<option value="Presentation Skills">
+										  Presentation Skills										</option>
+																			<option value="Pressure Vessel Systems">
+										  Pressure Vessel Systems										</option>
+																			<option value="Pressure Vessels Design, Construction, Inspection and Maintenance under ASME VII">
+										  Pressure Vessels Design, Construction, Inspection and Maintenance under ASME VII										</option>
+																			<option value="Principles of Product Development">
+										  Principles of Product Development										</option>
+																			<option value="Principles, Design and Operation of Distillation Techniques">
+										  Principles, Design and Operation of Distillation Techniques										</option>
+																			<option value="Principles, Maintenance and Operations of Turbo  Compressors and Centrifugal Gas">
+										  Principles, Maintenance and Operations of Turbo  Compressors and Centrifugal Gas										</option>
+																			<option value="Problem Resolution and Complaint Management">
+										  Problem Resolution and Complaint Management										</option>
+																			<option value="Problem Solving">
+										  Problem Solving										</option>
+																			<option value="Problem Solving and Critical Thinking">
+										  Problem Solving and Critical Thinking										</option>
+																			<option value="Procedures Litigation and Defence">
+										  Procedures Litigation and Defence										</option>
+																			<option value="Process Engineering">
+										  Process Engineering										</option>
+																			<option value="Process Safety">
+										  Process Safety										</option>
+																			<option value="Process Safety Management for Operational Reliability and Risk Control">
+										  Process Safety Management for Operational Reliability and Risk Control										</option>
+																			<option value="Procurement and Contract Management Essentials">
+										  Procurement and Contract Management Essentials										</option>
+																			<option value="Procurement Management">
+										  Procurement Management										</option>
+																			<option value="Procurement Risk Management">
+										  Procurement Risk Management										</option>
+																			<option value="Product Management Essentials">
+										  Product Management Essentials										</option>
+																			<option value="Production Planning and Control (PPC)">
+										  Production Planning and Control (PPC)										</option>
+																			<option value="Production Planning, Scheduling and Control">
+										  Production Planning, Scheduling and Control										</option>
+																			<option value="Professional Certificate in AI and Machine Learning for Professionals">
+										  Professional Certificate in AI and Machine Learning for Professionals										</option>
+																			<option value="Professional Communication and Business Writing">
+										  Professional Communication and Business Writing										</option>
+																			<option value="Professional Ethics, Conduct, and Accountability in Healthcare">
+										  Professional Ethics, Conduct, and Accountability in Healthcare										</option>
+																			<option value="Professional Event Management: Planning, Coordination and Delivery">
+										  Professional Event Management: Planning, Coordination and Delivery										</option>
+																			<option value="Professional Financial Accounting and Reporting Skills Programme">
+										  Professional Financial Accounting and Reporting Skills Programme										</option>
+																			<option value="Professional Investigation Management: Leading Fair and Effective Enquiries">
+										  Professional Investigation Management: Leading Fair and Effective Enquiries										</option>
+																			<option value="Professional Media Training Course">
+										  Professional Media Training Course										</option>
+																			<option value="Professional Office Management and Administrative Excellence Programme">
+										  Professional Office Management and Administrative Excellence Programme										</option>
+																			<option value="Professional Research and Analytical Skills for Organisational Decision Making">
+										  Professional Research and Analytical Skills for Organisational Decision Making										</option>
+																			<option value="Professional Skills for Learning and Development Specialists (10 Days)">
+										  Professional Skills for Learning and Development Specialists (10 Days)										</option>
+																			<option value="Professional Technical Documentation Mastery">
+										  Professional Technical Documentation Mastery										</option>
+																			<option value="Programme Management ">
+										  Programme Management 										</option>
+																			<option value="Project Budgeting, Estimation, and Cost Saving Techniques">
+										  Project Budgeting, Estimation, and Cost Saving Techniques										</option>
+																			<option value="Project Management">
+										  Project Management										</option>
+																			<option value="Project Management and Implementation">
+										  Project Management and Implementation										</option>
+																			<option value="Project Management Essentials for Non-Project Managers">
+										  Project Management Essentials for Non-Project Managers										</option>
+																			<option value="Project Management for Managers ">
+										  Project Management for Managers 										</option>
+																			<option value="Project Management for Software Development">
+										  Project Management for Software Development										</option>
+																			<option value="Project Management for Supply Chain Professionals">
+										  Project Management for Supply Chain Professionals										</option>
+																			<option value="Project Management Fundamentals">
+										  Project Management Fundamentals										</option>
+																			<option value="Project Management Interface">
+										  Project Management Interface										</option>
+																			<option value="Project Management Mastery">
+										  Project Management Mastery										</option>
+																			<option value="Project Procurement Capability: Strategies for Complex Projects">
+										  Project Procurement Capability: Strategies for Complex Projects										</option>
+																			<option value="Prompt Engineering and AI Productivity Tools">
+										  Prompt Engineering and AI Productivity Tools										</option>
+																			<option value="Psychology in Selling and Sales Counselling">
+										  Psychology in Selling and Sales Counselling										</option>
+																			<option value="Public Accounting: Principles, Practices & Professional Standards">
+										  Public Accounting: Principles, Practices & Professional Standards										</option>
+																			<option value="Public Policy Development">
+										  Public Policy Development										</option>
+																			<option value="Public Private Partnerships (PPP)">
+										  Public Private Partnerships (PPP)										</option>
+																			<option value="Public Relations and Corporate Communications">
+										  Public Relations and Corporate Communications										</option>
+																			<option value="Public Relations Essentials">
+										  Public Relations Essentials										</option>
+																			<option value="Pumps Operation, Troubleshooting and Maintenance">
+										  Pumps Operation, Troubleshooting and Maintenance										</option>
+																			<option value="Purchasing and Suppliers Management">
+										  Purchasing and Suppliers Management										</option>
+																			<option value="Purchasing Techniques, Negotiation and Cost Reduction">
+										  Purchasing Techniques, Negotiation and Cost Reduction										</option>
+																			<option value="Quality and Compliance Management">
+										  Quality and Compliance Management										</option>
+																			<option value="Quality Assurance Fundamentals">
+										  Quality Assurance Fundamentals										</option>
+																			<option value="Questioning Skills">
+										  Questioning Skills										</option>
+																			<option value="Recruitment and Selection Essentials">
+										  Recruitment and Selection Essentials										</option>
+																			<option value="Relational Database Design: Tools and Techniques">
+										  Relational Database Design: Tools and Techniques										</option>
+																			<option value="Renewable and Clean Energy">
+										  Renewable and Clean Energy										</option>
+																			<option value="Report Writing">
+										  Report Writing										</option>
+																			<option value="Report Writing">
+										  Report Writing										</option>
+																			<option value="Report Writing and Presenting with Impact">
+										  Report Writing and Presenting with Impact										</option>
+																			<option value="Research and Analysis">
+										  Research and Analysis										</option>
+																			<option value="Resource Mobilisation for Development and Growth">
+										  Resource Mobilisation for Development and Growth										</option>
+																			<option value="Reverse Osmosis">
+										  Reverse Osmosis										</option>
+																			<option value="Risk and Change Management">
+										  Risk and Change Management										</option>
+																			<option value="Risk and Crisis Management">
+										  Risk and Crisis Management										</option>
+																			<option value="Risk Assessment for Production Operations">
+										  Risk Assessment for Production Operations										</option>
+																			<option value="Risk Management & Contingency Planning for Sports Events">
+										  Risk Management & Contingency Planning for Sports Events										</option>
+																			<option value="Risk Management and Incident Reporting in Healthcare (Non-Clinical)">
+										  Risk Management and Incident Reporting in Healthcare (Non-Clinical)										</option>
+																			<option value="Risk Management Professional">
+										  Risk Management Professional										</option>
+																			<option value="Root Cause Analysis">
+										  Root Cause Analysis										</option>
+																			<option value="Rotating Equipment for Operators ">
+										  Rotating Equipment for Operators 										</option>
+																			<option value="Sales Negotiation Essentials">
+										  Sales Negotiation Essentials										</option>
+																			<option value="Sales Skills">
+										  Sales Skills										</option>
+																			<option value="Security Management">
+										  Security Management										</option>
+																			<option value="Security Management – 1 Day">
+										  Security Management – 1 Day										</option>
+																			<option value="Separation Processes: Extraction, Distillation and Absorption">
+										  Separation Processes: Extraction, Distillation and Absorption										</option>
+																			<option value="Service Excellence">
+										  Service Excellence										</option>
+																			<option value="Service Recovery and Sensitive Interaction Management">
+										  Service Recovery and Sensitive Interaction Management										</option>
+																			<option value="Shutdown and Turnaround Coordination">
+										  Shutdown and Turnaround Coordination										</option>
+																			<option value="Simplifying Work Processes and Procedures">
+										  Simplifying Work Processes and Procedures										</option>
+																			<option value="Skills of Auditing and Internal Control">
+										  Skills of Auditing and Internal Control										</option>
+																			<option value="Skills of Improving Working Methods">
+										  Skills of Improving Working Methods										</option>
+																			<option value="Smart Working Time Management, Priorities and Goals">
+										  Smart Working Time Management, Priorities and Goals										</option>
+																			<option value="Stakeholder & Investor Relations in Infrastructure & Operations">
+										  Stakeholder & Investor Relations in Infrastructure & Operations										</option>
+																			<option value="Statistical Analysis by Using SPSS">
+										  Statistical Analysis by Using SPSS										</option>
+																			<option value="Steam Turbine Control System ">
+										  Steam Turbine Control System 										</option>
+																			<option value="Storytelling for Business ">
+										  Storytelling for Business 										</option>
+																			<option value="Strategic Brand and Public Relations Management">
+										  Strategic Brand and Public Relations Management										</option>
+																			<option value="Strategic Communication: Thinking, Planning, and Execution">
+										  Strategic Communication: Thinking, Planning, and Execution										</option>
+																			<option value="Strategic Community Relations: Developing Successful Community Partnerships">
+										  Strategic Community Relations: Developing Successful Community Partnerships										</option>
+																			<option value="Strategic Competency Mapping for Talent Growth">
+										  Strategic Competency Mapping for Talent Growth										</option>
+																			<option value="Strategic Decision-Making and Risk Management">
+										  Strategic Decision-Making and Risk Management										</option>
+																			<option value="Strategic Distribution and Channel Management">
+										  Strategic Distribution and Channel Management										</option>
+																			<option value="Strategic Emergency Preparedness & Crisis Management">
+										  Strategic Emergency Preparedness & Crisis Management										</option>
+																			<option value="Strategic Event Management">
+										  Strategic Event Management										</option>
+																			<option value="Strategic Financial Planning for Sustainable Growth">
+										  Strategic Financial Planning for Sustainable Growth										</option>
+																			<option value="Strategic HR for Leaders (SHL)">
+										  Strategic HR for Leaders (SHL)										</option>
+																			<option value="Strategic Human Capital Management for Organisational Growth">
+										  Strategic Human Capital Management for Organisational Growth										</option>
+																			<option value="Strategic Human Resources Management">
+										  Strategic Human Resources Management										</option>
+																			<option value="Strategic Job Evaluation & Role Analysis Program (10 Days)">
+										  Strategic Job Evaluation & Role Analysis Program (10 Days)										</option>
+																			<option value="Strategic Leadership and Decision Making">
+										  Strategic Leadership and Decision Making										</option>
+																			<option value="Strategic Leadership for Vision 2030: Achieving National Goals">
+										  Strategic Leadership for Vision 2030: Achieving National Goals										</option>
+																			<option value="Strategic Leadership Programme ">
+										  Strategic Leadership Programme 										</option>
+																			<option value="Strategic Management and Procurement Management">
+										  Strategic Management and Procurement Management										</option>
+																			<option value="Strategic Management Essentials">
+										  Strategic Management Essentials										</option>
+																			<option value="Strategic Management of Museums & Heritage Institutions Mastery">
+										  Strategic Management of Museums & Heritage Institutions Mastery										</option>
+																			<option value="Strategic Management, Monitoring and Planning for Government and Public Sector">
+										  Strategic Management, Monitoring and Planning for Government and Public Sector										</option>
+																			<option value="Strategic Operational Planning">
+										  Strategic Operational Planning										</option>
+																			<option value="Strategic Performance Management for Sustainable Organisational Results">
+										  Strategic Performance Management for Sustainable Organisational Results										</option>
+																			<option value="Strategic Planning">
+										  Strategic Planning										</option>
+																			<option value="Strategic Planning, Performance Management & Budget Optimisation">
+										  Strategic Planning, Performance Management & Budget Optimisation										</option>
+																			<option value="Strategic Planning: A Comprehensive Guide">
+										  Strategic Planning: A Comprehensive Guide										</option>
+																			<option value="Strategic Portfolio Management ">
+										  Strategic Portfolio Management 										</option>
+																			<option value="Strategic Pricing">
+										  Strategic Pricing										</option>
+																			<option value="Strategic Purchasing and Supplier Excellence">
+										  Strategic Purchasing and Supplier Excellence										</option>
+																			<option value="Strategic Recruitment and Selection">
+										  Strategic Recruitment and Selection										</option>
+																			<option value="Strategic Resource Development for Sustainable Growth (10 Days)">
+										  Strategic Resource Development for Sustainable Growth (10 Days)										</option>
+																			<option value="Strategic Sales and Promotion Management">
+										  Strategic Sales and Promotion Management										</option>
+																			<option value="Strategic Security Planning and Scenario Design">
+										  Strategic Security Planning and Scenario Design										</option>
+																			<option value="Strategic Sourcing">
+										  Strategic Sourcing										</option>
+																			<option value="Strategic Treasury and Liquidity Management">
+										  Strategic Treasury and Liquidity Management										</option>
+																			<option value="Strategic Treasury Management">
+										  Strategic Treasury Management										</option>
+																			<option value="Strategies for Forming and Managing Committees in Public Institutions">
+										  Strategies for Forming and Managing Committees in Public Institutions										</option>
+																			<option value="Strategy and Business Planning">
+										  Strategy and Business Planning										</option>
+																			<option value="Strategy and Decision Making for Senior Leaders">
+										  Strategy and Decision Making for Senior Leaders										</option>
+																			<option value="Strategy Management (Balanced Scorecard)">
+										  Strategy Management (Balanced Scorecard)										</option>
+																			<option value="Stress Management">
+										  Stress Management										</option>
+																			<option value="Study Design and Preparation">
+										  Study Design and Preparation										</option>
+																			<option value="Subsea Pipelines Engineering">
+										  Subsea Pipelines Engineering										</option>
+																			<option value="Succession Planning">
+										  Succession Planning										</option>
+																			<option value="Supervisory Skills">
+										  Supervisory Skills										</option>
+																			<option value="Supplier Relationship Management (SRM)">
+										  Supplier Relationship Management (SRM)										</option>
+																			<option value="Supply Chain Management for Sports Events">
+										  Supply Chain Management for Sports Events										</option>
+																			<option value="Supply Chain Management SCM">
+										  Supply Chain Management SCM										</option>
+																			<option value="Supply Market Analysis">
+										  Supply Market Analysis										</option>
+																			<option value="Sustainability & Green Sports Event Management">
+										  Sustainability & Green Sports Event Management										</option>
+																			<option value="Sustainable Talent Growth: Strategy, Skills & Impact">
+										  Sustainable Talent Growth: Strategy, Skills & Impact										</option>
+																			<option value="Talent Leadership and Team Development">
+										  Talent Leadership and Team Development										</option>
+																			<option value="Talent Management">
+										  Talent Management										</option>
+																			<option value="Team Building">
+										  Team Building										</option>
+																			<option value="Technical Writing">
+										  Technical Writing										</option>
+																			<option value="Techniques for Polymeric Deposits Reduction and Removal">
+										  Techniques for Polymeric Deposits Reduction and Removal										</option>
+																			<option value="Technology and Innovation Management">
+										  Technology and Innovation Management										</option>
+																			<option value="Telecommunications Law & Regulation in the G10 Countries and Saudi Arabia">
+										  Telecommunications Law & Regulation in the G10 Countries and Saudi Arabia										</option>
+																			<option value="Telecommunications Law and Regulation">
+										  Telecommunications Law and Regulation										</option>
+																			<option value="The Art of Human Resource Management">
+										  The Art of Human Resource Management										</option>
+																			<option value="The Essentials of Budgeting">
+										  The Essentials of Budgeting										</option>
+																			<option value="The Future of Learning: The Rise of  Artificial Intelligence (AI)">
+										  The Future of Learning: The Rise of  Artificial Intelligence (AI)										</option>
+																			<option value="The International Buyer Mini MBA">
+										  The International Buyer Mini MBA										</option>
+																			<option value="The International Manager">
+										  The International Manager										</option>
+																			<option value="The Training Analyst Mini MBA">
+										  The Training Analyst Mini MBA										</option>
+																			<option value="The Training Plan, its Preparation, Application and Evaluation">
+										  The Training Plan, its Preparation, Application and Evaluation										</option>
+																			<option value="Theory and Practice of Electrochemical Processes">
+										  Theory and Practice of Electrochemical Processes										</option>
+																			<option value="Time Management: Achieve More in Less time">
+										  Time Management: Achieve More in Less time										</option>
+																			<option value="Total Organic Carbon Analyzer (TOC)">
+										  Total Organic Carbon Analyzer (TOC)										</option>
+																			<option value="Total Quality Management (TQM) ">
+										  Total Quality Management (TQM) 										</option>
+																			<option value="Trade Dynamics and Competition Law: Understanding Competitive Forces ">
+										  Trade Dynamics and Competition Law: Understanding Competitive Forces 										</option>
+																			<option value="Train the Trainer">
+										  Train the Trainer										</option>
+																			<option value="Train the Trainer Delivery Skills">
+										  Train the Trainer Delivery Skills										</option>
+																			<option value="Train the Trainer: Designing and Delivering Effective Training">
+										  Train the Trainer: Designing and Delivering Effective Training										</option>
+																			<option value="Training Analysis and Learning Strategy for Organisational Development">
+										  Training Analysis and Learning Strategy for Organisational Development										</option>
+																			<option value="Training and Development Essentials">
+										  Training and Development Essentials										</option>
+																			<option value="Transformational Governance and Leadership Excellence for Government Executives">
+										  Transformational Governance and Leadership Excellence for Government Executives										</option>
+																			<option value="Transformational Leadership for Excellence ">
+										  Transformational Leadership for Excellence 										</option>
+																			<option value="Transition to Leadership">
+										  Transition to Leadership										</option>
+																			<option value="Unlocking AI in Manufacturing: From Operational Value to Workforce Readiness">
+										  Unlocking AI in Manufacturing: From Operational Value to Workforce Readiness										</option>
+																			<option value="Unmute: Women, Emotions & Leadership">
+										  Unmute: Women, Emotions & Leadership										</option>
+																			<option value="Unsaturated Polyester Resin">
+										  Unsaturated Polyester Resin										</option>
+																			<option value="Value Added Reseller (VAR)">
+										  Value Added Reseller (VAR)										</option>
+																			<option value="Vendor Management Capability: Building Strategic Supplier Relationships">
+										  Vendor Management Capability: Building Strategic Supplier Relationships										</option>
+																			<option value="Venture Capital: Funding, Structuring & Growth Strategies">
+										  Venture Capital: Funding, Structuring & Growth Strategies										</option>
+																			<option value="Venue & Facility Management for Sports Events">
+										  Venue & Facility Management for Sports Events										</option>
+																			<option value="Volunteer & Workforce Management in Sports Events">
+										  Volunteer & Workforce Management in Sports Events										</option>
+																			<option value="Warehouse Management and Stock Control">
+										  Warehouse Management and Stock Control										</option>
+																			<option value="Winning Mindsets for Strategic Leaders">
+										  Winning Mindsets for Strategic Leaders										</option>
+																			<option value="Women Empowerment Program">
+										  Women Empowerment Program										</option>
+																			<option value="Workforce Engagement and Motivation in Healthcare">
+										  Workforce Engagement and Motivation in Healthcare										</option>
+																			<option value="Workforce Learning & Talent Growth Program (10 Days)">
+										  Workforce Learning & Talent Growth Program (10 Days)										</option>
+																			<option value="Workforce Planning">
+										  Workforce Planning										</option>
+																			<option value="Workplace Health, Safety & Wellbeing Program (10 Days)">
+										  Workplace Health, Safety & Wellbeing Program (10 Days)										</option>
+																			<option value="Workplace Psychology Essentials (WPE)">
+										  Workplace Psychology Essentials (WPE)										</option>
+																			<option value="Workplace Risk Awareness">
+										  Workplace Risk Awareness										</option>
+																		</select>
+									<span></span>
+                                </div>
+                            </div>-->
+
+                            <div class="lpo2">
+                                <div class="item">
+                                    <textarea name="txtcomments" id="txtcomments" placeholder="Comment *" maxlength="1000"></textarea>
+									<span></span>
+                                </div>
+                            </div>
+
+                            <div class="lpo rt">
+                                <div class="item">
+                                    <input type="text" name="txtfname" id="txtfname" value="" placeholder="First Name *" />
+									<span></span>
+                                </div>
+                            </div>
+
+                            <div class="lpo">
+                                <div class="item">
+                                    <input type="text" name="txtlname" id="txtlname" value=""  placeholder="Last Name *" />
+									<span></span>
+                                </div>
+                            </div>
+                            <div class="lpo2">
+                                <div class="item">
+                                    <input type="email" name="txtemail" id="txtemail" value=""  placeholder="Email Address *"/>
+									<span></span>
+                                </div>
+                            </div>
+
+                            <div id="hys-turnstile-container"></div>
+                            <div id="turnstile-error"></div>
+                                <div class="y_btn">
+								<!--<div class="g-recaptcha" data-sitekey="6LfvDskjAAAAALYte5SQP4thQ_NOk-JbxfAUZwU-" data-badge="inline" data-size="invisible" data-callback="setResponse" style="display:none;"></div>
+    
+								<input type="hidden" id="captcha-response" name="captcha-response" />-->
+                                    <input type="submit" class="submit" value="Submit" name="btnsubmitrate" id="btnsubmitrate" />
+                      
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="partnership_sec">
+    <section class="logo-separater">
+        <img src="https://www.londontfe.com/assets/images/body_logo.png" alt="body logo" loading="lazy">
+    </section>
+    <div class="our-parneship" id="partnersliderr">
+        <div class="container">
+            <h2>Our Clients</h2>
+            <div class="partner-slider" id="partnerlogoslide">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part1.png" alt="foundation wind energy icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part2.png" alt="petronas icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part4.png" alt="ministry of finance icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part5.png" alt="ministry of energy icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part6.png" alt="indonesia financial services authority icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part7.png" alt="federal mortgage bank of nigeria icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part8.png" alt="epexspot icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part9.png" alt="european central bank icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part10.png" alt="saudi aramco icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part11.png" alt="icrc icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part12.png" alt="undp banner" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part13.png" alt="public investment fund icon" loading="lazy">
+                        
+                        <img src="https://www.londontfe.com//admin/assets/uploads/part14.png" alt="technology and security ecosystem icon" loading="lazy">
+                        </div>
+        </div>
+    </div>
+    
+</div>
+
+</div>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit"></script>
+<script>
+    let HYSHYScfTurnstileWidget = null;
+    let HYScfturnstileReady = false;
+    let HYSisManualExecution = false;
+
+    
+    // Initialize Turnstile invisible widget
+    window.onloadTurnstileCallback = function() {
+      console.log('Turnstile script loaded');
+    
+      HYScfTurnstileWidget = turnstile.render('#hys-turnstile-container', {
+        sitekey: '0x4AAAAAAB6sdg19FHWnyzL5',
+        size: 'invisible',
+        callback: function(token) {
+          //console.log('Turnstile callback fired');
+          if (HYSisManualExecution) {
+            console.log('Manual execute detected, submitting form now...');
+            submithavesayForm(token);
+          } else {
+            //console.log('Ignoring automatic Turnstile callback (not user initiated)');
+          }
+        },
+        'error-callback': function() {
+          $('#turnstile-error').html('Verification failed. Please try again.');
+          turnstile.reset('#hys-turnstile-container');
+          HYSisManualExecution = false;
+        },
+        'timeout-callback': function() {
+          $('#turnstile-error').html('Verification timed out. Please try again.');
+          turnstile.reset('#hys-turnstile-container');
+          HYSisManualExecution = false;
+        }
+      });
+    
+      HYScfturnstileReady = true;
+      //console.log('Turnstile initialized');
+    };
+    $(document).on("click","#btnsubmitrate",function(event){
+	    event.preventDefault();
+
+	    var errorCounter	=	0;
+	    if($.trim($('#txttitle').val())=="") {
+			errorCounter++;
+			  $("#txttitle").parent('div').addClass('error_div full');   
+			  $("#txttitle").next('span').html('Please enter review title.');		
+		} else {
+			if(!chkCharNum($.trim($('#txttitle').val()))) {
+				errorCounter++;
+				$("#txttitle").parent('div').addClass('error_div full');   
+			    $("#txttitle").next('span').html('Please enter review title.');
+			} else {
+				$("#txttitle").parent('div').removeClass('error_div full');   
+			    $("#txttitle").next('span').html('');
+
+			}
+		}
+		
+		if($.trim($('#txtcomments').val())=="") {
+			  errorCounter++;
+			  $("#txtcomments").parent('div').addClass('error_div full');   
+			  $("#txtcomments").next('span').html('Please enter comments.');		
+		} else {
+			  $("#txtcomments").parent('div').removeClass('error_div full');   
+			  $("#txtcomments").next('span').html('');
+			
+		}
+		
+		
+		/*if($.trim($('#course_name').val())==""){
+			errorCounter++; 
+			$("#course_name").parent('div').addClass('error_div full');   
+			$("#course_name").next('span').html('Please select course.');
+		} else {
+			$("#course_name").parent('div').removeClass('error_div full');   
+			$("#course_name").next('span').html('');
+			
+		}*/
+		
+		if($.trim($('#txtfname').val())==""){
+			errorCounter++; 
+			$("#txtfname").parent('div').addClass('error_div full');   
+			$("#txtfname").next('span').html('Please enter first name.');
+		} else {
+			$("#txtfname").parent('div').removeClass('error_div full');   
+			$("#txtfname").next('span').html('');
+			
+		}
+		
+		if($.trim($('#txtlname').val())==""){
+			errorCounter++; 
+			$("#txtlname").parent('div').addClass('error_div full');   
+			$("#txtlname").next('span').html('Please enter last name.');
+		} else {
+			$("#txtlname").parent('div').removeClass('error_div full');   
+			$("#txtlname").next('span').html('');
+			
+		}
+		
+		if($.trim($('#txtemail').val())==""){
+			errorCounter++; 
+			$("#txtemail").parent('div').addClass('error_div full');   
+			$("#txtemail").next('span').html('Please enter email Id.');
+		} else {
+			if( !validateEmail($.trim($('#txtemail').val()))){
+				errorCounter++;
+				$("#txtemail").parent('div').addClass('error_div full');   
+			    $("#txtemail").next('span').html('Enter Your Valid Email Address.');
+			} else {
+				$("#txtemail").parent('div').removeClass('error_div full');   
+			    $("#txtemail").next('span').html('');
+
+			}
+			
+		}
+		if(errorCounter == 0) {
+			//grecaptcha.execute();
+			//setTimeout(submithavesayForm, 1000);
+			//submithavesayForm();
+			if (!HYScfturnstileReady || HYScfTurnstileWidget === null) {
+            //$('#turnstile-error').html('Security verification not ready. Please refresh and try again.');
+            return false;
+          }
+        
+          //console.log('User clicked submit, executing Turnstile...');
+          HYSisManualExecution = true; 
+          turnstile.execute('#hys-turnstile-container');
+	}
+	else {
+		  	//grecaptcha.reset();
+		  	return false
+		  }
+			
+			
+});	
+	function submithavesayForm(token) {
+	        var frmVal  = $("#frmhavesay").serialize();
+	        frmVal += '&cf-turnstile-response=' + encodeURIComponent(token);
+			$.post(_basePath+"content/send_review/", frmVal, function(responce) {
+				if(responce['process'] == "success") {
+					$(".alertBoxInner").children('p').html("Thank you for your feedback!");
+					$(".alertBox").show();
+					//alert('Thank you for your feedback!', 'Review');
+					$("#txttitle").val('');
+					$("#txtcomments").val('');
+					$("#course_name").val('');
+					$("#txttitle").val('');
+					$("#txtcomments").val('');
+					$("#txtfname").val('');
+					$("#txtlname").val('');
+					$("#txtemail").val('');
+					HYSisManualExecution = false;
+					if (typeof turnstile !== 'undefined' && HYScfTurnstileWidget !== null) {
+                        turnstile.reset('#hys-turnstile-container');
+                    }
+				} else {
+					$(".alertBoxInner").children('p').html(responce['msg']);
+					$(".alertBox").show();
+					if (typeof turnstile !== 'undefined' && HYScfTurnstileWidget !== null) {
+                        turnstile.reset('#hys-turnstile-container');
+                    }
+					//alert(responce['msg'], 'Review');
+				}
+			}, "json");
+	}
+</script>
+<!--<script>
+
+function setResponse(response) { 
+    document.getElementById('captcha-response').value = response; 
+}
+</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>-->      	 
+  </div>
+
+
+  <div class="whatsapp">

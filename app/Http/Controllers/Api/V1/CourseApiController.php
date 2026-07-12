@@ -429,14 +429,14 @@ class CourseApiController extends Controller
                 } else {
                     $advisor->image_url = "https://www.londontfe.com/assets/images/user_icon.png";
                 }
-                
+
                 $advisor->whatsapp = $advisor->u_whatsapp ?: $advisor->ud_whatsapp;
-                
+
                 $advisor->phone_full = ($advisor->phone_code ?: '') . ($advisor->phone ?: '');
                 if (!$advisor->phone_full && $advisor->contact_no) {
                     $advisor->phone_full = ($advisor->contact_no_code ?: '') . $advisor->contact_no;
                 }
-                
+
                 $advisor = (array) $advisor;
             }
 
