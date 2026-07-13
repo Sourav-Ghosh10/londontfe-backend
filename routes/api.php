@@ -23,7 +23,7 @@ Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
     Route::post('/payment/revolut/create-order', [\App\Http\Controllers\Api\V1\PaymentApiController::class, 'createRevolutOrder']);
     
     Route::post('/enquiry/quickenquery', [\App\Http\Controllers\Api\V1\EnquiryApiController::class, 'quickenquery']);
-    Route::post('/enquiry/calendar', [EnquiryApiController::class, 'calendarForm']);
+    Route::post('/enquiry/calendar', [\App\Http\Controllers\Api\V1\EnquiryApiController::class, 'calendarForm']);
     Route::post('/enquiry/schedule', [\App\Http\Controllers\Api\V1\CourseScheduleApiController::class, 'downloadCourseSchedule']);
     Route::post('/course-schedule/request-document-download', [\App\Http\Controllers\Api\V1\CourseScheduleApiController::class, 'requestDocumentDownload']);
     Route::get('/course-schedule/data', [\App\Http\Controllers\Api\V1\CourseScheduleApiController::class, 'getCourseScheduleData']);
