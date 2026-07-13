@@ -74,6 +74,9 @@ class UserController extends Controller
                   ->orWhere('user.email', 'like', '%' . $search . '%')
                   ->orWhere('user.fname', 'like', '%' . $search . '%')
                   ->orWhere('user.lname', 'like', '%' . $search . '%')
+                  ->orWhere('user_details.first_name', 'like', '%' . $search . '%')
+                  ->orWhere('user_details.last_name', 'like', '%' . $search . '%')
+                  ->orWhere(DB::raw("CONCAT(user_details.first_name, ' ', user_details.last_name)"), 'like', '%' . $search . '%')
                   ->orWhere('user_details.role', 'like', '%' . $search . '%')
                   ->orWhere('user_details.status', 'like', '%' . $search . '%');
                 
@@ -174,6 +177,11 @@ class UserController extends Controller
             'contact_no_code' => 'nullable|string',
             'photo' => 'nullable|image|max:10240',
             'created_date' => 'nullable|date',
+            'about_us_text' => 'nullable|string',
+            'about_us_image' => 'nullable|image|max:10240',
+            'company_logo' => 'nullable|image|max:10240',
+            'about_us_user_type' => 'nullable|string',
+            'is_on_about_us' => 'nullable|boolean',
         ]);
 
         $photoPath = null;
@@ -186,7 +194,17 @@ class UserController extends Controller
             $photoExt = $request->file('photo')->getClientOriginalExtension();
         }
 
-        DB::transaction(function () use ($request, $photoPath, $photoExt) {
+        $aboutUsImage = null;
+        if ($request->hasFile('about_us_image')) {
+            $aboutUsImage = $request->file('about_us_image')->storePublicly('users/about', 's3');
+        }
+
+        $companyLogo = null;
+        if ($request->hasFile('company_logo')) {
+            $companyLogo = $request->file('company_logo')->storePublicly('users/companies', 's3');
+        }
+
+        DB::transaction(function () use ($request, $photoPath, $photoExt, $aboutUsImage, $companyLogo) {
             $typeId = isset($this->roleToTypeMap[$request->role]) ? $this->roleToTypeMap[$request->role] : 3;
 
             $user = User::create([
@@ -237,6 +255,11 @@ class UserController extends Controller
                 'passport_no' => '',
                 'reward_point' => 0,
                 'passport_image' => '',
+                'about_us_text' => $request->about_us_text,
+                'about_us_image' => $aboutUsImage ?? '',
+                'company_logo' => $companyLogo ?? '',
+                'about_us_user_type' => $request->about_us_user_type,
+                'is_on_about_us' => $request->has('is_on_about_us') && $request->is_on_about_us ? 1 : 0,
             ]);
         });
 
@@ -303,6 +326,11 @@ class UserController extends Controller
             'contact_no_code' => 'nullable|string',
             'photo' => 'nullable|image|max:10240',
             'created_date' => 'nullable|date',
+            'about_us_text' => 'nullable|string',
+            'about_us_image' => 'nullable|image|max:10240',
+            'company_logo' => 'nullable|image|max:10240',
+            'about_us_user_type' => 'nullable|string',
+            'is_on_about_us' => 'nullable|boolean',
         ]);
 
         $photoPath = $details->image_name ?? null;
@@ -318,7 +346,23 @@ class UserController extends Controller
             $photoExt = $request->file('photo')->getClientOriginalExtension();
         }
 
-        DB::transaction(function () use ($request, $user, $details, $photoPath, $photoExt) {
+        $aboutUsImage = $details->about_us_image ?? null;
+        if ($request->hasFile('about_us_image')) {
+            if ($details && $details->about_us_image && !str_starts_with($details->about_us_image, 'http')) {
+                Storage::disk('s3')->delete($details->about_us_image);
+            }
+            $aboutUsImage = $request->file('about_us_image')->storePublicly('users/about', 's3');
+        }
+
+        $companyLogo = $details->company_logo ?? null;
+        if ($request->hasFile('company_logo')) {
+            if ($details && $details->company_logo && !str_starts_with($details->company_logo, 'http')) {
+                Storage::disk('s3')->delete($details->company_logo);
+            }
+            $companyLogo = $request->file('company_logo')->storePublicly('users/companies', 's3');
+        }
+
+        DB::transaction(function () use ($request, $user, $details, $photoPath, $photoExt, $aboutUsImage, $companyLogo) {
             $typeId = isset($this->roleToTypeMap[$request->role]) ? $this->roleToTypeMap[$request->role] : 3;
 
             $userUpdate = [
@@ -367,6 +411,11 @@ class UserController extends Controller
                 'passport_no' => '',
                 'reward_point' => 0,
                 'passport_image' => '',
+                'about_us_text' => $request->about_us_text,
+                'about_us_image' => $aboutUsImage ?? '',
+                'company_logo' => $companyLogo ?? '',
+                'about_us_user_type' => $request->about_us_user_type,
+                'is_on_about_us' => $request->has('is_on_about_us') && $request->is_on_about_us ? 1 : 0,
             ];
 
             if ($details) {

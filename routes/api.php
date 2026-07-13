@@ -40,5 +40,8 @@ Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
 
     // Dynamic Pages endpoint
     Route::get('/pages/{url}', [\App\Http\Controllers\Api\V1\PageApiController::class, 'show'])->where('url', '.*');
+    
+    // About Us Profiles endpoint
+    Route::get('/about-us-profiles', [\App\Http\Controllers\Api\V1\UserApiController::class, 'aboutUsProfiles']);
 });
 

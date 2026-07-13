@@ -80,6 +80,65 @@
                     </div>
                 </div>
 
+                <!-- About Us Profile -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xs border border-gray-250 dark:border-gray-700 p-6 mt-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-bold text-gray-900 dark:text-white">About Us Page Profile</h2>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wide">Show on About Us</span>
+                            <button type="button" id="is-on-about-us-toggle" role="switch" aria-checked="false"
+                                onclick="toggleIsOnAboutUs()"
+                                class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-300 dark:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-[#008060] focus:ring-offset-1">
+                                <span id="is-on-about-us-dot" class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow transition-transform duration-200"></span>
+                            </button>
+                            <input type="hidden" id="is-on-about-us" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">About Us User Type</label>
+                            <div class="relative">
+                                <select id="about-us-user-type" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-650 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] appearance-none cursor-pointer">
+                                    <option value="">Select Type</option>
+                                    <option value="management">Management</option>
+                                    <option value="trainer">Trainer</option>
+                                    <option value="staff">Staff</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">About Us Description</label>
+                            <textarea id="about-us-text-editor"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">About Us Image</label>
+                                <div onclick="document.getElementById('about-us-image').click()"
+                                    class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-[#008060] transition-colors bg-[#f6f6f7] dark:bg-gray-700">
+                                    <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Click to upload about us image</p>
+                                </div>
+                                <input type="file" id="about-us-image" accept="image/*" class="hidden" onchange="previewAboutUsPhoto(this)">
+                                <img id="about-us-photo-preview" class="hidden mt-3 w-full rounded-lg object-cover max-h-40" src="" alt="Preview">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider mb-1.5">Company Logo</label>
+                                <div onclick="document.getElementById('company-logo').click()"
+                                    class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-[#008060] transition-colors bg-[#f6f6f7] dark:bg-gray-700">
+                                    <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Click to upload logo</p>
+                                </div>
+                                <input type="file" id="company-logo" accept="image/*" class="hidden" onchange="previewCompanyLogo(this)">
+                                <img id="company-logo-preview" class="hidden mt-3 w-full rounded-lg object-contain max-h-40" src="" alt="Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Personal Details -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xs border border-gray-250 dark:border-gray-700 p-6">
                     <h2 class="text-sm font-bold text-gray-900 dark:text-white mb-4">Personal Details</h2>
@@ -349,6 +408,11 @@
         placeholder: 'Write a short bio or description about this user...'
     });
 
+    var joditAboutUsEditor = Jodit.make('#about-us-text-editor', {
+        height: 250,
+        placeholder: 'Write the about us description...'
+    });
+
     function filterCategoriesTable() {
         const searchVal = document.getElementById('category-search').value.toLowerCase().trim();
         const rows = document.querySelectorAll('.category-row');
@@ -376,6 +440,20 @@
         const btn = document.getElementById('show-profile-toggle');
         const dot = document.getElementById('show-profile-dot');
         const input = document.getElementById('show-admin-profile');
+        const isOn = btn.getAttribute('aria-checked') === 'true';
+        btn.setAttribute('aria-checked', !isOn);
+        btn.classList.toggle('bg-[#008060]', !isOn);
+        btn.classList.toggle('bg-gray-300', isOn);
+        btn.classList.toggle('dark:bg-gray-600', isOn);
+        dot.classList.toggle('translate-x-6', !isOn);
+        dot.classList.toggle('translate-x-1', isOn);
+        input.value = isOn ? '0' : '1';
+    }
+
+    function toggleIsOnAboutUs() {
+        const btn = document.getElementById('is-on-about-us-toggle');
+        const dot = document.getElementById('is-on-about-us-dot');
+        const input = document.getElementById('is-on-about-us');
         const isOn = btn.getAttribute('aria-checked') === 'true';
         btn.setAttribute('aria-checked', !isOn);
         btn.classList.toggle('bg-[#008060]', !isOn);
@@ -414,6 +492,24 @@
 
     function previewPhoto(input) {
         const preview = document.getElementById('photo-preview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => { preview.src = e.target.result; preview.classList.remove('hidden'); };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewAboutUsPhoto(input) {
+        const preview = document.getElementById('about-us-photo-preview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => { preview.src = e.target.result; preview.classList.remove('hidden'); };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewCompanyLogo(input) {
+        const preview = document.getElementById('company-logo-preview');
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = e => { preview.src = e.target.result; preview.classList.remove('hidden'); };
@@ -494,6 +590,20 @@
         if (photoInput.files.length > 0) {
             formData.append('photo', photoInput.files[0]);
         }
+
+        const aboutUsImageInput = document.getElementById('about-us-image');
+        if (aboutUsImageInput.files.length > 0) {
+            formData.append('about_us_image', aboutUsImageInput.files[0]);
+        }
+
+        const companyLogoInput = document.getElementById('company-logo');
+        if (companyLogoInput.files.length > 0) {
+            formData.append('company_logo', companyLogoInput.files[0]);
+        }
+
+        formData.append('about_us_user_type', document.getElementById('about-us-user-type').value);
+        formData.append('is_on_about_us', document.getElementById('is-on-about-us').value);
+        formData.append('about_us_text', joditAboutUsEditor.value);
 
         fetch('/admin/users', {
             method: 'POST',
