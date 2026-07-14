@@ -423,7 +423,7 @@ class CourseScheduleApiController extends Controller
 
             $startTs = strtotime($row->start_date);
             $endTs = !empty($row->end_date) ? strtotime($row->end_date) : null;
-            
+
             if ($endTs) {
                 if (date('m Y', $startTs) === date('m Y', $endTs)) {
                     $dateFormatted = date('d', $startTs) . ' - ' . date('d M Y', $endTs);
@@ -702,30 +702,56 @@ class CourseScheduleApiController extends Controller
             $data = json_decode($record->querytxt, true);
             if ($data) {
                 // Category Filter
+                $categories = null;
                 if (!empty($data['category'])) {
+                    $categories = is_array($data['category']) ? $data['category'] : explode(',', $data['category']);
+                }
+
+                if (!empty($categories)) {
                     $query->join('course_category_assoc as CCA', 'CCA.course_id', '=', 'course.id')
-                        ->whereIn('CCA.category_id', $data['category']);
+                        ->join('category as cat', 'CCA.category_id', '=', 'cat.id')
+                        ->where(function ($q) use ($categories) {
+                            $q->whereIn('cat.category_seo_name', $categories)
+                                ->orWhereIn('CCA.category_id', $categories);
+                        });
                 }
 
-                // Venue Filter
-                if (!empty($data['venue'])) {
-                    $venues = [];
-                    foreach ($data['venue'] as $v) {
-                        if ($v === 'kuala-lumpur')
-                            $venues[] = 'Kuala Lumpur';
-                        elseif ($v === 'new-york')
-                            $venues[] = 'New York';
-                        elseif ($v === 'abu-dhabi')
-                            $venues[] = 'Abu Dhabi';
-                        else
-                            $venues[] = $v;
-                    }
-                    $query->whereIn('course_date_venue.venue', $venues);
+                // Venue / Location Filter
+                $venuesInput = null;
+                if (!empty($data['location'])) {
+                    $venuesInput = is_array($data['location']) ? $data['location'] : explode(',', $data['location']);
+                } elseif (!empty($data['venue'])) {
+                    $venuesInput = is_array($data['venue']) ? $data['venue'] : explode(',', $data['venue']);
                 }
 
-                // Date Filters
-                if (($data['orderby'] ?? '') == 'thisweek') {
-                    $query->whereRaw('YEARWEEK(course_date_venue.start_date, 1) = YEARWEEK(CURDATE(), 1)');
+                if (!empty($venuesInput)) {
+                    $query->join('venue as v', 'course_date_venue.venue_id', '=', 'v.id')
+                        ->where(function ($q) use ($venuesInput) {
+                            $q->whereIn('v.venue_seo_name', $venuesInput)
+                                ->orWhereIn('course_date_venue.venue', $venuesInput);
+                        });
+                }
+
+                // Certification filter
+                if (!empty($data['certification']) && $data['certification'] === 'yes') {
+                    $query->whereExists(function ($q) {
+                        $q->select(DB::raw(1))
+                            ->from('course_accreditation_assoc as caa')
+                            ->whereColumn('caa.course_id', 'course.id');
+                    });
+                }
+
+                // Date & Sort Filters
+                $sort = $data['sort'] ?? $data['orderby'] ?? '';
+                if ($sort === 'thisweek' || $sort === 'this_week') {
+                    $query->whereBetween('course_date_venue.start_date', [now()->startOfWeek()->format('Y-m-d'), now()->endOfWeek()->format('Y-m-d')]);
+                } elseif ($sort === 'this_month') {
+                    $query->whereMonth('course_date_venue.start_date', now()->month)
+                        ->whereYear('course_date_venue.start_date', now()->year);
+                } elseif ($sort === 'upcoming_month') {
+                    $nextMonth = now()->addMonth();
+                    $query->whereMonth('course_date_venue.start_date', $nextMonth->month)
+                        ->whereYear('course_date_venue.start_date', $nextMonth->year);
                 }
 
                 if (!empty($data['month']) && !empty($data['year'])) {
@@ -742,11 +768,11 @@ class CourseScheduleApiController extends Controller
                 $query->groupBy('course.id', 'course.course_name', 'course.seo_name', 'course.course_duration', 'course.course_duration_type', 'course_date_venue.id', 'course_date_venue.venue', 'course_date_venue.venue_id', 'course_date_venue.start_date', 'course.price_corporate_dollar', 'course.price_individual_dollar', 'course.price_tier_id', 'price_tier.base_rate', 'price_tier.daily_rate');
 
                 // Order by logic
-                if (($data['orderby'] ?? '') == 'atozsort') {
+                if ($sort == 'atozsort' || $sort == 'alpha_asc') {
                     $query->orderBy('course.course_name', 'asc');
-                } elseif (($data['orderby'] ?? '') == 'upcomingdt') {
+                } elseif ($sort == 'upcomingdt' || $sort == 'date_asc') {
                     $query->orderBy('course_date_venue.start_date', 'asc');
-                } elseif (($data['orderby'] ?? '') == 'ztoasort') {
+                } elseif ($sort == 'ztoasort' || $sort == 'alpha_desc') {
                     $query->orderBy('course.course_name', 'desc');
                 } else {
                     $query->orderBy('course.course_name', 'asc');

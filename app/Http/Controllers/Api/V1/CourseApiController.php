@@ -169,11 +169,15 @@ class CourseApiController extends Controller
                 'cat.featured_image',
                 'cdv.start_date',
                 'cdv.venue as venue_name',
-                'v.venue_seo_name'
+                'v.venue_seo_name',
+                'c.price_tier_id',
+                'pt.base_rate',
+                'pt.daily_rate'
             )
+            ->leftJoin('price_tier as pt', 'c.price_tier_id', '=', 'pt.id')
             ->where('c.status', '1')
             ->where('cdv.start_date', '>=', now()->format('Y-m-d'))
-            ->groupBy('cdv.id', 'c.id', 'c.course_name', 'c.seo_name', 'c.course_duration', 'c.rating', 'cat.category_name', 'cat.category_seo_name', 'cat.image_name', 'cat.course_list_image', 'cat.featured_image', 'cdv.start_date', 'cdv.venue', 'v.venue_seo_name');
+            ->groupBy('cdv.id', 'c.id', 'c.course_name', 'c.seo_name', 'c.course_duration', 'c.rating', 'cat.category_name', 'cat.category_seo_name', 'cat.image_name', 'cat.course_list_image', 'cat.featured_image', 'cdv.start_date', 'cdv.venue', 'v.venue_seo_name', 'c.price_tier_id', 'pt.base_rate', 'pt.daily_rate');
 
         // Apply Filters
         if ($request->has('category') && !empty($request->input('category'))) {
@@ -262,6 +266,18 @@ class CourseApiController extends Controller
             unset($item->course_list_image);
             unset($item->featured_image);
 
+            // Calculate dynamic price
+            $item->price = 0;
+            if (!empty($item->base_rate)) {
+                $days = (int) ($item->course_duration ?? 0);
+                $baseRate = (float) $item->base_rate * (round($days / 5));
+                $dailyRate = (float) $item->daily_rate * $days;
+                $item->price = round(($baseRate + $dailyRate) / 100) * 100;
+            }
+            unset($item->base_rate);
+            unset($item->daily_rate);
+            unset($item->price_tier_id);
+
             return $item;
         });
 
@@ -319,8 +335,12 @@ class CourseApiController extends Controller
                     'cat.category_seo_name',
                     'cat.banner_image',
                     'cat.featured_image',
-                    'cat.parent_category as cat_parent_id'
+                    'cat.parent_category as cat_parent_id',
+                    'c.price_tier_id',
+                    'pt.base_rate',
+                    'pt.daily_rate'
                 )
+                ->leftJoin('price_tier as pt', 'c.price_tier_id', '=', 'pt.id')
                 ->where('c.seo_name', $course_slug)
                 ->where('cat.category_seo_name', $category_slug)
                 ->where('c.status', '1')
@@ -349,6 +369,18 @@ class CourseApiController extends Controller
             } else {
                 $course->featured_image_url = $course->featured_image;
             }
+
+            // Calculate dynamic price
+            $course->price = 0;
+            if (!empty($course->base_rate)) {
+                $days = (int) ($course->course_duration ?? 0);
+                $baseRate = (float) $course->base_rate * (round($days / 5));
+                $dailyRate = (float) $course->daily_rate * $days;
+                $course->price = round(($baseRate + $dailyRate) / 100) * 100;
+            }
+            unset($course->base_rate);
+            unset($course->daily_rate);
+            unset($course->price_tier_id);
 
             // 2. Fetch upcoming schedules
             $schedules = DB::table('course_date_venue as cdv')
