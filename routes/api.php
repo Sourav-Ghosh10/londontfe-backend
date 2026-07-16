@@ -42,6 +42,34 @@ Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/pages/{url}', [\App\Http\Controllers\Api\V1\PageApiController::class, 'show'])->where('url', '.*');
     
     // About Us Profiles endpoint
-    Route::get('/about-us-profiles', [\App\Http\Controllers\Api\V1\UserApiController::class, 'aboutUsProfiles']);
+    // Validate Coupon endpoint
+    Route::get('/validate-coupon', function (Request $request) {
+        $code = $request->query('code');
+        if (!$code) {
+            return response()->json(['valid' => false, 'message' => 'No coupon code provided']);
+        }
+        $promo = \App\Models\Promocode::where('code', $code)->first();
+        if (!$promo) {
+            return response()->json(['valid' => false, 'message' => 'Invalid coupon code']);
+        }
+        
+        // Check status
+        if ($promo->status !== null && $promo->status != '1' && $promo->status != 'Active') {
+            return response()->json(['valid' => false, 'message' => 'Coupon is inactive']);
+        }
+
+        // Check usage limit
+        if ($promo->max_usage !== null && $promo->used_usage >= $promo->max_usage) {
+            return response()->json(['valid' => false, 'message' => 'Coupon usage limit reached']);
+        }
+
+        return response()->json([
+            'valid' => true,
+            'code' => $promo->code,
+            'type' => $promo->type,
+            'discount_type' => $promo->discount_type,
+            'discount_value' => $promo->discount_value,
+        ]);
+    });
 });
 

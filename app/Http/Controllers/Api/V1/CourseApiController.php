@@ -242,8 +242,11 @@ class CourseApiController extends Controller
         $perPage = $request->input('per_page', 9);
         $results = $query->paginate($perPage);
 
+        // Fetch the promo code outside the loop for performance
+        $promo = $request->has('coupon') ? \App\Models\Promocode::where('code', $request->coupon)->first() : null;
+
         // Format dates, duration, and images
-        $results->getCollection()->transform(function ($item) {
+        $results->getCollection()->transform(function ($item) use ($promo) {
             $startDate = \Carbon\Carbon::parse($item->start_date);
             $duration = (int) $item->course_duration;
             $endDate = $startDate->copy()->addDays($duration > 0 ? $duration - 1 : 0);
@@ -268,11 +271,37 @@ class CourseApiController extends Controller
 
             // Calculate dynamic price
             $item->price = 0;
+            $item->original_price = 0;
+            $item->discount_value = 0;
+            $item->discount_type = null;
+            $item->is_coupon_valid = false;
+
             if (!empty($item->base_rate)) {
                 $days = (int) ($item->course_duration ?? 0);
                 $baseRate = (float) $item->base_rate * (round($days / 5));
                 $dailyRate = (float) $item->daily_rate * $days;
-                $item->price = round(($baseRate + $dailyRate) / 100) * 100;
+                $originalPrice = round(($baseRate + $dailyRate) / 100) * 100;
+                
+                $item->original_price = $originalPrice;
+                $item->price = $originalPrice;
+
+                if ($promo) {
+                    $isValid = true;
+                    if ($promo->type === 'Specific') {
+                        $isValid = ($promo->course_id == $item->course_id) || ($promo->venue_id == $item->venue_id);
+                    }
+                    if ($isValid) {
+                        $item->is_coupon_valid = true;
+                        $item->discount_value = $promo->discount_value;
+                        $item->discount_type = $promo->discount_type;
+                        
+                        if ($promo->discount_type === 'Percentage') {
+                            $item->price = $originalPrice - ($originalPrice * ($promo->discount_value / 100));
+                        } else {
+                            $item->price = max(0, $originalPrice - $promo->discount_value);
+                        }
+                    }
+                }
             }
             unset($item->base_rate);
             unset($item->daily_rate);
@@ -306,6 +335,8 @@ class CourseApiController extends Controller
      */
     public function show($category_slug, $course_slug)
     {
+        // Must use request() here since Request is not in method signature
+        $request = request();
         $cacheKey = "api_course_details_{$category_slug}_{$course_slug}";
         $cacheTtl = 3600; // 1 hour
 
@@ -370,13 +401,19 @@ class CourseApiController extends Controller
                 $course->featured_image_url = $course->featured_image;
             }
 
-            // Calculate dynamic price
+            // Calculate dynamic price (base)
             $course->price = 0;
+            $course->original_price = 0;
+            $course->discount_value = 0;
+            $course->discount_type = null;
+            $course->is_coupon_valid = false;
+
             if (!empty($course->base_rate)) {
                 $days = (int) ($course->course_duration ?? 0);
                 $baseRate = (float) $course->base_rate * (round($days / 5));
                 $dailyRate = (float) $course->daily_rate * $days;
-                $course->price = round(($baseRate + $dailyRate) / 100) * 100;
+                $course->original_price = round(($baseRate + $dailyRate) / 100) * 100;
+                $course->price = $course->original_price;
             }
             unset($course->base_rate);
             unset($course->daily_rate);
@@ -522,6 +559,30 @@ class CourseApiController extends Controller
                 'success' => false,
                 'message' => 'Course not found'
             ], 404);
+        }
+
+        // Apply coupon logic outside the cache so we don't cache discounted prices globally
+        $promo = $request->has('coupon') ? \App\Models\Promocode::where('code', $request->coupon)->first() : null;
+        if ($promo && isset($data['course'])) {
+            $isValid = true;
+            if ($promo->type === 'Specific') {
+                // If specific, check if the course matches
+                $isValid = ($promo->course_id == $data['course']['id']);
+                // Note: Venue checking is harder here without knowing the specific selected schedule.
+                // We'll rely on course match. If venue match is needed, we'll need to check schedules.
+            }
+            
+            if ($isValid && $data['course']['original_price'] > 0) {
+                $data['course']['is_coupon_valid'] = true;
+                $data['course']['discount_value'] = $promo->discount_value;
+                $data['course']['discount_type'] = $promo->discount_type;
+                
+                if ($promo->discount_type === 'Percentage') {
+                    $data['course']['price'] = $data['course']['original_price'] - ($data['course']['original_price'] * ($promo->discount_value / 100));
+                } else {
+                    $data['course']['price'] = max(0, $data['course']['original_price'] - $promo->discount_value);
+                }
+            }
         }
 
         return response()->json([
