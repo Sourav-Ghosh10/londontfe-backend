@@ -67,4 +67,37 @@ class VenueApiController extends Controller
             'data' => $venues
         ])->header('Cache-Control', "public, max-age={$cacheTtl}");
     }
+
+    public function show($slug)
+    {
+        $venue = Venue::where('venue_seo_name', $slug)->first();
+
+        if (!$venue) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Venue not found'
+            ], 404);
+        }
+
+        $venueArr = $venue->toArray();
+        if (!empty($venueArr['venue_image_second']) && !filter_var($venueArr['venue_image_second'], FILTER_VALIDATE_URL)) {
+            $imagePath = $venueArr['venue_image_second'];
+            if (strpos($imagePath, '/') === false) {
+                $imagePath = 'venues/' . $imagePath;
+            }
+            $venueArr['venue_image_second'] = Storage::disk('s3')->url($imagePath);
+        }
+        if (!empty($venueArr['banner_image']) && !filter_var($venueArr['banner_image'], FILTER_VALIDATE_URL)) {
+            $bannerPath = $venueArr['banner_image'];
+            if (strpos($bannerPath, '/') === false) {
+                $bannerPath = 'venues/banners/' . $bannerPath;
+            }
+            $venueArr['banner_image'] = Storage::disk('s3')->url($bannerPath);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $venueArr
+        ]);
+    }
 }

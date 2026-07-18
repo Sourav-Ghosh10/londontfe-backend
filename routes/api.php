@@ -16,6 +16,7 @@ Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
     Route::get('/featured-categories', [\App\Http\Controllers\Api\V1\CategoryApiController::class, 'featuredCategories']);
     Route::get('/categories', [\App\Http\Controllers\Api\V1\CategoryApiController::class, 'allCategories']);
     Route::get('/venues', [\App\Http\Controllers\Api\V1\VenueApiController::class, 'index']);
+    Route::get('/venues/{slug}', [\App\Http\Controllers\Api\V1\VenueApiController::class, 'show']);
     Route::get('/clients', [\App\Http\Controllers\Api\V1\ClientApiController::class, 'index']);
     Route::get('/seo', [\App\Http\Controllers\Api\V1\SeoApiController::class, 'index']);
     Route::get('/category/{slug}', [\App\Http\Controllers\Api\V1\CategoryApiController::class, 'show']);

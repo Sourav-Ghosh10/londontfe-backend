@@ -165,8 +165,11 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
                                 <span class="block mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Upload a file</span>
+                                <div id="img-container-banner" class="mt-3 mb-2 flex justify-center hidden">
+                                    <img id="img-preview-banner" src="" alt="Banner Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
+                                </div>
                                 <span class="block mt-1 text-[10px] text-gray-400 dark:text-gray-500" id="preview-banner">No file selected</span>
-                                <input type="file" id="file-banner" onchange="handleFileSelected(this, 'preview-banner')" class="hidden">
+                                <input type="file" id="file-banner" onchange="handleFileSelected(this, 'preview-banner', 'img-preview-banner', 'img-container-banner')" accept="image/*" class="hidden">
                             </div>
                         </div>
 
@@ -243,12 +246,26 @@
         document.getElementById(id).click();
     }
 
-    function handleFileSelected(input, previewId) {
+    function handleFileSelected(input, previewId, imgPreviewId, containerId) {
         const span = document.getElementById(previewId);
+        const img = document.getElementById(imgPreviewId);
+        const container = document.getElementById(containerId);
+        
         if (input.files && input.files.length > 0) {
-            span.textContent = input.files[0].name;
+            const file = input.files[0];
+            span.textContent = file.name;
             span.classList.remove("text-gray-400", "dark:text-gray-500");
             span.classList.add("text-emerald-600", "dark:text-emerald-400", "font-medium");
+            
+            // Show preview
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (img) img.src = e.target.result;
+                    if (container) container.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
         } else {
             span.textContent = "No file selected";
             span.classList.add("text-gray-400", "dark:text-gray-500");
