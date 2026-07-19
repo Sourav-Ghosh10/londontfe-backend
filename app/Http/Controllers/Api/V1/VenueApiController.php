@@ -56,6 +56,14 @@ class VenueApiController extends Controller
                         // Ensure it fallback to null or empty string if not set
                         $venueArr['venue_image_second'] = null;
                     }
+                    
+                    if (!empty($venueArr['banner_image']) && !filter_var($venueArr['banner_image'], FILTER_VALIDATE_URL)) {
+                        $bannerPath = $venueArr['banner_image'];
+                        if (strpos($bannerPath, '/') === false) {
+                            $bannerPath = 'venues/banners/' . $bannerPath;
+                        }
+                        $venueArr['banner_image'] = Storage::disk('s3')->url($bannerPath);
+                    }
 
                     return $venueArr;
                 })

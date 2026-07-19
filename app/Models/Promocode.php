@@ -13,6 +13,7 @@ class Promocode extends Model
         'discount_value',
         'course_id',
         'venue_id',
+        'date',
         'max_usage',
         'used_usage',
         'status',

@@ -169,6 +169,7 @@ class CourseApiController extends Controller
                 'cat.featured_image',
                 'cdv.start_date',
                 'cdv.venue as venue_name',
+                'v.id as venue_id',
                 'v.venue_seo_name',
                 'c.price_tier_id',
                 'pt.base_rate',
@@ -177,7 +178,7 @@ class CourseApiController extends Controller
             ->leftJoin('price_tier as pt', 'c.price_tier_id', '=', 'pt.id')
             ->where('c.status', '1')
             ->where('cdv.start_date', '>=', now()->format('Y-m-d'))
-            ->groupBy('cdv.id', 'c.id', 'c.course_name', 'c.seo_name', 'c.course_duration', 'c.rating', 'cat.category_name', 'cat.category_seo_name', 'cat.image_name', 'cat.course_list_image', 'cat.featured_image', 'cdv.start_date', 'cdv.venue', 'v.venue_seo_name', 'c.price_tier_id', 'pt.base_rate', 'pt.daily_rate');
+            ->groupBy('cdv.id', 'c.id', 'c.course_name', 'c.seo_name', 'c.course_duration', 'c.rating', 'cat.category_name', 'cat.category_seo_name', 'cat.image_name', 'cat.course_list_image', 'cat.featured_image', 'cdv.start_date', 'cdv.venue', 'v.id', 'v.venue_seo_name', 'c.price_tier_id', 'pt.base_rate', 'pt.daily_rate');
 
         // Apply Filters
         if ($request->has('category') && !empty($request->input('category'))) {
@@ -288,7 +289,19 @@ class CourseApiController extends Controller
                 if ($promo) {
                     $isValid = true;
                     if ($promo->type === 'Specific') {
-                        $isValid = ($promo->course_id == $item->course_id) || ($promo->venue_id == $item->venue_id);
+                        $isValid = true;
+                        if ($promo->course_id && $promo->course_id != $item->course_id) {
+                            $isValid = false;
+                        }
+                        if ($promo->venue_id && $promo->venue_id != $item->venue_id) {
+                            $isValid = false;
+                        }
+                        if ($promo->date && $promo->date != $item->start_date) {
+                            $isValid = false;
+                        }
+                        if (!$promo->course_id && !$promo->venue_id && !$promo->date) {
+                            $isValid = false; // specific but no target specified?
+                        }
                     }
                     if ($isValid) {
                         $item->is_coupon_valid = true;
@@ -564,15 +577,63 @@ class CourseApiController extends Controller
         // Apply coupon logic outside the cache so we don't cache discounted prices globally
         $promo = $request->has('coupon') ? \App\Models\Promocode::where('code', $request->coupon)->first() : null;
         if ($promo && isset($data['course'])) {
-            $isValid = true;
-            if ($promo->type === 'Specific') {
-                // If specific, check if the course matches
-                $isValid = ($promo->course_id == $data['course']['id']);
-                // Note: Venue checking is harder here without knowing the specific selected schedule.
-                // We'll rely on course match. If venue match is needed, we'll need to check schedules.
-            }
+            $anyScheduleValid = false;
             
-            if ($isValid && $data['course']['original_price'] > 0) {
+            if (isset($data['schedules'])) {
+                foreach ($data['schedules'] as &$schedule) {
+                    $schedule['is_coupon_valid'] = false;
+                    $schedule['discount_value'] = 0;
+                    $schedule['discount_type'] = null;
+                    $schedule['original_price'] = $data['course']['original_price'];
+                    $schedule['price'] = $data['course']['original_price'];
+
+                    $isValid = true;
+                    if ($promo->type === 'Specific') {
+                        if ($promo->course_id && $promo->course_id != $data['course']['id']) {
+                            $isValid = false;
+                        }
+                        if ($promo->venue_id && $promo->venue_id != $schedule['venue_id']) {
+                            $isValid = false;
+                        }
+                        if ($promo->date && $promo->date != $schedule['start_date']) {
+                            $isValid = false;
+                        }
+                        if (!$promo->course_id && (!$promo->venue_id) && (!$promo->date)) {
+                            $isValid = false;
+                        }
+                    }
+
+                    if ($isValid && $schedule['original_price'] > 0) {
+                        $schedule['is_coupon_valid'] = true;
+                        $schedule['discount_value'] = $promo->discount_value;
+                        $schedule['discount_type'] = $promo->discount_type;
+                        
+                        if ($promo->discount_type === 'Percentage') {
+                            $schedule['price'] = $schedule['original_price'] - ($schedule['original_price'] * ($promo->discount_value / 100));
+                        } else {
+                            $schedule['price'] = max(0, $schedule['original_price'] - $promo->discount_value);
+                        }
+                        $anyScheduleValid = true;
+                    }
+                }
+            }
+
+            // For the overall course object, we set it to valid if AT LEAST ONE schedule is valid,
+            // or if it's valid for the course itself (e.g. no venue/date constraints)
+            $courseValid = true;
+            if ($promo->type === 'Specific') {
+                if ($promo->course_id && $promo->course_id != $data['course']['id']) {
+                    $courseValid = false;
+                }
+                // If the coupon has venue or date restrictions, the course itself is only "globally" valid 
+                // if we don't strictly require the frontend to pick a schedule. 
+                // But since schedules are required, we just map it if ANY schedule matched.
+                if ($promo->venue_id || $promo->date) {
+                    $courseValid = $anyScheduleValid;
+                }
+            }
+
+            if ($courseValid && $data['course']['original_price'] > 0) {
                 $data['course']['is_coupon_valid'] = true;
                 $data['course']['discount_value'] = $promo->discount_value;
                 $data['course']['discount_type'] = $promo->discount_type;

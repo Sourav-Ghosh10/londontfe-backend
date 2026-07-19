@@ -49,9 +49,11 @@ use App\Http\Controllers\Admin\CurrencyController;
 Route::get('/admin/courses/currencies', [CurrencyController::class, 'index'])->name('admin.currencies.index');
 Route::post('/admin/courses/currencies', [CurrencyController::class, 'update'])->name('admin.currencies.update');
 
-Route::get('/admin/courses/promocodes', function () {
-    return view('admin.courses.promocodes');
-});
+Route::get('/admin/courses/promocodes', [\App\Http\Controllers\Admin\PromocodeController::class, 'index'])->name('admin.promocodes.index');
+Route::post('/admin/courses/promocodes', [\App\Http\Controllers\Admin\PromocodeController::class, 'store'])->name('admin.promocodes.store');
+Route::put('/admin/courses/promocodes/{id}', [\App\Http\Controllers\Admin\PromocodeController::class, 'update'])->name('admin.promocodes.update');
+Route::delete('/admin/courses/promocodes/{id}', [\App\Http\Controllers\Admin\PromocodeController::class, 'destroy'])->name('admin.promocodes.destroy');
+Route::get('/admin/courses/promocodes/course-details', [\App\Http\Controllers\Admin\PromocodeController::class, 'courseDetails'])->name('admin.promocodes.course-details');
 
 Route::get('/admin/courses/send-outline', [\App\Http\Controllers\Admin\SendOutlineController::class, 'index'])->name('admin.courses.send-outline');
 Route::post('/admin/courses/send-outline', [\App\Http\Controllers\Admin\SendOutlineController::class, 'send'])->name('admin.courses.send-outline.send');

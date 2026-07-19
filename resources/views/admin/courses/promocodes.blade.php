@@ -154,11 +154,11 @@
                 <div class="space-y-1.5">
                     <label for="add-course" class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider">Course</label>
                     <div class="relative">
-                        <select id="add-course" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
+                        <select id="add-course" onchange="handleCourseChange('add-course', 'add-date', 'add-venue')" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
                             <option value="">--Select Course--</option>
-                            <option value="Certified Contract Manager and Project Coordinator">Certified Contract Manager and Project Coordinator</option>
-                            <option value="Financial Accounts and Reports Training (2 Weeks)">Financial Accounts and Reports Training (2 Weeks)</option>
-                            <option value="A-Z of Credit Control">A-Z of Credit Control</option>
+                            @foreach($courses as $course)
+                                <option value="{{ $course->course_name }}">{{ $course->course_name }}</option>
+                            @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-550 dark:text-gray-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,7 +173,7 @@
                     <div class="space-y-1.5">
                         <label for="add-date" class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider">Venue date</label>
                         <div class="relative">
-                            <select id="add-date" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
+                            <select id="add-date" onchange="handleDateChange('add-date', 'add-venue')" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
                                 <option value="">--Select Date--</option>
                                 <option value="2025-08-11">2025-08-11</option>
                                 <option value="2026-05-25">2026-05-25</option>
@@ -191,9 +191,9 @@
                         <div class="relative">
                             <select id="add-venue" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
                                 <option value="">--Select Venue--</option>
-                                <option value="Kuala Lumpur">Kuala Lumpur</option>
-                                <option value="London">London</option>
-                                <option value="Dubai">Dubai</option>
+                                @foreach($venues as $venue)
+                                    <option value="{{ $venue->venue_name }}">{{ $venue->venue_name }}</option>
+                                @endforeach
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-550 dark:text-gray-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -291,11 +291,11 @@
                 <div class="space-y-1.5">
                     <label for="edit-course" class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider">Course</label>
                     <div class="relative">
-                        <select id="edit-course" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
+                        <select id="edit-course" onchange="handleCourseChange('edit-course', 'edit-date', 'edit-venue')" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
                             <option value="">--Select Course--</option>
-                            <option value="Certified Contract Manager and Project Coordinator">Certified Contract Manager and Project Coordinator</option>
-                            <option value="Financial Accounts and Reports Training (2 Weeks)">Financial Accounts and Reports Training (2 Weeks)</option>
-                            <option value="A-Z of Credit Control">A-Z of Credit Control</option>
+                            @foreach($courses as $course)
+                                <option value="{{ $course->course_name }}">{{ $course->course_name }}</option>
+                            @endforeach
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-550 dark:text-gray-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,7 +310,7 @@
                     <div class="space-y-1.5">
                         <label for="edit-date" class="block text-xs font-bold text-gray-700 dark:text-gray-400 uppercase tracking-wider">Venue date</label>
                         <div class="relative">
-                            <select id="edit-date" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
+                            <select id="edit-date" onchange="handleDateChange('edit-date', 'edit-venue')" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
                                 <option value="">--Select Date--</option>
                                 <option value="2025-08-11">2025-08-11</option>
                                 <option value="2026-05-25">2026-05-25</option>
@@ -328,9 +328,9 @@
                         <div class="relative">
                             <select id="edit-venue" class="w-full text-sm bg-[#f6f6f7] dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md px-3.5 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#008060] focus:border-[#008060] transition-colors appearance-none cursor-pointer">
                                 <option value="">--Select Venue--</option>
-                                <option value="Kuala Lumpur">Kuala Lumpur</option>
-                                <option value="London">London</option>
-                                <option value="Dubai">Dubai</option>
+                                @foreach($venues as $venue)
+                                    <option value="{{ $venue->venue_name }}">{{ $venue->venue_name }}</option>
+                                @endforeach
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-550 dark:text-gray-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -395,113 +395,17 @@
     let filteredPromoCodes = [];
 
     // Live in-memory datastore with LocalStorage persistence
-    let promoCodes = [
-        {
-            code: "PROMO10",
-            course: "",
-            date: "0000-00-00",
-            venue: "",
-            type: "Percentage",
-            value: 10,
-            maxUsage: 100,
-            usedUsage: 1,
-            status: true
-        },
-        {
-            code: "CST172025ZUDW",
-            course: "",
-            date: "0000-00-00",
-            venue: "",
-            type: "Percentage",
-            value: 15,
-            maxUsage: 150,
-            usedUsage: 4,
-            status: true
-        },
-        {
-            code: "RAM012025YBRT",
-            course: "",
-            date: "0000-00-00",
-            venue: "",
-            type: "Percentage",
-            value: 12,
-            maxUsage: 300,
-            usedUsage: 1,
-            status: true
-        },
-        {
-            code: "SDB05YXIN",
-            course: "",
-            date: "0000-00-00",
-            venue: "",
-            type: "Percentage",
-            value: 20,
-            maxUsage: 10000,
-            usedUsage: 34,
-            status: true
-        },
-        {
-            code: "WELCOMEDISCOUNT83",
-            course: "Certified Contract Manager and Project Coordinator",
-            date: "2025-08-11",
-            venue: "Kuala Lumpur",
-            type: "Percentage",
-            value: 50,
-            maxUsage: 5,
-            usedUsage: 0,
-            status: true
-        },
-        {
-            code: "HYX0384A",
-            course: "",
-            date: "0000-00-00",
-            venue: "",
-            type: "Percentage",
-            value: 100,
-            maxUsage: 5,
-            usedUsage: 0,
-            status: true
-        },
-        {
-            code: "FINANCIAL100",
-            course: "Financial Accounts and Reports Training (2 Weeks)",
-            date: "2026-05-25",
-            venue: "London",
-            type: "Percentage",
-            value: 50,
-            maxUsage: 100,
-            usedUsage: 8,
-            status: true
-        },
-        {
-            code: "TEST120",
-            course: "A-Z of Credit Control",
-            date: "2026-06-01",
-            venue: "Dubai",
-            type: "Percentage",
-            value: 10,
-            maxUsage: 20,
-            usedUsage: 0,
-            status: true
-        }
-    ];
+    let promoCodes = {!! json_encode($promocodes) !!};
+    
+    // Status normalization for badge
+    promoCodes.forEach(p => {
+        p.status = p.status === 'Active';
+    });
 
     // Load saved database on setup
     document.addEventListener("DOMContentLoaded", () => {
-        const saved = localStorage.getItem("londontfe_promo_codes");
-        if (saved) {
-            try {
-                promoCodes = JSON.parse(saved);
-            } catch (e) {
-                console.error("Error parsing local promo storage", e);
-            }
-        }
         renderTable();
     });
-
-    function saveToLocalStorage() {
-        localStorage.setItem("londontfe_promo_codes", JSON.stringify(promoCodes));
-    }
 
     // Render table rows dynamically with dynamic pagination support
     function renderTable(data = promoCodes) {
@@ -671,23 +575,30 @@
     }
 
     // Toggle promocode status
+    // Delete promocode (Wait for API in this case)
     function togglePromoStatus(code) {
         const item = promoCodes.find(p => p.code === code);
         if (item) {
-            item.status = !item.status;
-            saveToLocalStorage();
-            filterPromoCodes();
-            showToast(item.status ? `Promocode '${code}' activated successfully!` : `Promocode '${code}' deactivated!`);
+            // Can be implemented in PromocodeController, for now just show error or reload
+            alert('Status toggle requires backend implementation. Reloading...');
+            window.location.reload();
         }
     }
 
     // Delete promocode
     function deletePromoCode(code) {
         if (confirm(`Are you sure you want to delete the promotion code '${code}'?`)) {
-            promoCodes = promoCodes.filter(p => p.code !== code);
-            saveToLocalStorage();
-            filterPromoCodes();
-            showToast(`Promocode '${code}' deleted successfully!`);
+            const item = promoCodes.find(p => p.code === code);
+            if (!item) return;
+
+            fetch(`/admin/courses/promocodes/${item.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }).then(() => {
+                window.location.reload();
+            });
         }
     }
 
@@ -721,8 +632,11 @@
         document.getElementById("add-modal").classList.remove("hidden");
         document.getElementById("add-code").value = "";
         document.getElementById("add-course").value = "";
-        document.getElementById("add-date").value = "";
-        document.getElementById("add-venue").value = "";
+        
+        // Reset dynamic dropdowns
+        document.getElementById("add-date").innerHTML = '<option value="">--Select Date--</option>';
+        document.getElementById("add-venue").innerHTML = '<option value="">--Select Venue--</option>';
+        
         document.getElementById("add-type").value = "Percentage";
         document.getElementById("add-value").value = "";
         document.getElementById("add-max").value = "";
@@ -755,8 +669,15 @@
         document.getElementById("edit-original-code").value = code;
         document.getElementById("edit-code").value = item.code;
         document.getElementById("edit-course").value = item.course;
-        document.getElementById("edit-date").value = item.date === "0000-00-00" ? "" : item.date;
-        document.getElementById("edit-venue").value = item.venue;
+        
+        // Load dates and venues based on course, then set default values
+        if (item.course) {
+            handleCourseChange('edit-course', 'edit-date', 'edit-venue', item.date === "0000-00-00" ? "" : item.date, item.venue);
+        } else {
+            document.getElementById("edit-date").innerHTML = '<option value="">--Select Date--</option>';
+            document.getElementById("edit-venue").innerHTML = '<option value="">--Select Venue--</option>';
+        }
+
         document.getElementById("edit-type").value = item.type;
         document.getElementById("edit-value").value = item.value;
         document.getElementById("edit-max").value = item.maxUsage;
@@ -792,35 +713,88 @@
         document.getElementById(inputId).value = `${prefix}-${randStr}`;
     }
 
+    let currentSchedules = [];
+
+    // Handle course change to load dates and venues dynamically
+    function handleCourseChange(courseSelectId, dateSelectId, venueSelectId, defaultDate = '', defaultVenue = '') {
+        const courseName = document.getElementById(courseSelectId).value;
+        const dateSelect = document.getElementById(dateSelectId);
+        const venueSelect = document.getElementById(venueSelectId);
+        
+        // Clear current options except first
+        dateSelect.innerHTML = '<option value="">--Select Date--</option>';
+        venueSelect.innerHTML = '<option value="">--Select Venue--</option>';
+        
+        if (!courseName) return;
+        
+        fetch(`/admin/courses/promocodes/course-details?course=${encodeURIComponent(courseName)}`)
+            .then(res => res.json())
+            .then(data => {
+                currentSchedules = data.schedules || [];
+                
+                // Populate Dates
+                const uniqueDates = [...new Set(currentSchedules.map(s => s.date))].sort();
+                uniqueDates.forEach(date => {
+                    const option = document.createElement('option');
+                    option.value = date;
+                    option.textContent = date;
+                    if (date === defaultDate) option.selected = true;
+                    dateSelect.appendChild(option);
+                });
+                
+                // Chain venue loading
+                handleDateChange(dateSelectId, venueSelectId, defaultVenue);
+            })
+            .catch(err => console.error('Error fetching course schedules:', err));
+    }
+
+    // Handle date change to filter venues dynamically based on the selected date
+    function handleDateChange(dateSelectId, venueSelectId, defaultVenue = '') {
+        const selectedDate = document.getElementById(dateSelectId).value;
+        const venueSelect = document.getElementById(venueSelectId);
+        
+        venueSelect.innerHTML = '<option value="">--Select Venue--</option>';
+        
+        let filteredSchedules = currentSchedules;
+        if (selectedDate) {
+            filteredSchedules = currentSchedules.filter(s => s.date === selectedDate);
+        }
+        
+        const uniqueVenues = [...new Set(filteredSchedules.map(s => s.venue))].sort();
+        uniqueVenues.forEach(venue => {
+            const option = document.createElement('option');
+            option.value = venue;
+            option.textContent = venue;
+            if (venue === defaultVenue) option.selected = true;
+            venueSelect.appendChild(option);
+        });
+    }
+
     // Handle adding promo code
     function handleAddPromo(event) {
         event.preventDefault();
         const codeVal = document.getElementById("add-code").value.trim();
-        
-        // Code existence check (case-insensitive duplicate check)
-        const exists = promoCodes.some(p => p.code.toUpperCase() === codeVal.toUpperCase());
-        if (exists) {
-            document.getElementById("err-add-code").classList.remove("hidden");
-            return;
-        }
 
-        const newPromo = {
+        const data = {
             code: codeVal,
             course: document.getElementById("add-course").value,
             date: document.getElementById("add-date").value || "0000-00-00",
             venue: document.getElementById("add-venue").value,
             type: document.getElementById("add-type").value,
             value: parseInt(document.getElementById("add-value").value) || 0,
-            maxUsage: parseInt(document.getElementById("add-max").value) || 100,
-            usedUsage: 0,
-            status: true
+            maxUsage: parseInt(document.getElementById("add-max").value) || 100
         };
 
-        promoCodes.unshift(newPromo);
-        saveToLocalStorage();
-        closeAddModal();
-        filterPromoCodes();
-        showToast(`Promocode '${codeVal}' added successfully!`);
+        fetch('{{ route("admin.promocodes.store") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify(data)
+        }).then(() => {
+            window.location.reload();
+        });
     }
 
     // Handle editing promo code
@@ -829,30 +803,29 @@
         const originalCode = document.getElementById("edit-original-code").value;
         const codeVal = document.getElementById("edit-code").value.trim();
 
-        // Existence check (excluding ourselves, case-insensitive)
-        if (originalCode.toUpperCase() !== codeVal.toUpperCase()) {
-            const exists = promoCodes.some(p => p.code.toUpperCase() === codeVal.toUpperCase());
-            if (exists) {
-                document.getElementById("err-edit-code").classList.remove("hidden");
-                return;
-            }
-        }
+        const item = promoCodes.find(p => p.code === originalCode);
+        if (!item) return;
 
-        const index = promoCodes.findIndex(p => p.code === originalCode);
-        if (index !== -1) {
-            promoCodes[index].code = codeVal;
-            promoCodes[index].course = document.getElementById("edit-course").value;
-            promoCodes[index].date = document.getElementById("edit-date").value || "0000-00-00";
-            promoCodes[index].venue = document.getElementById("edit-venue").value;
-            promoCodes[index].type = document.getElementById("edit-type").value;
-            promoCodes[index].value = parseInt(document.getElementById("edit-value").value) || 0;
-            promoCodes[index].maxUsage = parseInt(document.getElementById("edit-max").value) || 100;
-            
-            saveToLocalStorage();
-            closeEditModal();
-            filterPromoCodes();
-            showToast(`Promocode '${codeVal}' updated successfully!`);
-        }
+        const data = {
+            code: codeVal,
+            course: document.getElementById("edit-course").value,
+            date: document.getElementById("edit-date").value || "0000-00-00",
+            venue: document.getElementById("edit-venue").value,
+            type: document.getElementById("edit-type").value,
+            value: parseInt(document.getElementById("edit-value").value) || 0,
+            maxUsage: parseInt(document.getElementById("edit-max").value) || 100
+        };
+
+        fetch(`/admin/courses/promocodes/${item.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify(data)
+        }).then(() => {
+            window.location.reload();
+        });
     }
 
     // Show dynamic toast alert

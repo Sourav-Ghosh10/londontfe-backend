@@ -70,6 +70,11 @@ Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
             'type' => $promo->type,
             'discount_type' => $promo->discount_type,
             'discount_value' => $promo->discount_value,
+            'course_id' => $promo->course_id,
+            'venue_id' => $promo->venue_id,
+            'date' => $promo->date,
+            'course_name' => $promo->course_id ? \App\Models\Course::find($promo->course_id)?->course_name : null,
+            'venue_name' => $promo->venue_id ? \App\Models\Venue::find($promo->venue_id)?->venue_name : null,
         ]);
     });
 });

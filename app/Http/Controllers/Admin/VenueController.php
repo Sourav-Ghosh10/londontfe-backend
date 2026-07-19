@@ -61,6 +61,11 @@ class VenueController extends Controller
             $query->where('region', $regionId);
         }
 
+        // Status Filter
+        if ($request->filled('status') && $request->input('status') !== 'all') {
+            $query->where('status', $request->input('status'));
+        }
+
         // If AJAX request, return JSON for dynamically rendering table/filtering
         if ($request->ajax() || $request->wantsJson()) {
             $venues = $query->get()->map(function($venue) {

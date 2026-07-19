@@ -166,7 +166,21 @@
                                 </svg>
                                 <span class="block mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">Upload a file</span>
                                 <div id="img-container-banner" class="mt-3 mb-2 flex justify-center {{ $venue->banner_image ? '' : 'hidden' }}">
-                                    <img id="img-preview-banner" src="{{ $venue->banner_image ? (Str::startsWith($venue->banner_image, 'http') ? $venue->banner_image : Storage::disk('s3')->url($venue->banner_image)) : '' }}" alt="Banner Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
+                                    @php
+                                        $bannerUrl = '';
+                                        if ($venue->banner_image) {
+                                            if (Str::startsWith($venue->banner_image, 'http')) {
+                                                $bannerUrl = $venue->banner_image;
+                                            } else {
+                                                $path = $venue->banner_image;
+                                                if (strpos($path, '/') === false) {
+                                                    $path = 'venues/banners/' . $path;
+                                                }
+                                                $bannerUrl = Storage::disk('s3')->url($path);
+                                            }
+                                        }
+                                    @endphp
+                                    <img id="img-preview-banner" src="{{ $bannerUrl }}" alt="Banner Image" class="h-24 w-auto object-contain rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
                                 </div>
                                 @if($venue->banner_image)
                                     <span class="block mt-1 text-[10px] text-gray-500 dark:text-gray-400" id="preview-banner">Current: {{ basename($venue->banner_image) }}</span>
